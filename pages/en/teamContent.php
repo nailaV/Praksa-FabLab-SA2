@@ -4,7 +4,7 @@
         <hr style="width:80%;border:3px solid #F98329;margin: auto;" class="w3-round">
       </div>
       <div class="edit">
-          <p>Becoming a team member or volunteer of FabLab BiH is life changing experience.  </p>
+          <p>Becoming a team member ofofof or volunteer of FabLab BiH is life changing experience.  </p>
           <p style="text-align:center !important">You are our most valuable assets. </p>
   <p>You allow us to help more people and you can make a significant difference in others life. Because of you, many people are helped who would not be otherwise.  </p>
       </div>
