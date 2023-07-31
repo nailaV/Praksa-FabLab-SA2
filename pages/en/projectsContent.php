@@ -1,6 +1,6 @@
 <div class="w3-main" style="margin-left:15%;margin-right:15%;">
     <div class="w3-container centerTitle" id="Projects" style="margin-top:5%">
-        <h1 class="w3-xxxlarge w3-text-red">Projects</h1>
+        <h1 class="w3-xxxlarge w3-text-red">DIREKTNO DODAVANJE U HTML KOD RADI Projects</h1>
         <hr style="width:80%;border:3px solid red;" class="w3-round">
     </div>
     <div class="edit" align="justify">
@@ -447,6 +447,7 @@
                         used to monitor the amount of oxygen carried in the body. Product
                         is patent pending and further detail will be available once product
                         is patented. </p>
+                        
 
                 </div>
             </div>

@@ -1,0 +1,6 @@
+                     <div class="tile-image"> <img src="../../slike/proj/Masinci%20-%20praksa.png" width="100%" alt="">
+                     <div class="tile-image"> <img src="../../slike/proj/3D%20print%20i%20kultura.png" width="100%"
+                     <div class="tile-image"> <img src="../../slike/proj/Trening%20pharma.png" width="100%" alt="">
+                     <div class="tile-image"> <img src="../../slike/proj/Masinci%20-%20praksa.png" width="100%" alt="">
+                     <div class="tile-image"> <img src="../../slike/proj/3D%20skener.png" width="100%" alt="">
+     <link rel="icon" type="image/png" href="../../slike/fav.png">

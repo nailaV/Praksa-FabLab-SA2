@@ -1,0 +1,1652 @@
+diff --git a/index.php b/index.php
+index a0741b8..75c9c1d 100644
+--- a/index.php
++++ b/index.php
+@@ -40,9 +40,11 @@ session_start();
+ 	//if(strpos($page,$lan)){
+ 		//$temp=$_GET['page']; echo $temp;}
+ 	if(in_array($file, $whitelist) && file_exists($file)){
++		
+ 	include($file);
+ 	} else {
+ 	echo "The site is not found!";
+ 	}
+ ?> 
+ 
++
+diff --git a/js/Auth.js b/js/Auth.js
+new file mode 100644
+index 0000000..defd333
+--- /dev/null
++++ b/js/Auth.js
+@@ -0,0 +1,49 @@
++
++const firebaseConfig = {
++
++    apiKey: "AIzaSyDRDkp2P-e3e5Nxa8FXxX7ASEBWrD4k2ck",
++
++    authDomain: "fablab-38a7b.firebaseapp.com",
++
++    projectId: "fablab-38a7b",
++
++    storageBucket: "fablab-38a7b.appspot.com",
++
++    messagingSenderId: "673394550913",
++
++    appId: "1:673394550913:web:b90a10c251966271218580",
++
++    measurementId: "G-3W5RX1XVYG"
++};
++
++firebase.initializeApp(firebaseConfig);
++
++
++function OpenLoginForm() {
++    form.style.display = "block";
++}
++function CloseLoginForm() {
++    form.style.display = "none";
++}
++loginBtn.onclick = () => {
++    
++    firebase.auth().signInWithEmailAndPassword(email.value, password.value)
++        .then((userCredential) => {
++            // User signed in successfully
++            addProjectDiv.style.display = 'block';   
++            CloseLoginForm();
++        })
++        .catch((error) => {
++            // Handle sign-in errors     
++            alert(error.message);
++        });
++}
++signOutBtn.onclick = () => {
++    firebase.auth().signOut().then(() => {
++        // Sign-out successful.
++        
++    }).catch((error) => {
++        // An error happened.
++        alert(error.message);
++    });
++}
+diff --git a/js/Varijable.js b/js/Varijable.js
+new file mode 100644
+index 0000000..f45e3e6
+--- /dev/null
++++ b/js/Varijable.js
+@@ -0,0 +1,49 @@
++//auth
++const form = document.getElementById("form-login");
++const email = document.querySelector("#email-input");
++const password = document.querySelector("#password-input");
++const loginBtn = document.querySelector(".submitLogin");
++const signOutBtn = document.querySelector("#signOut");
++const userInfo=document.getElementById("UserInfo");
++
++//add project
++let tiles = document.querySelectorAll('.tile');
++const popup = document.querySelector('.popup-container');
++
++const closeBtn = document.querySelector('.closeBtn');
++const submitBtn = document.querySelector('.submitBtn');
++
++//forma
++const fileInput = document.querySelector('#file-upload');
++const titleInput = document.querySelector('#title-input');
++const subTitleInput = document.querySelector('#subtitle-input');
++const textInput = document.querySelector('#text-input');
++const tagsInput = document.querySelector('#tags-input');
++const specialBadgeInput = document.querySelector('#special-badge-input');
++const hyperLinkInput = document.querySelector('#hyperlink-input');
++
++const imagePreview = document.querySelector('.imagePreview');
++
++
++const addProjectDiv = document.querySelector('#addProject');
++
++
++const categorySelect = document.getElementById("category-select");
++let selectedCategory ="Local";
++categorySelect.addEventListener("change", function() {
++     selectedCategory = categorySelect.value; 
++  });
++
++let imageDataUrl;
++fileInput.addEventListener('change', (event) => {
++    const file = event.target.files[0];
++
++    const reader = new FileReader();
++    reader.readAsDataURL(file);
++    
++    reader.onload = () => {
++        imageDataUrl = reader.result;
++        imagePreview.style.display = 'block';
++        imagePreview.style.backgroundImage = `url(${imageDataUrl})`;
++    }; 
++});
+diff --git a/js/addProject.js b/js/addProject.js
+new file mode 100644
+index 0000000..ee43e41
+--- /dev/null
++++ b/js/addProject.js
+@@ -0,0 +1,306 @@
++
++function ResetValues(fileInput, titleInput, textInput, tagsInput, specialBadgeInput, subTitleInput, imagePreview, hyperLinkInput, popup) {
++  fileInput.value = "";
++  titleInput.value = "";
++  textInput.value = "";
++  tagsInput.value = "";
++  specialBadgeInput.value = "";
++  subTitleInput.value = "";
++  imagePreview.style.display = 'none';
++  imagePreview.style.backgroundImage = "";
++  hyperLinkInput.value = "";
++  popup.style.display = 'none';
++}
++function validateFormInputs() {
++  const frontCardHeader = document.getElementById("title-input").value;
++  const backCardHeader = document.getElementById("subtitle-input").value;
++  const projectDescription = document.getElementById("text-input").value;
++  const projectStatus = document.getElementById("special-badge-input").value;
++  const readMoreLink = document.getElementById("hyperlink-input").value;
++  const tags = document.getElementById("tags-input").value;
++
++  if (frontCardHeader.length > 75) {
++    alert("Front Card Header must be less than 75 characters.");
++    return false;
++  }
++  if (backCardHeader.length > 100) {
++    alert("Back Card Header must be less than 100 characters.");
++    return false;
++  }
++  if (projectDescription.length > 500) {
++    alert("Project Description must be less than 500 characters.");
++    return false;
++  }
++  if (projectStatus.length > 12) {
++    alert("Project Status must be less than 12 characters.");
++    return false;
++  }
++  if (!readMoreLink.includes("http")) {
++    alert("Read More link must be a valid hyperlink.");
++    return false;
++  }
++  if (tags.split(",").length > 4) {
++    alert("You can only enter up to 4 tags.");
++    return false;
++  }
++  return true;
++}
++
++function validateFileUpload() {
++  const fileUpload = document.getElementById("file-upload").value;
++
++  if (!fileUpload) {
++    alert("You must select a file to upload.");
++    return false;
++  } else {
++    const fileExtension = fileUpload.split(".").pop();
++    if (fileExtension !== "jpg" && fileExtension !== "png" && fileExtension !== "gif") {
++      alert("You can only upload JPEG, PNG, or GIF files.");
++      return false;
++    }
++  }
++  return true;
++}
++function validateInputs() {
++  const titleInput = document.getElementById("title-input");
++  const subTitleInput = document.getElementById("subtitle-input");
++  const textInput = document.getElementById("text-input");
++  const tagsInput = document.getElementById("tags-input");
++  const imageDataUrl = document.querySelector(".imagePreview img");
++  const specialBadgeInput = document.getElementById("special-badge-input");
++  const hyperLinkInput = document.getElementById("hyperlink-input");
++
++  if (titleInput.value === "" || textInput.value === "" || tagsInput.value === "" || imageDataUrl === undefined || specialBadgeInput.value === "" || subTitleInput.value === "" || hyperLinkInput.value === "") {
++    alert("Please fill all inputs");
++    return false;
++  }
++  if (!validateFormInputs()) {
++    alert("Please correct form errors");
++    return false;
++  }
++  if (!validateFileUpload()) {
++    return false;
++  }
++  alert("Form has been successfully validated.");
++  return true;
++}
++
++const CreateElement = (tag, className) => {
++  const element = document.createElement(tag);
++  element.classList.add(className);
++  return element;
++};
++
++const CreateTag = (tags) => {
++  const tileTags = CreateElement('div', 'tile-tagsProjects');
++  const tagsArray = tags.split(',');
++  //region tag
++  const regionTag = CreateElement('div', 'tagProject');
++  regionTag.innerText = selectedCategory;
++  tileTags.appendChild(regionTag);
++  //end region tag
++  tagsArray.forEach(tag => {
++    const tileTagsDiv = CreateElement('div', 'tagProject');
++    tileTagsDiv.innerText = tag;
++    tileTags.appendChild(tileTagsDiv);
++  });
++  return tileTags;
++};
++let addProject = () => {
++  const tag = CreateTag(tagsInput.value);
++  const tile = CreateElement('div', 'tile');
++  if (!validateInputs()) {
++    return;
++  };
++  //innerHTML privremena pohrana
++  tile.innerHTML = ' <div ><div class="special-badge"><div style="display: flex;"><span> ' + specialBadgeInput.value + ' </span></div></div><div class="flip-card-innerP"><div class="flip-card-frontP"><div class="tile-image"><img style="height:50%;" src="' + imageDataUrl + '" width="100%" alt=""></div><div class="tile-body"><h3>' + titleInput.value + ' </h3>' + tag.outerHTML + '</div></div><div class="flip-card-backP txtChangeSmaller"><h6>' + subTitleInput.value + '</h6><p>' + textInput.value + '</p><div class="tile-tagsProjects"><div class="tagProject dugmence mob" style="background-color:white;color:black"><a href="' + hyperLinkInput.value + '" target="_blank">Read more</a></div></div></div></div></div>';
++
++  let tilesData = JSON.parse(localStorage.getItem('tilesData')) || [];
++  tilesData.push(tile.innerHTML);
++  localStorage.setItem('tilesData', JSON.stringify(tilesData));
++  
++  ResetValues(fileInput, titleInput, textInput, tagsInput, specialBadgeInput, subTitleInput, imagePreview, hyperLinkInput, popup);
++}
++let retrieveData = (user) => {
++  let tileData = JSON.parse(localStorage.getItem('tilesData'));
++  if(tileData === null) return;
++  tileData.forEach(tile => {
++    const tileElement = CreateElement('div', 'tile');
++    tileElement.innerHTML = tile;
++    addProjectDiv.after(tileElement);
++  });
++  tiles = document.querySelectorAll('.tile');
++  if(user){
++    editHandler(tiles);
++  }
++ 
++}
++
++let editProject = (tile) => {
++  const tag = CreateTag(tagsInput.value);
++  if (!validateInputs()) {
++    return;
++  };
++  //innerHTML privremena pohrana
++  tile.innerHTML = ' <div ><div class="special-badge"><div style="display: flex;"><span> ' + specialBadgeInput.value + ' </span></div></div><div class="flip-card-innerP"><div class="flip-card-frontP"><div class="tile-image"><img style="height:50%;" src="' + imageDataUrl + '" width="100%" alt=""></div><div class="tile-body"><h3>' + titleInput.value + ' </h3>' + tag.outerHTML + '</div></div><div class="flip-card-backP txtChangeSmaller"><h6>' + subTitleInput.value + '</h6><p>' + textInput.value + '</p><div class="tile-tagsProjects"><div class="tagProject dugmence mob" style="background-color:white;color:black"><a href="' + hyperLinkInput.value + '" target="_blank">Read more</a></div></div></div></div></div>';
++  ResetValues(fileInput, titleInput, textInput, tagsInput, specialBadgeInput, subTitleInput, imagePreview, hyperLinkInput, popup);
++}
++let editHandler=(tiles)=>{
++  for (const tile in tiles) {
++    if (Object.hasOwnProperty.call(tiles, tile)) {
++      let element = tiles[tile];
++      element.onclick = () => {
++        popup.style.display = 'block';
++        if(window.location.href.includes("en")){
++        document.querySelector(".popup-content").children[0].innerText = "Edit project";
++        submitBtn.innerText = 'Edit project';}
++        else{
++          document.querySelector(".popup-content").children[0].innerText = "Uredi projekat";
++          submitBtn.innerText = 'Uredi';
++        }
++        submitBtn.onclick = () => {
++          editProject(element);
++        }
++      }
++    }
++  }
++
++}
++//kontrola popupa 
++retrieveData();
++filterSelection("all", "");
++firebase.auth().onAuthStateChanged((user) => {
++  if (user) {
++    
++   
++    userInfo.style.display = "block";
++    addProjectDiv.onclick = () => {
++
++      popup.style.display = 'block';
++      if(window.location.href.includes("en")){
++      submitBtn.innerText = 'Add project';
++      document.querySelector(".popup-content").children[0].innerText = "Add New Project";}
++      submitBtn.onclick = () => {
++        addProject();
++        retrieveData(user);
++        filterSelection("all", "");
++      }
++    }
++
++    // Edit project button
++   editHandler(tiles);
++    //edit projects from local storage on click
++   
++    
++
++
++  } else if (!user) {
++
++    userInfo.style.display = "none";
++    addProjectDiv.style.display = 'none';
++    for (const tile in tiles) {
++      if (Object.hasOwnProperty.call(tiles, tile)) {
++        let element = tiles[tile];
++        
++        element.onclick = () => { }
++      }
++    }
++  }
++
++});
++
++// Close popup
++closeBtn.addEventListener('click', () => {
++  ResetValues(fileInput, titleInput, textInput, tagsInput, specialBadgeInput, subTitleInput, imagePreview, hyperLinkInput, popup);
++});
++
++
++function filterSelection(inProgress, tag) {
++  var x = document.getElementsByClassName("tile");
++  for (var i = 0; i < x.length; i++) {
++    var showTile = true;
++    if (inProgress && !x[i].classList.contains(inProgress) && inProgress !== "all") {
++      showTile = false;
++    }
++    if (tag && !x[i].classList.contains(tag) && tag !== "all") {
++      showTile = false;
++    }
++    if (showTile) {
++      x[i].classList.add("show");
++    } else {
++      x[i].classList.remove("show");
++    }
++  }
++}
++// prikazi sve projekte 
++
++
++var btnContainer = document.getElementById("special-badge");
++var btns = btnContainer.getElementsByClassName("btn");
++
++for (var i = 0; i < btns.length; i++) {
++  btns[i].addEventListener("click", function () {
++    var current = document.querySelector("#special-badge .active");
++    if (current) {
++      current.classList.remove("active");
++    }
++    this.classList.add("active");
++    var specialBadgeSelected = document.querySelector("#special-badge .active");
++    var inProgress = specialBadgeSelected ? specialBadgeSelected.getAttribute("onclick").split("'")[1] : "";
++    var tagsSelected = document.querySelector("#tags .active");
++    var tag = tagsSelected ? tagsSelected.getAttribute("data-tag") : "";
++    filterSelection(inProgress, tag);
++  });
++}
++
++var tagContainer = document.getElementById("tags");
++var tags = tagContainer.getElementsByClassName("btn");
++for (var i = 0; i < tags.length; i++) {
++  tags[i].addEventListener("click", function () {
++    var tag = this.getAttribute("data-tag");
++    filterSelection(inProgress, tag);
++  });
++}
++
++// objekat koji će brojati koliko puta se pojavljuje svaki tag
++var tagCounts = {};
++
++var tilea = document.querySelectorAll('.tile');
++for (var i = 0; i < tilea.length; i++) {
++  var tags = tilea[i].querySelectorAll('.tagProject:not(.dugmence)');
++  for (var j = 0; j < tags.length; j++) {
++    var tag = tags[j].innerHTML.trim();
++    if (tag !== "Local" && tag !== "International") {
++      if (tagCounts.hasOwnProperty(tag)) {
++        tagCounts[tag]++;
++      } else {
++        tagCounts[tag] = 1;
++      }
++    }
++  }
++}
++// sortiranje tagova po broju pojavljivanja
++var sortedTags = Object.keys(tagCounts).sort(function (a, b) {
++  return tagCounts[b] - tagCounts[a];
++});
++
++var tagWrapper = document.getElementById('tags');
++for (var i = 0; i < 5; i++) {
++  var tag = sortedTags[i];
++  var button = document.createElement('button');
++  button.className = 'btn';
++  button.textContent = tag + " (" + tagCounts[tag] + ")";
++  button.setAttribute("data-tag", tag);
++  button.addEventListener('click', function () {
++    var current = document.querySelector("#tags .active");
++    if (current) {
++      current.classList.remove("active");
++    }
++    this.classList.add("active");
++    var specialBadgeSelected = document.querySelector("#special-badge .active");
++    var inProgress = specialBadgeSelected ? specialBadgeSelected.getAttribute("onclick").split("'")[1] : "";
++    var tagSelected = this.getAttribute("data-tag");
++    filterSelection(inProgress, tagSelected);
++  });
++  tagWrapper.appendChild(button);
++}
+\ No newline at end of file
+diff --git a/pages/bhs/projektiContent.php b/pages/bhs/projektiContent.php
+index d349f2f..5cccd40 100644
+--- a/pages/bhs/projektiContent.php
++++ b/pages/bhs/projektiContent.php
+@@ -11,12 +11,48 @@
+         </p>
+         <p></p>
+     </div>
++    <div id="signIn-container">
++        <button id="signIn" onclick="OpenLoginForm()">Prijavi se</button>
++        <button id="signOut">Odjavi se</button>
++        <div id="UserInfo">Prijavljeni ste!</div>
++    </div>
+ </div>
++<div class="wrapper">
++    <div id="special-badge">
++        <button class="btn active" onclick="filterSelection('all')"> All</button>
++        <button class="btn" onclick="filterSelection('in-progress')"> In progress</button>
++        <button class="btn" onclick="filterSelection('0')"> 2020</button>
++        <button class="btn" onclick="filterSelection('1')"> 2021</button>
++        <button class="btn" onclick="filterSelection('2')"> 2022</button>
++        <button class="btn" onclick="filterSelection('3')"> 2023</button>
++        <button class="btn" onclick="filterSelection('Local')"> Local</button>
++        <button class="btn" onclick="filterSelection('Regional')"> Regional</button>
++        <button class="btn" onclick="filterSelection('EU')"> EU</button>
++        <button class="btn" onclick="filterSelection('International')">International</button>
++    </div>
++    <div id="tags">
++        <button id="all-btn" class="btn active" onclick="filterSelection('all')"> All projects</button>
++        <span class="separator"></span>
++        <!-- ovdje će se generirati ostali buttoni tagova -->
++    </div>
++</div>
++
+ <div class="row">
+     <div class="tiles-wrapper">
++        <div id="addProject">
+ 
++            <div class="card">
++                <div class="card-body">
++                    <div class="card-icon">
++                        <span class="plus-icon">+</span>
++                    </div>
++                    <h2 class="card-title">Dodaj novi projekat</h2>
++                </div>
++            </div>
+ 
+-        <div class="tile   makermovement">
++        </div>
++        
++        <div class="tile in-progress Maker-Movement Distributed-Design">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> IN PROGRESS </span>
+@@ -30,8 +66,8 @@
+                         <h3>Osnivanje makers pokreta u BiH i jačanje u regionu zemalja Višegradske grupe </h3>
+ 
+                         <div class="tile-tagsProjects">
+-                            <div class="tagProject"> Maker Movement </div>
+-                            <div class="tagProject"> Distributed Design </div>
++                            <div class="tagProject"> Maker-Movement </div>
++                            <div class="tagProject"> Distributed-Design </div>
+                         </div>
+                     </div>
+                 </div>
+@@ -54,7 +90,7 @@
+             </div>
+         </div>
+ 
+-        <div class="tile ">
++        <div class="tile 1 Local Culture">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> 2021 </span>
+@@ -88,7 +124,7 @@
+             </div>
+         </div>
+ 
+-        <div class="tile  ">
++        <div class="tile in-progress International Collaboration ">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> IN PROGRESS </span>
+@@ -123,7 +159,7 @@
+             </div>
+         </div>
+ 
+-        <div class="tile  ">
++        <div class="tile  1 STEM FabXUni">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> 2021 </span>
+@@ -159,7 +195,7 @@
+             </div>
+         </div>
+ 
+-        <div class="tile  ">
++        <div class="tile  1 Local FabXUni">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> 2021 </span>
+@@ -194,7 +230,7 @@
+             </div>
+         </div>
+ 
+-        <div class="tile  ">
++        <div class="tile  1 FabXUni International">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> 2021 </span>
+@@ -236,7 +272,7 @@
+             </div>
+         </div>
+ 
+-        <div class="tile  ">
++        <div class="tile  in-progress International Empowerment">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> In progress </span>
+@@ -279,7 +315,7 @@
+             </div>
+         </div>
+ 
+-        <div class="tile  ">
++        <div class="tile  0 Local STEM">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> 2020 </span>
+@@ -313,7 +349,7 @@
+             </div>
+         </div>
+ 
+-        <div class="tile ">
++        <div class="tile in-progress Innovation IP Prototyping">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> In progress </span>
+@@ -345,7 +381,7 @@
+             </div>
+         </div>
+ 
+-        <div class="tile ">
++        <div class="tile in-progress IP Prototyping">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> In progress </span>
+@@ -377,7 +413,7 @@
+         </div>
+ 
+ 
+-        <div class="tile  ">
++        <div class="tile in-progress IP Prototyping ">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> In progress </span>
+@@ -408,7 +444,7 @@
+             </div>
+         </div>
+ 
+-        <div class="tile  ">
++        <div class="tile  in-progress IP Prototyping">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> In progress </span>
+@@ -439,7 +475,7 @@
+         </div>
+ 
+ 
+-        <div class="tile  ">
++        <div class="tile  in-progress Craft Entrepreneurship">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> In progress </span>
+@@ -471,8 +507,61 @@
+ 
+                 </div>
+             </div>
++
+         </div>
+ 
++        <!-- Ovdje pocinje popup forma -->
++
+ 
+     </div>
++    <div class="popup-container">
++        <div class="popup-content">
++            <h3>Dodaj novi projekat</h3>
++            <form id="form-input">
++                <label for="file-upload">Odaberi JPEG, PNG, ili GIF file:</label>
++                <input type="file" id="file-upload" name="file-upload" accept="image/jpeg,image/png,image/gif">
++                <div class='imagePreview'></div>
++                <label for="title">Naslov prednje strane kartice</label>
++                <input id="title-input" type="text" name="title" placeholder="Tvoj naslov..">
++                <label for="category">Naslov stražnje strane kartice (duži)</label>
++                <input id="subtitle-input" type="text" name="subtitle" placeholder="Tvoj podnaslov..">
++                <label for="description">Opis projekta stražnje strane kartice</label>
++                <textarea id="text-input" name="description" placeholder="Napiši nešto.."
++                    style="height:200px"></textarea>
++                <label for="category">Regije</label>
++                <select id="category-select" name="category">
++                    <option value="Lokalno">Lokalno</option>
++                    <option value="Regionalno">Regionalno</option>
++                    <option value="EU">EU</option>
++                    <option value="Internationalno">Međunarodno</option>
++                </select>
++                <label for="tags">Oznake (oznaka1,oznaka2,oznaka3)</label>
++                <input type="text" id="tags-input" name="tags" placeholder="Tvoji tagovi..">
++                <label for="category">Godina projekta (ili U tijeku)</label>
++                <input id="special-badge-input" type="text" name="special-badge" placeholder="Tvoj status projekta..">
++                <label for="hyperlink">Pročitajte više link</label>
++                <input id="hyperlink-input" type="url" name="hyperlink" placeholder="https://www.example.com">
++            </form>
++            <div class="popup-buttons">
++                <button type="submit" class="submitBtn">Dodaj</button>
++                <button type="button" class="closeBtn">Zatvori</button>
++            </div>
++        </div>
++    </div>
++    <div class="popup-container" id="form-login">
++        <div class="popup-content">
++            <h3>Prijavi se</h3>
++            <form>
++                <label for="email">Email</label>
++                <input id="email-input" type="text" name="email" placeholder="Tvoj email..">
++                <label for="password">Lozinka</label>
++                <input id="password-input" type="password" name="password" placeholder="Tvoja lozinka..">
++            </form>
++            <div class="popup-buttons">
++                <button type="submit" class="submitLogin">Prijavi se</button>
++
++                <button type="button" class="closeLogin" onclick="CloseLoginForm()">Zatvori</button>
++            </div>
++        </div>
++    </div>
+ </div>
+\ No newline at end of file
+diff --git a/pages/bhs/projektiNav.php b/pages/bhs/projektiNav.php
+index 38e0c96..8f1e190 100644
+--- a/pages/bhs/projektiNav.php
++++ b/pages/bhs/projektiNav.php
+@@ -11,11 +11,17 @@
+     <link rel="stylesheet" href="../../styles/w3.css">
+     <link rel="stylesheet" href="../../styles/drugi.css">
+     <link rel="stylesheet" href="../../styles/poppins.css">
++    <link rel="stylesheet" href="../../styles/card.css">
+     
+     <script src="../../js/fotoramaMin.js"></script>
+     <script src="../../js/script.js"></script>
+     <script src="../../js/icons.js"></script>
+-
++    <script defer src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
++   <script defer src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
++   <script defer src="../../js/Varijable.js"></script>
++   <script defer src="../../js/Auth.js"></script>
++   <script defer src="../../js/addProject.js"></script>
++  
+   <style>
+ 	 .dugmence {
+ 
+diff --git a/pages/en/projectsContent.php b/pages/en/projectsContent.php
+index 57d8376..0d11e83 100644
+--- a/pages/en/projectsContent.php
++++ b/pages/en/projectsContent.php
+@@ -12,11 +12,49 @@
+         <p></p>
+     </div>
+ </div>
++
++<div id="signIn-container">
++    <button id="signIn" onclick="OpenLoginForm()">Sign in</button>
++    <button id="signOut">Sign out</button>
++    <div id="UserInfo">You are signed in!</div>
++</div>
++
++<div class="wrapper">
++    <div id="special-badge">
++        <button class="btn active" onclick="filterSelection('all')"> All</button>
++        <button class="btn" onclick="filterSelection('in-progress')"> In progress</button>
++        <button class="btn" onclick="filterSelection('0')"> 2020</button>
++        <button class="btn" onclick="filterSelection('1')"> 2021</button>
++        <button class="btn" onclick="filterSelection('2')"> 2022</button>
++        <button class="btn" onclick="filterSelection('3')"> 2023</button>
++        <button class="btn" onclick="filterSelection('Local')"> Local</button>
++        <button class="btn" onclick="filterSelection('Regional')"> Regional</button>
++        <button class="btn" onclick="filterSelection('EU')"> EU</button>
++        <button class="btn" onclick="filterSelection('International')">International</button>
++    </div>
++    <div id="tags">
++        <button id="all-btn" class="btn active" onclick="filterSelection('all')"> All projects</button>
++        <span class="separator"></span>
++        <!-- ovdje će se generirati ostali buttoni tagova -->
++    </div>
++</div>
++
++
+ <div class="row">
+-    <div class="tiles-wrapper">
++    <div class="tiles-wrapper ">
++        <div id="addProject">
+ 
++            <div class="card">
++                <div class="card-body">
++                    <div class="card-icon">
++                        <span class="plus-icon">+</span>
++                    </div>
++                    <h2 class="card-title">Add New Project</h2>
++                </div>
++            </div>
+ 
+-        <div class="tile   makermovement">
++        </div>
++        <div class="tile in-progress Maker-Movement Distributed-Design">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> IN PROGRESS </span>
+@@ -26,33 +64,35 @@
+                 <div class="flip-card-frontP">
+                     <div class="tile-image"> <img src="../../slike/proj/Masinci%20-%20praksa.png" width="100%" alt="">
+                     </div>
+-                    <div class="tile-body"> 
+-                            <h3>Maker Movement Establishing in BiH and Strengthening in the Visegrad Region </h3>
+-                        
++                    <div class="tile-body">
++                        <h3>Maker Movement Establishing in BiH and Strengthening in the Visegrad Region </h3>
++
+                         <div class="tile-tagsProjects">
+-                            <div class="tagProject"> Maker Movement </div>
+-                            <div class="tagProject"> Distributed Design </div>
++                            <div class="tagProject"> Maker-Movement </div>
++                            <div class="tagProject"> Distributed-Design </div>
+                         </div>
+                     </div>
+                 </div>
+                 <!--end of flip-inner -->
+                 <div class="flip-card-backP txtChangeSmaller">
+-               
+-                         <h6>Maker Movement Establishing in BiH and Strengthening in the Visegrad Region</h6> 
++
++                    <h6>Maker Movement Establishing in BiH and Strengthening in the Visegrad Region</h6>
+                     <p> The Project will establish a maker movement in BiH and foster strentenigh in Visegrad region.
+                         Thee new partnership among FabLabs from Czech Republic, Hungary, Poland and Slovakia and BiH
+                         will support sharing know-how, ideas and good practices. Partnering with other makers and
+                         businesses, FabLabs will, through the maker movement, encourage science popularization, even in
+                         hard-to-reach communities.
+                     </p>
+-					   <div class="tile-tagsProjects">
++                    <div class="tile-tagsProjects">
+                         <div class="tagProject dugmence mob" style="background-color:white;color:black"> <a
+-                                href="https://www.facebook.com/FabLabSarajevo/videos/606809733622872" target="_blank">Read more</a></div></div>
++                                href="https://www.facebook.com/FabLabSarajevo/videos/606809733622872"
++                                target="_blank">Read more</a></div>
++                    </div>
+                 </div>
+             </div>
+         </div>
+ 
+-        <div class="tile ">
++        <div class="tile 1 Local Culture ">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> 2021 </span>
+@@ -63,8 +103,8 @@
+                     <div class="tile-image"> <img src="../../slike/proj/3D%20print%20i%20kultura.png" width="100%"
+                             alt="">
+                     </div>
+-                    <div class="tile-body"> 
+-                            <h3>3D printing meets culture: “Past Meets Future”</h3>
++                    <div class="tile-body">
++                        <h3>3D printing meets culture: “Past Meets Future”</h3>
+                         <div class="tile-tagsProjects">
+                             <div class="tagProject"> Local </div>
+                             <div class="tagProject"> Culture </div>
+@@ -77,14 +117,16 @@
+                     <p> Aim of the projects is to determine capacity, survey current situation, display current
+                         technology solutions and create feasibility study for Sarajevo museums and institutes of
+                         culture.. </p>
+-					  <div class="tile-tagsProjects">
++                    <div class="tile-tagsProjects">
+                         <div class="tagProject dugmence mob" style="background-color:white;color:black"> <a
+-                                href="https://mks.ks.gov.ba/aktuelno/obavjestenja/spisak-odobrenih-sredstava-iz-oblasti-kulture-0" target="_blank">Read more</a></div></div>
++                                href="https://mks.ks.gov.ba/aktuelno/obavjestenja/spisak-odobrenih-sredstava-iz-oblasti-kulture-0"
++                                target="_blank">Read more</a></div>
++                    </div>
+                 </div>
+             </div>
+         </div>
+ 
+-        <div class="tile  ">
++        <div class="tile in-progress International Collaboration ">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> IN PROGRESS </span>
+@@ -97,8 +139,8 @@
+                             alt="">
+                     </div>
+                     <div class="tile-body">
+-                            <h3>Optimization and usage of 3D technology in medicine and health care - learn on
+-                                experience </h3>
++                        <h3>Optimization and usage of 3D technology in medicine and health care - learn on
++                            experience </h3>
+                         <div class="tile-tagsProjects">
+                             <div class="tagProject"> International </div>
+                             <div class="tagProject"> Collaboration </div>
+@@ -112,14 +154,16 @@
+                     <p> CEI funded project with aim to develop and strengthen the competences related to 3D technology
+                         in medicine and health care. Participants: University of Zenica, University of Pavia,
+                         Politecnico of Torino and FabLab BiH </p>
+-				 <div class="tile-tagsProjects">
++                    <div class="tile-tagsProjects">
+                         <div class="tagProject dugmence mob" style="background-color:white;color:black"> <a
+-                                href="http://www.mef.ues.rs.ba/poziv-za-ucesce-u-radionicama-u-sklopu-projekta-optimization-and-usage-of-3d-technology-in-medicine-and-health-care-learn-on-experience/?script=lat" target="_blank">Read more</a></div></div>
++                                href="http://www.mef.ues.rs.ba/poziv-za-ucesce-u-radionicama-u-sklopu-projekta-optimization-and-usage-of-3d-technology-in-medicine-and-health-care-learn-on-experience/?script=lat"
++                                target="_blank">Read more</a></div>
++                    </div>
+                 </div>
+             </div>
+         </div>
+ 
+-        <div class="tile  ">
++        <div class="tile 1 STEM FabXUni">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> 2021 </span>
+@@ -129,9 +173,9 @@
+                 <div class="flip-card-frontP">
+                     <div class="tile-image"> <img src="../../slike/proj/Trening%20pharma.png" width="100%" alt="">
+                     </div>
+-                    <div class="tile-body"> 
+-                            <h3>AM Training for University </h3>
+-                                      
++                    <div class="tile-body">
++                        <h3>AM Training for University </h3>
++
+                         <div class="tile-tagsProjects">
+                             <div class="tagProject"> STEM </div>
+                             <div class="tagProject"> FabXUni </div>
+@@ -146,14 +190,16 @@
+                         industry. 3D drug printing may become the biggest technological leap in the pharmaceutical
+                         segment, and according to the optimistic forecasts, it will soon be available in BiH as well.
+                     </p>
+-					  <div class="tile-tagsProjects">
++                    <div class="tile-tagsProjects">
+                         <div class="tagProject dugmence mob" style="background-color:white;color:black"> <a
+-                                href="https://www.facebook.com/FabLabSarajevo/posts/538988210875117" target="_blank">Read more</a></div></div>
++                                href="https://www.facebook.com/FabLabSarajevo/posts/538988210875117"
++                                target="_blank">Read more</a></div>
++                    </div>
+                 </div>
+             </div>
+         </div>
+ 
+-        <div class="tile  ">
++        <div class="tile 1 Local FabXUni">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> 2021 </span>
+@@ -163,8 +209,8 @@
+                 <div class="flip-card-frontP">
+                     <div class="tile-image"> <img src="../../slike/proj/Masinci%20-%20praksa.png" width="100%" alt="">
+                     </div>
+-                    <div class="tile-body"> 
+-                            <h3>Internship - Faculty of Mechanical Engineering </h3>
++                    <div class="tile-body">
++                        <h3>Internship - Faculty of Mechanical Engineering </h3>
+                         <div class="tile-tagsProjects">
+                             <div class="tagProject"> FabXUni </div>
+                             <div class="tagProject"> Local </div>
+@@ -180,14 +226,16 @@
+                         for 10 students of III and IV year of study. During the internship, students worked on the
+                         various creative 3D printing projects: - Ultrasonic toothbrush cleaner - Hydrodynamic
+                         transformer - Special purpose clamping tool - Lightweight frame for drones. </p>
+-					 <div class="tile-tagsProjects">
++                    <div class="tile-tagsProjects">
+                         <div class="tagProject dugmence mob" style="background-color:white;color:black"> <a
+-                                href="https://www.facebook.com/FabLabSarajevo/videos/606809733622872/" target="_blank">Read more</a></div></div>
++                                href="https://www.facebook.com/FabLabSarajevo/videos/606809733622872/"
++                                target="_blank">Read more</a></div>
++                    </div>
+                 </div>
+             </div>
+         </div>
+ 
+-        <div class="tile  ">
++        <div class="tile 1 International FabXUni">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> 2021 </span>
+@@ -220,14 +268,16 @@
+                         Sarajevo, the Faculty of Pharmacy in Belgrade and Hemofarm company. The aim of the project was
+                         to present new interdislinary field, its applications, but also the challenges through a two-day
+                         training and confrence. </p>
+-					  <div class="tile-tagsProjects">
++                    <div class="tile-tagsProjects">
+                         <div class="tagProject dugmence mob" style="background-color:white;color:black"> <a
+-                                href="https://www.ffsa.unsa.ba/post/zavr%C5%A1ena-radionica-3d-printanje-u-farmaciji" target="_blank">Read more</a></div></div>
++                                href="https://www.ffsa.unsa.ba/post/zavr%C5%A1ena-radionica-3d-printanje-u-farmaciji"
++                                target="_blank">Read more</a></div>
++                    </div>
+                 </div>
+             </div>
+         </div>
+ 
+-        <div class="tile  ">
++        <div class="tile in-progress International Empowerment">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> In progress </span>
+@@ -250,25 +300,26 @@
+                 </div>
+                 <!--end of flip-inner -->
+                 <div class="flip-card-backP">
+-                  
+-                        <h3>Women in 3D printing</h3>
+-                    
++
++                    <h3>Women in 3D printing</h3>
++
+                     <p>
+                         To make as many women become interested and involved in the field of additive production, a
+                         branch of the global network <a href="https://womenin3dprinting.com/about-us/">'Women in 3D
+                             Printing'</a> has been established in Sarajevo.
+                         <br>We organize regular events with guest lecturers and leading experts from around the world.
+                         <br>You can find out information about new events via our website or social networks.
+-                    
++
+                     </p>
+-					   <div class="tile-tagsProjects">
++                    <div class="tile-tagsProjects">
+                         <div class="tagProject dugmence mob" style="background-color:white;color:black"> <a
+-                                href="https://womenin3dprinting.com/about-us/" target="_blank">Read more</a></div></div>
++                                href="https://womenin3dprinting.com/about-us/" target="_blank">Read more</a></div>
++                    </div>
+                 </div>
+             </div>
+         </div>
+ 
+-        <div class="tile  ">
++        <div class="tile 0 Local STEM">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> 2020 </span>
+@@ -278,8 +329,8 @@
+                 <div class="flip-card-frontP">
+                     <div class="tile-image"> <img src="../../slike/proj/3D%20skener.png" width="100%" alt="">
+                     </div>
+-                    <div class="tile-body"> 
+-                            <h3>Improving STEM Education with 3D Scanning</h3>
++                    <div class="tile-body">
++                        <h3>Improving STEM Education with 3D Scanning</h3>
+                         <div class="tile-tagsProjects">
+                             <div class="tagProject"> Local </div>
+                             <div class="tagProject"> STEM </div>
+@@ -294,14 +345,16 @@
+                         of FabLab through the procurement of 3D scanners with the aim of establishing inclusive STEM
+                         education and training of young people to work on additive technologies, including project
+                         equipment. </p>
+-					 <div class="tile-tagsProjects">
++                    <div class="tile-tagsProjects">
+                         <div class="tagProject dugmence mob" style="background-color:white;color:black"> <a
+-                                href="https://www.facebook.com/FabLabSarajevo/posts/439416167498989?__tn__=-R" target="_blank">Read more</a></div></div>
++                                href="https://www.facebook.com/FabLabSarajevo/posts/439416167498989?__tn__=-R"
++                                target="_blank">Read more</a></div>
++                    </div>
+                 </div>
+             </div>
+         </div>
+ 
+-        <div class="tile ">
++        <div class="tile in-progress IP Prototyping Innovation">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> In progress </span>
+@@ -328,12 +381,12 @@
+                         people worldwide. Technological innovations together with IPR best practices present great
+                         opportunities in promoting healthy fish populations, feeding billions of people, and at the same
+                         time adapting to the impacts of climate changes. Patented. </p>
+-			
++
+                 </div>
+             </div>
+         </div>
+ 
+-        <div class="tile ">
++        <div class="tile in-progress IP Prototyping">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> In progress </span>
+@@ -360,13 +413,13 @@
+                         educational tool for chemistry, biology, or physics of light. FabLab Sarajevo has developed a
+                         fiber-coupled spectrometer and a cuvette holder that make the conduction of experiments easy and
+                         repeatable. </p>
+-			
++
+                 </div>
+             </div>
+         </div>
+ 
+ 
+-        <div class="tile  ">
++        <div class="tile in-progress IP Prototyping">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> In progress </span>
+@@ -399,7 +452,7 @@
+             </div>
+         </div>
+ 
+-        <div class="tile  ">
++        <div class="tile in-progress IP Prototyping">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> In progress </span>
+@@ -424,13 +477,13 @@
+                     <p> We have assisted in fabrication, design changes and final design of the custom orthopedic active
+                         medical instrument. Product is patent pending and further detail will be available once product
+                         is patented. </p>
+-				
++
+                 </div>
+             </div>
+         </div>
+ 
+ 
+-        <div class="tile  ">
++        <div class="tile in-progress Craft Entrepreneurship">
+             <!--ovo je flip-card -->
+             <div class="special-badge">
+                 <div style="display: flex;"> <span> In progress </span>
+@@ -459,11 +512,65 @@
+                         fabrication within financial reach of SMEs and startups, or even for
+                         full-time jobers trying to explore an alternative career, significantly
+                         simplifying the process of prototype or product development. </p>
+-					 
++
+                 </div>
+             </div>
+         </div>
++    </div>
++
++    <!-- Ovdje pocinje popup forma -->
++    <div class="popup-container">
++        <div class="popup-content">
++            <h3>Add New Project</h3>
++            <form id="form-input">
++                <!-- <label for="file-upload">Select a JPEG, PNG, or GIF file:</label>
++                    <input type="file" id="file-upload" name="file-upload" accept="image/jpeg,image/png,image/gif"> -->
++
++                <label for="file-upload">Select a JPEG, PNG, or GIF file:</label>
++                <input type="file" id="file-upload" name="file-upload" accept="image/jpeg,image/png,image/gif">
++                <div class='imagePreview'></div>
++                <label for="title">Front Card Header</label>
++                <input id="title-input" type="text" name="title" placeholder="Your title..">
++                <label for="category"> Back Card Header (longer)</label>
++                <input id="subtitle-input" type="text" name="subtitle" placeholder="Your subtitle..">
++                <label for="description">Back Card project description</label>
++                <textarea id="text-input" name="description" placeholder="Write something.."
++                    style="height:200px"></textarea>
++                <label for="category">Regions</label>
++                <select id="category-select" name="category">
++                    <option value="Local">Local</option>
++                    <option value="Regional">Regional</option>
++                    <option value="EU">EU</option>
++                    <option value="International">International</option>
++                </select>
++                <label for="tags">Tags (tag1,tag2,tag3)</label>
++                <input type="text" id="tags-input" name="tags" placeholder="Your tags..">
++                <label for="category">Project Year (or In Progress)</label>
++                <input id="special-badge-input" type="text" name="special-badge" placeholder="Your project year..">
++                <label for="hyperlink">Read More link</label>
++                <input id="hyperlink-input" type="url" name="hyperlink" placeholder="https://www.example.com">
++            </form>
++            <div class="popup-buttons">
++                <button type="submit" class="submitBtn">Submit</button>
+ 
++                <button type="button" class="closeBtn">Close</button>
++            </div>
++        </div>
++    </div>
++    <div class="popup-container" id="form-login">
++        <div class="popup-content">
++            <h3>Sign in</h3>
++            <form>
++                <label for="email">Email</label>
++                <input id="email-input" type="text" name="email" placeholder="Your email..">
++                <label for="password">Password</label>
++                <input id="password-input" type="password" name="password" placeholder="Your password..">
++            </form>
++            <div class="popup-buttons">
++                <button type="submit" class="submitLogin">Sign in</button>
+ 
++                <button type="button" class="closeLogin" onclick="CloseLoginForm()">Close</button>
++            </div>
++        </div>
+     </div>
+ </div>
+\ No newline at end of file
+diff --git a/pages/en/projectsNav.php b/pages/en/projectsNav.php
+index 89f322b..29f7d1a 100644
+--- a/pages/en/projectsNav.php
++++ b/pages/en/projectsNav.php
+@@ -5,16 +5,25 @@
+     <meta name="author" content="FabLab - Sarajevo">
+     <title>FabLab Sarajevo - Home To Fabulous FabLab in Sarajevo</title>
+     <meta name="robots" content="noindex,nofollow">
++    <meta name="google-signin-client_id" content="532943031464-scqpb6lbolpis09cs1f2tei6j5hasscr.apps.googleusercontent.com">
+     <link rel="icon" type="image/png" href="../../slike/fav.png">
+     
+     <link rel="stylesheet" href="../../styles/icons.css">
+     <link rel="stylesheet" href="../../styles/w3.css">
+     <link rel="stylesheet" href="../../styles/drugi.css">
+     <link rel="stylesheet" href="../../styles/poppins.css">
+-    
++    <link rel="stylesheet" href="../../styles/card.css">
++
++  
+     <script src="../../js/fotoramaMin.js"></script>
+     <script src="../../js/script.js"></script>
+     <script src="../../js/icons.js"></script>
++    <script defer src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
++   <script defer src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
++   <script defer src="../../js/Varijable.js"></script>
++   <script defer src="../../js/Auth.js"></script>
++    <script defer src="../../js/addProject.js"></script>
++
+ 
+   <style>
+ 	 .dugmence {
+@@ -74,6 +83,12 @@ src="https://www.facebook.com/tr?id=1158314620935416&ev=PageView&noscript=1"
+ 
+ </head>
+ 
++<script>
++    function onSignIn(googleUser) {
++      alert("You are signed in");
++      
++    }
++</script>
+ <!-- navigation -->
+ <div class="navbar navbarProjects navPosition">
+   <div class="nav-head">
+diff --git a/styles/card.css b/styles/card.css
+new file mode 100644
+index 0000000..3e80480
+--- /dev/null
++++ b/styles/card.css
+@@ -0,0 +1,467 @@
++.card {
++  background-color: #ffffffe5;
++  border-radius: 2px;
++  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
++  width: 100%;
++  height: 100%;
++}
++
++.title {
++  border: solid black 1px;
++}
++
++.tile:hover .card {
++  border: #ccc 1px solid;
++}
++
++.card:hover {
++  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
++}
++
++.card-body {
++  display: flex;
++  flex-direction: column;
++  justify-content: center;
++  align-items: center;
++  height: 100%;
++}
++
++.card-icon {
++  display: flex;
++  justify-content: center;
++  align-items: center;
++  width: 60px;
++  height: 60px;
++  border: 2px solid #878787;
++  border-radius: 60%;
++}
++
++.plus-icon {
++  font-size: 32px;
++  color: #878787d7;
++}
++
++.card-title {
++  font-size: 15px;
++  font-weight: bold;
++  margin-top: 10px;
++  color: #878787;
++}
++
++.popup-content {
++  position: absolute;
++  top: 50%;
++  left: 50%;
++  transform: translate(-50%, -50%);
++  padding: 20px;
++  border-radius: 5px;
++  z-index: 2;
++  width: 70%;
++  max-width: 450px;
++  max-height: 90%;
++  overflow-y: auto;
++  margin-top: 10px;
++  background-color: rgba(237, 237, 237, 0.97) !important;
++}
++
++.popup-container {
++  display: none;
++  position: fixed;
++  top: 0;
++  left: 0;
++  width: 100%;
++  height: 100vh;  
++  z-index: 1;
++  background-color: #12121280;
++  overflow-y: auto;
++}
++
++#form-input {
++  display: flex;
++  flex-direction: column;
++  margin-bottom: 10px;
++}
++
++label {
++  margin-bottom: 5px;
++}
++
++input[type="text"],
++textarea {
++  padding: 10px;
++  margin-bottom: 10px;
++  border: 1px solid #ccc;
++  border-radius: 5px;
++  font-size: 16px;
++  width: 100%;
++  max-width: 100%;
++}
++
++.submitBtn,
++.closeBtn {
++  padding: 10px 20px;
++  border-radius: 5px;
++  font-size: 16px;
++  margin-right: 10px;
++  border: none;
++  color: white;
++  cursor: pointer;
++  transition: background-color 0.3s ease;
++  width: 150px;
++  display: inline-block;
++  text-align: center;
++}
++
++.submitBtn {
++  background-color: #3dc23d;
++}
++
++.closeBtn {
++  background-color: #cf3c37;
++}
++
++.popup-buttons {
++  text-align: center;
++}
++
++@media only screen and (max-width: 600px) {
++  .popup-content {
++    width: 90%;
++    margin-top: 30px;
++  }
++  .submitBtn,
++  .closeBtn {
++    width: 60%;
++    margin-top: 2%;
++  }
++}
++@media (min-width: 601px) and (max-width: 766px) {
++  .popup-content {
++    margin-top: 130px;
++    width: 90%;
++    height: auto;
++  }
++}
++@media (min-width: 767px) and (max-width: 1274px) {
++  .popup-content {
++    margin-top: 75px; 
++    width: 90%;
++    height: auto;
++  }
++}
++@media (min-width: 1275px) {
++  .popup-content {
++    margin-top: 25px; 
++    width: 90%;
++    height: auto;
++  }
++}
++input[type="file"] {
++  display: none;
++}
++
++label[for="file-upload"] {
++  padding: 10px;
++  background-color: #ccc;
++  color: #333;
++  border-radius: 5px;
++  cursor: pointer;
++  display: inline-block;
++}
++
++#addProject {
++  width: 31%;
++  border: 1px solid black;
++  position: relative;
++  margin-top: 20px;
++  perspective: 1000px;
++  height: 570px;
++}
++@media (max-width: 600px) {
++  #addProject {
++    width: 100%;
++    height: 570px;
++  }
++}
++@media (min-width: 601px) and (max-width: 840px) {
++  #addProject {
++    width: 70%;
++    height: 570px;
++  }
++}
++@media (min-width: 841px) and (max-width: 991px) {
++  #addProject {
++    width: 45%;
++    height: 570px;
++    margin-top: 20px;
++  }
++}
++@media (min-width: 992px) and (max-width: 1100px) {
++  #addProject {
++    width: 45%;
++    height: 570px;
++    margin-top: 20px;
++  }
++}
++@media (min-width: 1101px) {
++  #addProject {
++    width: 31%;
++    height: 570px;
++    margin-top: 20px;
++  }
++}
++#addProject:hover {
++  transform: scale(1.05);
++  border: 1px solid gray;
++}
++.imagePreview{
++  width: 100%;
++  height: 300px;
++  display: none;
++  background-size: contain;
++background-position: center;
++background-repeat: no-repeat;
++}
++.wrapper {
++  display: flex;
++  flex-direction: column;
++  justify-content: center;
++  align-items: center;
++  margin: 0 auto;
++  margin-top: 40px;
++  width:75%;
++}
++#special-badge {
++  display: flex;
++  flex-wrap: wrap;
++  justify-content: center;
++  align-items: center;
++  margin-bottom: 1em;
++}
++#special-badge .btn {
++  padding: 0.5em 1.2em;
++  margin: 5px; 
++  border-radius: 5px;
++  cursor: pointer;
++  color: white;
++  border: none;
++  background-color: rgb(30, 119, 30);
++}
++
++#special-badge .btn.btn.active {
++  background-color: rgb(46, 182, 46);
++  color: white;
++}
++
++#special-badge .btn:nth-child(-n+6) {
++  background-color: rgb(38, 49, 150);
++}
++#special-badge .btn:nth-child(-n+6).btn.active {
++  background-color: #206ab3;
++}
++#tags {
++  display: flex;
++  flex-wrap: wrap;
++  justify-content: center;
++  align-items: center;
++}
++#special-badge::after,
++#tags::after {
++  content: "";
++  width: 100%;
++  border-top: 1px solid #a2a2a2;
++  margin-top: 1em;
++}
++.btn {
++  padding: 0.5em 1.2em;
++  margin: 10px;
++  border-radius: 5px;
++  cursor: pointer;
++  color: white;
++  border: none;
++}
++@media (max-width: 767px) {
++  .btn {
++    margin: 5px;
++    font-size: 12px;
++  }
++}
++#tags .btn {
++  background-color: #da1717;
++}
++#tags .btn.active {
++  background-color: #ff3e3e;
++}
++.tile {
++  display: none;
++}
++.show {
++  display: block !important;
++}
++#all-btn {
++  background-color: #da1717 !important; 
++}
++.separator {
++  display: inline-block;
++  width: 1px;
++  height: 30px;
++  margin: 0 10px;
++  background-color: #a2a2a2;
++}
++#form-login {
++  font-family: Arial, sans-serif;
++  font-size: 16px;
++  line-height: 1.5;
++  background-color: #12121280;
++  display: none;
++  position: fixed;
++  top: 0;
++  left: 0;
++  right: 0;
++  bottom: 0;
++  z-index: 9999;
++}
++h3 {
++  margin-top: 5px;
++  font-size: 24px;
++}
++form {
++  display: flex;
++  flex-direction: column;
++}
++label {
++  font-size: 16px;
++  margin-bottom: 5px;
++}
++input[type="text"],
++input[type="password"] {
++  padding: 10px;
++  border-radius: 3px;
++  border: none;
++  margin-bottom: 10px;
++}
++.submitLogin {
++  background-color: #3fb443;
++  color: #fff;
++  padding: 10px 20px;
++  border: none;
++  border-radius: 3px;
++  font-size: 16px;
++  cursor: pointer;
++}
++.closeLogin {
++  background-color: #f9372a;
++  color: #fff;
++  padding: 10px 20px;
++  border: none;
++  border-radius: 3px;
++  font-size: 16px;
++  cursor: pointer;
++  margin-left: 10px;
++}
++.closeLogin:hover,
++.submitLogin:hover {
++  opacity: 0.8;
++}
++#signIn-container {
++  position: absolute;
++  top: 50px;
++  right: 20px;
++}
++#signIn {
++  background-color: rgba(156, 156, 156, 0.786);
++  color: #fff;
++  padding: 5px;
++  border: none;
++  border-radius: 3px;
++  font-size: 16px;
++  cursor: pointer;
++  margin-top: 10px;
++}
++#signIn,
++#signOut {
++  width: 100px;
++}
++#signOut {
++  background-color:  #da1717;
++  color: #fff;
++  padding: 5px;
++  border: none;
++  border-radius: 3px;
++  font-size: 16px;
++  cursor: pointer;
++  margin-top: 10px;
++}
++#signIn:hover,
++#signOut:hover {
++  opacity: 0.8;
++}
++@media (max-width: 600px) {
++  #signIn-container {
++    top: 10px;
++    right: 1px;
++    margin-top: 40px;
++    display: flex; 
++    flex-wrap: wrap;
++    align-items: flex-end;
++  }
++  #signIn,
++  #signOut {
++    width: 60px;
++    margin-left: 3px; 
++    font-size: 10px;
++    flex: 1; 
++  }
++  #UserInfo {
++    font-size: 10px;
++    align-self: flex-end;
++    margin-top: 1px; 
++    width: 100%; 
++    text-align: right; 
++  }
++}
++@media (min-width: 601px) and (max-width: 767px) {
++  #signIn-container {
++    top: 10px;
++    right: 10px;
++    margin-top: 140px;
++  }
++  #signIn,
++  #signOut {
++    width: 70px;
++    font-size: 10px;
++  }
++  #UserInfo {
++    font-size: 10px;
++  }
++}
++@media (min-width: 768px) and (max-width: 774px) {
++  #signIn-container {
++    top: 10px;
++    right: 10px;
++    margin-top: 140px;
++  }
++  #signIn,
++  #signOut {
++    width: 80px;
++    font-size: 14px;
++  }
++  #UserInfo {
++    font-size: 12px;
++  }
++}
++@media (min-width: 775px) and (max-width: 1407px) {
++  #signIn-container {
++    top: 10px;
++    right: 10px;
++    margin-top: 90px;
++  }
++  #signIn,
++  #signOut {
++    width: 80px;
++    font-size: 14px;
++  }
++  #UserInfo {
++    font-size: 12px;
++  }
++}

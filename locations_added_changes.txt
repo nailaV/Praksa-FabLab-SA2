@@ -1,0 +1,9 @@
++++ b/index.php
++++ b/js/Auth.js
++++ b/js/Varijable.js
++++ b/js/addProject.js
++++ b/pages/bhs/projektiContent.php
++++ b/pages/bhs/projektiNav.php
++++ b/pages/en/projectsContent.php
++++ b/pages/en/projectsNav.php
++++ b/styles/card.css

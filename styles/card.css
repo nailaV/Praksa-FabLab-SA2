@@ -177,6 +177,7 @@ label[for="file-upload"] {
   perspective: 1000px;
   height: 570px;
 }
+
 @media (max-width: 600px) {
   #addProject {
     width: 100%;

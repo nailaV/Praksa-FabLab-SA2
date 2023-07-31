@@ -106,6 +106,7 @@ const CreateTag = (tags) => {
   });
   return tileTags;
 };
+
 let addProject = () => {
   const tag = CreateTag(tagsInput.value);
   const tile = CreateElement('div', 'tile');
@@ -113,28 +114,63 @@ let addProject = () => {
     return;
   };
   //innerHTML privremena pohrana
-  tile.innerHTML = ' <div ><div class="special-badge"><div style="display: flex;"><span> ' + specialBadgeInput.value + ' </span></div></div><div class="flip-card-innerP"><div class="flip-card-frontP"><div class="tile-image"><img style="height:50%;" src="' + imageDataUrl + '" width="100%" alt=""></div><div class="tile-body"><h3>' + titleInput.value + ' </h3>' + tag.outerHTML + '</div></div><div class="flip-card-backP txtChangeSmaller"><h6>' + subTitleInput.value + '</h6><p>' + textInput.value + '</p><div class="tile-tagsProjects"><div class="tagProject dugmence mob" style="background-color:white;color:black"><a href="' + hyperLinkInput.value + '" target="_blank">Read more</a></div></div></div></div></div>';
+  tile.innerHTML = ' <div ><div class="special-badge"><div style="display: flex;"><span> ' + specialBadgeInput.value +
+   ' </span></div></div><div class="flip-card-innerP"><div class="flip-card-frontP"><div class="tile-image"><img style="height:50%;" src="'
+    + imageDataUrl + '" width="100%" alt=""></div><div class="tile-body"><h3>' + titleInput.value +
+     ' </h3>' + tag.outerHTML + '</div></div><div class="flip-card-backP txtChangeSmaller"><h6>' +
+      subTitleInput.value + '</h6><p>' + textInput.value + 
+      '</p><div class="tile-tagsProjects"><div class="tagProject dugmence mob" style="background-color:white;color:black"><a href="' + hyperLinkInput.value +
+       '" target="_blank">Read more</a></div></div></div></div></div>';
+  
 
   let tilesData = JSON.parse(localStorage.getItem('tilesData')) || [];
   tilesData.push(tile.innerHTML);
   localStorage.setItem('tilesData', JSON.stringify(tilesData));
   
   ResetValues(fileInput, titleInput, textInput, tagsInput, specialBadgeInput, subTitleInput, imagePreview, hyperLinkInput, popup);
+
+  
 }
+
 let retrieveData = (user) => {
   let tileData = JSON.parse(localStorage.getItem('tilesData'));
   if(tileData === null) return;
-  tileData.forEach(tile => {
+
+  tileData.forEach((tile,index) => {
     const tileElement = CreateElement('div', 'tile');
     tileElement.innerHTML = tile;
+
+    const removeButton = CreateElement('button', 'remove-button');
+    removeButton.innerText = 'Remove';
+    removeButton.style="color:white;background-color:rgb(218,23,23); width:100%; margin-top:1px; border-radius:2px ; height:6%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1)";
+    removeButton.addEventListener('click',(event)=>{
+      event.stopPropagation();
+      console.log(index.id);
+      removeTile(index);
+      window.location.reload();
+    });
+    tileElement.appendChild(removeButton);
     addProjectDiv.after(tileElement);
+
   });
+
   tiles = document.querySelectorAll('.tile');
+  
   if(user){
     editHandler(tiles);
   }
- 
+
+  let removeTile = (index) => {
+    let tileData = JSON.parse(localStorage.getItem('tilesData'));
+    if (tileData === null) return;
+
+    tileData.splice(index, 1); 
+    localStorage.setItem('tilesData', JSON.stringify(tileData)); 
+    tiles[index].remove(); 
+  }
+
 }
+
 
 let editProject = (tile) => {
   const tag = CreateTag(tagsInput.value);
@@ -164,15 +200,12 @@ let editHandler=(tiles)=>{
       }
     }
   }
-
 }
 //kontrola popupa 
 retrieveData();
 filterSelection("all", "");
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    
-   
     userInfo.style.display = "block";
     addProjectDiv.onclick = () => {
 
@@ -185,19 +218,25 @@ firebase.auth().onAuthStateChanged((user) => {
         retrieveData(user);
         filterSelection("all", "");
       }
+  
     }
+    const obrisi=document.querySelectorAll('.remove-button');
+    obrisi.forEach((button)=>{
+      button.style.display='block';
+    })
 
     // Edit project button
    editHandler(tiles);
+
     //edit projects from local storage on click
-   
-    
-
-
   } else if (!user) {
-
     userInfo.style.display = "none";
     addProjectDiv.style.display = 'none';
+
+    const obrisi=document.querySelectorAll('.remove-button');
+    obrisi.forEach((button)=>{
+      button.style.display='none';
+    })
     for (const tile in tiles) {
       if (Object.hasOwnProperty.call(tiles, tile)) {
         let element = tiles[tile];
