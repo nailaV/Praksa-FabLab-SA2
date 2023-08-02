@@ -12,10 +12,12 @@
     <link rel="stylesheet" href="../../styles/w3.css">
     <link rel="stylesheet" href="../../styles/drugi.css">
     <link rel="stylesheet" href="../../styles/poppins.css">
+    <link rel="stylesheet" href="../../styles/teamContent.css">
     
     <script src="../../js/fotoramaMin.js"></script>
     <script src="../../js/script.js"></script>
     <script src="../../js/icons.js"></script>
+    <script src="../../js/addTeamMember.js"></script>
     
   <style>
     body{

@@ -10,6 +10,7 @@
   border: solid black 1px;
 }
 
+
 .tile:hover .card {
   border: #ccc 1px solid;
 }

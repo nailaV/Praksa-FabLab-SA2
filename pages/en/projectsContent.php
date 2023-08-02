@@ -43,7 +43,6 @@
 <div class="row">
     <div class="tiles-wrapper ">
         <div id="addProject">
-
             <div class="card">
                 <div class="card-body">
                     <div class="card-icon">
@@ -52,7 +51,6 @@
                     <h2 class="card-title">Add New Project</h2>
                 </div>
             </div>
-
         </div>
         <div class="tile in-progress Maker-Movement Distributed-Design">
             <!--ovo je flip-card -->

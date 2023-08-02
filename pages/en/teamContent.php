@@ -1,14 +1,58 @@
 <div class="w3-main" style="margin-left:15%;margin-right:15%;box-sizing: border-box !important;">
     <div class="w3-container" id="people" style="margin-top:5%;">
-        <h1 class="w3-xxxlarge w3-text-orange centerTitle">Become a team memberrrrrrrrrrrr</h1>
+        <h1 class="w3-xxxlarge w3-text-orange centerTitle">Become a team member</h1>
         <hr style="width:80%;border:3px solid #F98329;margin: auto;" class="w3-round">
       </div>
       <div class="edit">
-          <p>Becoming a team member ofofof or volunteer of FabLab BiH is life changing experience.  </p>
+          <p>Becoming a team member or volunteer of FabLab BiH is life changing experience.  </p>
           <p style="text-align:center !important">You are our most valuable assets. </p>
   <p>You allow us to help more people and you can make a significant difference in others life. Because of you, many people are helped who would not be otherwise.  </p>
       </div>
-  
+                <form id="forma" style="display:none;position:fixed;top:0;left:0;width:100%;height:93%;
+                background-color:rgba(0,0,0,0.5);">
+            <div class="footer">
+            <h1 id ="naslov"> Enter team member informations  <span class="close-button" onclick="CloseModal()">X</span> </h1>
+          </div>
+          <div class="row">
+              <div class="col">
+                <label>First name </label>
+                <input type="text" class="form-control" placeholder="First name" id="firstName">
+              </div>
+              <div class="col">
+              <label>Last name </label>
+                <input type="text" class="form-control" placeholder="Last name" id="lastName">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="Title">Title</label>
+              <input type="text" class="form-control" placeholder="CEO" id="title">
+            </div>
+            <div class="form-group">
+              <label for="imageUpload">Upload your image</label>
+              <input type="file" class="form-control-file" id="fileUpload" accept="image/jpeg,image/png,image/gif" placeholder="JPEG, PNG, GIF">
+            </div>
+            <div class="image"> </div>
+            <div class="form-group">
+              <label for="qoute">Leave a qoute</label>
+              <textarea class="form-control" id="qoute" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="Email">Email</label>
+              <input type="email" class="form-control" placeholder="person@fablab.ba" id="email">
+            </div>
+            <div class="form-group">
+            <label for="hyperlink">Linkedin</label>
+            <input id="hyperlink-input" type="url" name="hyperlink" class="form-control" placeholder="https://www.example.com">
+            </div>
+            <div class="dugmici">
+            <button type="button" class="btn btn-outline-success">Submit</button> &nbsp; &nbsp; &nbsp;
+            <button type="button" class="btn btn-outline-danger" onclick="CloseModal()">Close</button>
+            </div>
+          </form>
+
+          <div id="overlay" style="display:none;"></div>
+          
+      <button id="dugmic" onclick="OpenModal()">Add team member</button>
       <div class="vlntContainerTeam">
         <div class="cardTeam bck">
             <div class="cardTeam-header">
@@ -35,7 +79,6 @@
                   more</a></span>
             </div>
           </div>
-  
           <div class="cardTeam">
             <div class="cardTeam-header">
               <a href="?page=pages/en/internship" target="_blank"> <img src="../../slike/educator or intership.png" />
@@ -73,7 +116,8 @@
           We are dedicated to FabLab, and we always look for exceptional inspiring team members and
           contributors:</p>
       </div>
-  
+
+
       
       <!-- content -->
       <div class="flexTeam">
