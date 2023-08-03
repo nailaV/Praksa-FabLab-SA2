@@ -1,3 +1,23 @@
+const firebaseConfig = {
+
+    apiKey: "AIzaSyDRDkp2P-e3e5Nxa8FXxX7ASEBWrD4k2ck",
+
+    authDomain: "fablab-38a7b.firebaseapp.com",
+
+    projectId: "fablab-38a7b",
+
+    storageBucket: "fablab-38a7b.appspot.com",
+
+    messagingSenderId: "673394550913",
+
+    appId: "1:673394550913:web:b90a10c251966271218580",
+
+    measurementId: "G-3W5RX1XVYG"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+
 function ResetValues(titleInput, subTitleInput, fileInput,textInput,hyperlinkInput,textInput, imagePreview){
     fileInput.value="";
     subTitleInput.value="";
@@ -15,10 +35,41 @@ function Prijava(){
     document.getElementById("overlay").style.display="block";
 }
 
+
+function SignInn(){
+    const user = document.querySelector("#username1");
+    const pass = document.querySelector("#password1");
+    firebase.auth().signInWithEmailAndPassword(user.value, pass.value)
+    .then((userCredential) => {
+        // User signed in successfully
+        console.log('prijavljen');
+        //document.getElementById("UserInfo").style.display="block";
+        Zatvori();
+    })
+    .catch((error) => {
+        // Handle sign-in errors     
+        alert(error.message);
+    });
+}
+
+
+    
+
 function Zatvori(){
     const klik=document.getElementById("formaSignIn");
     klik.style.display="none";
     document.getElementById("overlay").style.display="none";
+}
+
+function Odjava(){
+    firebase.auth().signOut().then(() => {
+        console.log('odjavljen');
+        //document.getElementById("UserInfo").style.display="none";
+        
+    }).catch((error) => {
+        // An error happened.
+        alert(error.message);
+    });
 }
 
 function OpenModal(){
@@ -96,4 +147,19 @@ function isValidHyperlink(url) {
         const urlRegex = /^(http|https):\/\/[^ "]+$/;
         return urlRegex.test(url);
 }
+
+firebase.auth().onAuthStateChanged((user)=>{
+    if(user){
+        document.getElementById("UserInfo").style.display="block";
+        document.getElementById("prijavaDugme").style.display="none";
+        document.getElementById("odjavaDugme").style.display="block";
+        document.getElementById("UserInfoOdjava").style.display="none";
+    }
+    else{
+        document.getElementById("UserInfo").style.display="none";
+        document.getElementById("odjavaDugme").style.display="none";
+        document.getElementById("prijavaDugme").style.display="block";
+        document.getElementById("UserInfoOdjava").style.display="block";
+    }
+});
 

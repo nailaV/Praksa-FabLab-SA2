@@ -1,6 +1,8 @@
 <div class="odjavaPrijava">
-<button type="button" onclick=Prijava()>Sign in </button>
-<button type="button" onclick=Odjava()>Sign out </button>
+<button type="button" id="prijavaDugme" onclick=Prijava()>Sign in </button>
+<button type="button" id="odjavaDugme" onclick=Odjava()>Sign out </button>
+<div id="UserInfo" style="display:none">You are signed in!</div>
+<div id="UserInfoOdjava" >Sign in for additional features!</div>
 </div>
 
 
@@ -18,7 +20,7 @@
               <input type="password" class="form-control" id="password1">
             </div>
             <div class="dugmici">
-            <button type="button" class="btn btn-outline-success">Sign in </button>
+            <button type="button" id="signInDugme" class="btn btn-outline-success" onclick="SignInn()">Sign in </button>
             </div>
           </form>
 
