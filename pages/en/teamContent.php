@@ -1,9 +1,13 @@
 <div class="odjavaPrijava">
-<button type="button" id="prijavaDugme" onclick=Prijava()>Sign in </button>
-<button type="button" id="odjavaDugme" onclick=Odjava()>Sign out </button>
-<div id="UserInfo" style="display:none">You are signed in!</div>
-<div id="UserInfoOdjava" >Sign in for additional features!</div>
+  <div class="userInfoWrapper">
+    <div id="UserInfo" style="display:none">You are signed in!</div>
+    <div id="UserInfoOdjava">Sign in for additional features!</div>
+  </div>
+  <button type="button" id="prijavaDugme" onclick="Prijava()">Sign in</button>
+  <button type="button" id="odjavaDugme" onclick="Odjava()" style="display:none">Sign out</button>
 </div>
+
+
 
 
 <form id="formaSignIn" style="display:none;position:fixed;top:150;left:0;width:100%;height:50%;
@@ -82,7 +86,7 @@
 
           <div id="overlay" style="display:none;"></div>
           
-      <button id="dugmic" onclick="OpenModal()">Add team member</button>
+      <button id="dugmic" onclick="OpenModal()" style="display:none">Add team member</button>
       <div class="vlntContainerTeam">
         <div class="cardTeam bck">
             <div class="cardTeam-header">

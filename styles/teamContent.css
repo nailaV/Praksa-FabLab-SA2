@@ -26,6 +26,10 @@
     font-size: 20px;
 }
 
+#dugmic:hover{
+  background-color:#7d2c09;
+}
+
 
 #forma {
   max-width: 30%;
@@ -197,14 +201,14 @@
 
 
 .odjavaPrijava button {
-  padding: 10px 20px;
+  padding: 5px 20px;
   font-size: 16px;
   background-color: #f26a2e;
-  color: #fff; 
+  color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-right: 10px; 
+  margin-right: 10px;
 }
 
 .odjavaPrijava button:last-child {
@@ -212,11 +216,21 @@
 }
 
 .odjavaPrijava {
-  width:30%;
-  margin-left:70%;
+   position: absolute; 
+  top: 70px; 
+  right: 10px;
+  display: flex;
+  align-items: center; 
+}
+
+.userInfoWrapper {
+  margin-right: 10px;
 }
 
 .odjavaPrijava button:hover {
-  background-color: #aa3909;
+  background-color: #7d2c09;
 }
+
+
+
 

@@ -154,12 +154,14 @@ firebase.auth().onAuthStateChanged((user)=>{
         document.getElementById("prijavaDugme").style.display="none";
         document.getElementById("odjavaDugme").style.display="block";
         document.getElementById("UserInfoOdjava").style.display="none";
+        document.getElementById("dugmic").style.display="block";
     }
     else{
         document.getElementById("UserInfo").style.display="none";
         document.getElementById("odjavaDugme").style.display="none";
         document.getElementById("prijavaDugme").style.display="block";
         document.getElementById("UserInfoOdjava").style.display="block";
+        document.getElementById("dugmic").style.display="none";
     }
 });
 
