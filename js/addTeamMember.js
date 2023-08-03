@@ -9,6 +9,18 @@ function ResetValues(titleInput, subTitleInput, fileInput,textInput,hyperlinkInp
 }
 
 
+function Prijava(){
+    const klik=document.getElementById("formaSignIn");
+    klik.style.display="block";
+    document.getElementById("overlay").style.display="block";
+}
+
+function Zatvori(){
+    const klik=document.getElementById("formaSignIn");
+    klik.style.display="none";
+    document.getElementById("overlay").style.display="none";
+}
+
 function OpenModal(){
     document.getElementById("forma").style.display="block";
     document.getElementById("overlay").style.display="block";

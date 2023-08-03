@@ -1,3 +1,30 @@
+<div class="odjavaPrijava">
+<button type="button" onclick=Prijava()>Sign in </button>
+<button type="button" onclick=Odjava()>Sign out </button>
+</div>
+
+
+<form id="formaSignIn" style="display:none;position:fixed;top:150;left:0;width:100%;height:50%;
+                background-color:rgba(0,0,0,0.5);">
+            <div class="footer">
+            <h1 id ="naslov"> Sign in  <span class="close-button" onclick="Zatvori()">X</span> </h1>
+          </div>
+          <div class="form-group">
+              <label for="username1">Username</label>
+              <input type="text" class="form-control" id="username1">
+            </div>
+            <div class="form-group">
+              <label for="password1">Password</label>
+              <input type="password" class="form-control" id="password1">
+            </div>
+            <div class="dugmici">
+            <button type="button" class="btn btn-outline-success">Sign in </button>
+            </div>
+          </form>
+
+<div id="overlay" style="display:none;"></div>
+
+
 <div class="w3-main" style="margin-left:15%;margin-right:15%;box-sizing: border-box !important;">
     <div class="w3-container" id="people" style="margin-top:5%;">
         <h1 class="w3-xxxlarge w3-text-orange centerTitle">Become a team member</h1>
@@ -49,6 +76,7 @@
             <button type="button" class="btn btn-outline-danger" onclick="CloseModal()">Close</button>
             </div>
           </form>
+
 
           <div id="overlay" style="display:none;"></div>
           

@@ -27,21 +27,41 @@
 }
 
 
-  #forma {
-    max-width: 30%;
-    margin-left:35%;
-    margin-right:35%;
-    margin-top:2%;
-    margin-bottom:2%;
-    height:70%;
-    background-color: #a29a9a;
-    background-image: linear-gradient(to bottom, #f9f9f9, #e6e6e6); 
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow-y:auto;
-    z-index: 2;
-  }
+#forma {
+  max-width: 30%;
+  margin-left:35%;
+  margin-right:35%;
+  margin-top:2%;
+  margin-bottom:2%;
+  height:70%;
+  background-color: #a29a9a;
+  background-image: linear-gradient(to bottom, #f9f9f9, #e6e6e6); 
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow-y:auto;
+  z-index: 2;
+}
+
+
+
+#formaSignIn {
+  max-width: 30%;
+  margin-left:35%;
+  margin-right:35%;
+  margin-top:2%;
+  margin-bottom:2%;
+  height:70%;
+  background-color: #a29a9a;
+  background-image: linear-gradient(to bottom, #f9f9f9, #e6e6e6); 
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow-y:auto;
+  z-index: 2;
+}
+
+
   #overlay{
     position:fixed;
     top:0;
@@ -56,6 +76,11 @@
 
   
   .footer {
+    text-align: center;
+    position: relative;
+  }
+
+  .footer2 {
     text-align: center;
     position: relative;
   }
@@ -97,7 +122,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-bottom: 10px;
-    transition: box-shadow 0.3s, border-color 0.3s; /* Add transition for smooth effect */
+    transition: box-shadow 0.3s, border-color 0.3s;
     box-shadow: 10px 10px 6px rgba(0, 0, 0, 0.168);
   }
   
@@ -169,4 +194,31 @@
   background-color: #dc3545;
   color: #fff;
 }
-  
+
+
+/* Style for the buttons */
+.odjavaPrijava button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #f26a2e;
+  color: #fff; 
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px; 
+}
+
+.odjavaPrijava button:last-child {
+  margin-right: 0;
+}
+
+.odjavaPrijava {
+  position: fixed;
+  top: 60px;
+  right: 10px;
+}
+
+.odjavaPrijava button:hover {
+  background-color: #aa3909;
+}
+
