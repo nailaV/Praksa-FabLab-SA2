@@ -17,18 +17,18 @@
           </div>
           <div class="form-group">
               <label for="username1">Username</label>
-              <input type="text" class="form-control" id="username1">
+              <input type="text" class="form-control" id="username1" placeholder="Your email/username">
             </div>
             <div class="form-group">
               <label for="password1">Password</label>
-              <input type="password" class="form-control" id="password1">
+              <input type="password" class="form-control" id="password1" placeholder="Your password">
             </div>
             <div class="dugmici">
             <button type="button" id="signInDugme" class="btn btn-outline-success" onclick="SignInn()">Sign in </button>
             </div>
           </form>
-
 <div id="overlay" style="display:none;"></div>
+
 
 
 <div class="w3-main" style="margin-left:15%;margin-right:15%;box-sizing: border-box !important;">
@@ -75,10 +75,10 @@
             </div>
             <div class="form-group">
             <label for="hyperlink">Linkedin</label>
-            <input id="hyperlink-input" type="url" name="hyperlink" class="form-control" placeholder="https://www.example.com">
+            <input id="hyperlink-input" type="url" name="hyperlink" class="form-control" placeholder="https://www.linkedin.com/in/your-profile-credentials">
             </div>
             <div class="dugmici">
-            <button type="button" class="btn btn-outline-success">Submit</button> &nbsp; &nbsp; &nbsp;
+            <button type="button" class="btn btn-outline-success" onclick="TextInputValidation()">Submit</button> &nbsp; &nbsp; &nbsp;
             <button type="button" class="btn btn-outline-danger" onclick="CloseModal()">Close</button>
             </div>
           </form>

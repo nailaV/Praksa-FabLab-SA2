@@ -18,14 +18,13 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 
-function ResetValues(titleInput, subTitleInput, fileInput,textInput,hyperlinkInput,textInput, imagePreview){
-    fileInput.value="";
-    subTitleInput.value="";
-    textInput.value="";
-    hyperlinkInput.value="";
-    textInput.value="";
-    imagePreview.style.display='none';
-    imagePreview.style.backgroundImage = "";
+function ResetValues(name, surname, title,mail,linkedInLink,quote){
+    name.value="";
+    surname.value="";
+    title.value="";
+    linkedInLink.value="";
+    mail.value="";
+    quote.value="";
 }
 
 
@@ -41,13 +40,11 @@ function SignInn(){
     const pass = document.querySelector("#password1");
     firebase.auth().signInWithEmailAndPassword(user.value, pass.value)
     .then((userCredential) => {
-        // User signed in successfully
         console.log('prijavljen');
         //document.getElementById("UserInfo").style.display="block";
         Zatvori();
     })
-    .catch((error) => {
-        // Handle sign-in errors     
+    .catch((error) => { 
         alert(error.message);
     });
 }
@@ -67,10 +64,10 @@ function Odjava(){
         //document.getElementById("UserInfo").style.display="none";
         
     }).catch((error) => {
-        // An error happened.
         alert(error.message);
     });
 }
+
 
 function OpenModal(){
     document.getElementById("forma").style.display="block";
@@ -78,6 +75,13 @@ function OpenModal(){
 }
 
 function CloseModal(){
+    const name = document.getElementById("firstName");
+     const surname = document.getElementById("lastName");
+     const title = document.getElementById("title");
+    const mail = document.getElementById("email");
+    const linkedInLink = document.getElementById("hyperlink-input");
+    const quote = document.getElementById("qoute");
+    ResetValues(name,surname,title,mail,linkedInLink,quote);
     document.getElementById("forma").style.display="none";
     document.getElementById("overlay").style.display="none";
 }
@@ -99,13 +103,18 @@ function ImageUploadValidation(){
 }
 
 function TextInputValidation(){
-    const name = document.getElementById("firstName").value;
-    const surname = document.getElementById("lastName").value;
-    const title = document.getElementById("title").value;
+     const name = document.getElementById("firstName").value;
+     const surname = document.getElementById("lastName").value;
+     const title = document.getElementById("title").value;
     const mail = document.getElementById("email").value;
     const linkedInLink = document.getElementById("hyperlink-input").value;
-    const quote = document.getElementById("quote").value;
-    
+    const quote = document.getElementById("qoute").value;
+     
+    if(isNullOrEmpty(name) || isNullOrEmpty(surname) || isNullOrEmpty(title) || isNullOrEmpty(mail) || isNullOrEmpty(linkedInLink) || isNullOrEmpty(quote)){
+        alert("All fields are required.");
+        return false;
+    }
+
     if(name.length > 25 || containsNumber(name)){
         alert("Name must be valid, maximum of 25 characters, only letters.");
         return false;
@@ -115,7 +124,7 @@ function TextInputValidation(){
         return false;
     }
     if(title.length > 50 || containsNumber(title)){
-        alert("Title must be valid, maximum of 50 characters.");
+        alert("Title must be valid, maximum of 50 characters, only letters.");
         return false;
     }
 
@@ -128,11 +137,12 @@ function TextInputValidation(){
         alert("Quote must be valid, maximum of 50 characters.");
         return false;
     }
+
+    if(!isValidHyperlink(linkedInLink)){
+        alert("You must enter valid hyperlink - for example https://www.linkedin.com/in/your-profile-credentials");
+        return false;
+    }
     return true;
-}
-
-function Validation(){
-
 }
 function isValidEmail(email){
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -142,10 +152,9 @@ function containsNumber(tekst){
     const regex = /\d/;
     return regex.test(tekst);
 }
-function isValidHyperlink(url) {
-        // Regular expression to validate a hyperlink format
-        const urlRegex = /^(http|https):\/\/[^ "]+$/;
-        return urlRegex.test(url);
+function isValidHyperlink(url) { 
+        const linkedinRegex = /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+\/?$/;
+        return linkedinRegex.test(url);
 }
 
 firebase.auth().onAuthStateChanged((user)=>{
@@ -165,3 +174,6 @@ firebase.auth().onAuthStateChanged((user)=>{
     }
 });
 
+function isNullOrEmpty(inputText){
+    return inputText === null || inputText === undefined || inputText.trim().length === 0;
+}
