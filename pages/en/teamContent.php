@@ -57,14 +57,19 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="Title">Title</label>
-              <input type="text" class="form-control" placeholder="CEO" id="title">
+            <label for="title">Title</label>
+                <select id="category-select" name="category" class="form-control">
+                    <option value="Local">CEO</option>
+                    <option value="Regional">Manager</option>
+                    <option value="EU">Intern</option>
+                </select>
             </div>
             <div class="form-group">
-              <label for="imageUpload">Upload your image</label>
-              <input type="file" class="form-control-file" id="fileUpload" accept="image/jpeg,image/png,image/gif" placeholder="JPEG, PNG, GIF">
+            <label for="imageUpload">Upload your image</label>
+            <input type="file" class="form-control-file" id="fileUpload" accept="image/jpeg,image/png,image/gif" placeholder="JPEG, PNG, GIF">
             </div>
-            <div class="image"> </div>
+            <div class="image"></div>
+
             <div class="form-group">
               <label for="qoute">Leave a qoute</label>
               <textarea class="form-control" id="qoute" rows="3"></textarea>

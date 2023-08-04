@@ -19,7 +19,7 @@
     <script src="../../js/icons.js"></script>
     <script  src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
     <script  src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
-    <script src="../../js/addTeamMember.js"></script>
+    <script src="../../js/addTeamMember.js" defer></script>
 
     
   <style>

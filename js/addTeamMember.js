@@ -17,14 +17,15 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-
-function ResetValues(name, surname, title,mail,linkedInLink,quote){
+function ResetValues(name, surname,mail,linkedInLink,quote, fileN, slicica){
     name.value="";
     surname.value="";
-    title.value="";
+    //title.value="";
     linkedInLink.value="";
     mail.value="";
     quote.value="";
+    fileN.value="";
+    slicica.style.display="none";
 }
 
 
@@ -77,17 +78,19 @@ function OpenModal(){
 function CloseModal(){
     const name = document.getElementById("firstName");
      const surname = document.getElementById("lastName");
-     const title = document.getElementById("title");
+    // const title = document.getElementById("title");
     const mail = document.getElementById("email");
     const linkedInLink = document.getElementById("hyperlink-input");
     const quote = document.getElementById("qoute");
-    ResetValues(name,surname,title,mail,linkedInLink,quote);
+    const fileN=document.getElementById("fileUpload");
+    const slicica=document.querySelector(".image ");
+    ResetValues(name,surname,mail,linkedInLink,quote,fileN, slicica);
     document.getElementById("forma").style.display="none";
     document.getElementById("overlay").style.display="none";
 }
 
 function ImageUploadValidation(){
-    const imageUpload = document.getElementById("image-upload").value;
+    const imageUpload = document.getElementById("fileUpload").value;
     if(!imageUpload){
         alert("You must upload an image");
         return false;
@@ -105,12 +108,15 @@ function ImageUploadValidation(){
 function TextInputValidation(){
      const name = document.getElementById("firstName").value;
      const surname = document.getElementById("lastName").value;
-     const title = document.getElementById("title").value;
+     //const title = document.getElementById("title").value;
     const mail = document.getElementById("email").value;
     const linkedInLink = document.getElementById("hyperlink-input").value;
     const quote = document.getElementById("qoute").value;
+    const imageUpload = document.getElementById("fileUpload").value;
+   
+
      
-    if(isNullOrEmpty(name) || isNullOrEmpty(surname) || isNullOrEmpty(title) || isNullOrEmpty(mail) || isNullOrEmpty(linkedInLink) || isNullOrEmpty(quote)){
+    if(isNullOrEmpty(name) || isNullOrEmpty(surname) || isNullOrEmpty(title) ||imageUpload==undefined|| isNullOrEmpty(mail) || isNullOrEmpty(linkedInLink) || isNullOrEmpty(quote)){
         alert("All fields are required.");
         return false;
     }
@@ -123,10 +129,10 @@ function TextInputValidation(){
         alert("Surname must be valid, maximum of 30 characters, only letters.");
         return false;
     }
-    if(title.length > 50 || containsNumber(title)){
-        alert("Title must be valid, maximum of 50 characters, only letters.");
-        return false;
-    }
+    // if(title.length > 50 || containsNumber(title)){
+    //     alert("Title must be valid, maximum of 50 characters, only letters.");
+    //     return false;
+    // }
 
     if(!isValidEmail(mail)){
         alert("Email must be valid - for example name.surname@mailprovider.com.");
@@ -140,6 +146,11 @@ function TextInputValidation(){
 
     if(!isValidHyperlink(linkedInLink)){
         alert("You must enter valid hyperlink - for example https://www.linkedin.com/in/your-profile-credentials");
+        return false;
+    }
+
+    if(!ImageUploadValidation())
+    {
         return false;
     }
     return true;
@@ -177,3 +188,27 @@ firebase.auth().onAuthStateChanged((user)=>{
 function isNullOrEmpty(inputText){
     return inputText === null || inputText === undefined || inputText.trim().length === 0;
 }
+
+//imagePreview
+const slika=document.querySelector('#fileUpload');
+const divSlike=document.querySelector('.image');
+
+slika.addEventListener('change', (event)=> {
+    const file = event.target.files[0];
+  
+    if (file) {
+      const reader = new FileReader();
+  
+      reader.onload = function() {
+        const imagePreview = document.querySelector('.image');
+        imagePreview.style.display = 'block';
+        imagePreview.style.backgroundImage = `url(${reader.result})`;
+      }
+  
+      reader.readAsDataURL(file);
+    } else {
+      const imagePreview = document.querySelector('.image');
+      imagePreview.style.display = 'none';
+      imagePreview.style.backgroundImage = '';
+   }
+ });

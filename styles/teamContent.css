@@ -1,10 +1,10 @@
-.image{
-    width:100%;
-    height: 20%;
-    display: none;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
+.image {
+  width: 100%;
+  height: 300px;
+  display: none;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
   .dugmici {
