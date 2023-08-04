@@ -12,11 +12,14 @@
     <link rel="stylesheet" href="../../styles/w3.css">
     <link rel="stylesheet" href="../../styles/drugi.css">
     <link rel="stylesheet" href="../../styles/poppins.css">
+    <link rel="stylesheet" href="../../styles/teamContent.css">
     
     <script src="../../js/fotoramaMin.js"></script>
     <script src="../../js/script.js"></script>
     <script src="../../js/icons.js"></script>
-    
+    <script  src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script  src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="../../js/addTeamMember.js"></script>
   <style>
     body{
         overflow-x: hidden !important;
@@ -106,13 +109,13 @@ src="https://www.facebook.com/tr?id=1158314620935416&ev=PageView&noscript=1"
   </div>
   <!-- end of nav -->
   <span class="lanFlagsDesk">
-        <a href="changelang.php?lang=bhs" class="noHover">
+        <a href="http://localhost:8000/?page=pages/bhs/tim" class="noHover">                <!-- od prije "changelang.php?lang=bhs" -->
             <span <?php if ($language==='bhs' ){?>style="color:#2B2B2B;"
                 <?php } ?>>BHS
             </span>
         </a>
         <span style="color:#2B2B2B;">|</span>
-        <a href="changelang.php?lang=en" class="noHover">
+        <a href="http://localhost:8000/?page=pages/en/team" class="noHover">
             <span <?php if ($language!=='en' ){?>style="color:#4D4D4D;opacity:0.5;"
                 <?php } ?>>EN
             </span>

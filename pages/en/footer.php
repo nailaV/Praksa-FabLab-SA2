@@ -32,7 +32,8 @@
                 class="textDecoration" target="_blank"> Impressum</a></span> <br>
             <span class="fade"><img src="../../slike/terms.png" width="20px"> <a href="https://fablab.ba/?page=pages/en/policy"
                 class="textDecoration" target="_blank"> Privacy policy</a> </span>
-            <p></p>
+            <span class="fade"> <button type="button" id="registracijaDugme" onclick="Registracija()"> Sign up </button></span>
+          
           </div>
         </div>
 

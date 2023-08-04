@@ -7,9 +7,6 @@
   <button type="button" id="odjavaDugme" onclick="Odjava()" style="display:none">Sign out</button>
 </div>
 
-
-
-
 <form id="formaSignIn" style="display:none;position:fixed;top:150;left:0;width:100%;height:50%;
                 background-color:rgba(0,0,0,0.5);">
             <div class="footer">
@@ -27,9 +24,30 @@
             <button type="button" id="signInDugme" class="btn btn-outline-success" onclick="SignInn()">Sign in </button>
             </div>
           </form>
-<div id="overlay" style="display:none;"></div>
+<!-- <div id="overlay" style="display:none;"></div> -->
 
-
+<form id="formaSignUp" style="display:none;position:fixed;top:150;left:0;width:100%;height:50%;
+                background-color:rgba(0,0,0,0.5);">
+            <div class="footer">
+            <h1 id ="naslov"> Register  <span class="close-button" onclick="Zatvori()">X</span> </h1>
+          </div>
+          <div class="form-group">
+              <label for="username1">Username</label>
+              <input type="text" class="form-control" id="username1" placeholder="Your username/email">
+            </div>
+            <div class="form-group">
+              <label for="password1">Password</label>
+              <input type="password" class="form-control" id="password1" placeholder="Your password">
+            </div>
+            <div class="form-group">
+              <label for="password1">Password confirmation</label>
+              <input type="password" class="form-control" id="password2" placeholder="Repeat your password">
+            </div>
+            <div class="dugmici">
+            <button type="button" id="signUpDugme" class="btn btn-outline-success" onclick="SignUp()">Register </button>
+            </div>
+          </form>
+<!-- <div id="overlay" style="display:none;"></div> -->
 
 <div class="w3-main" style="margin-left:15%;margin-right:15%;box-sizing: border-box !important;">
     <div class="w3-container" id="people" style="margin-top:5%;">

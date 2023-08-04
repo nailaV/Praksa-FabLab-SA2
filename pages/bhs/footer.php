@@ -1,3 +1,4 @@
+<script src="../../js/registracija.js"></script>
  <!-- W3.CSS Container -->
       <div class="w3-light-grey w3-container w3-padding-25">
         <div class="footer">
@@ -31,8 +32,9 @@
             <span class="fade"><img src="../../slike/impressum.png" width="20px"> <a href="https://fablab.ba/?page=pages/bhs/impressum"
                 class="textDecoration" target="_blank"> Impressum</a></span> <br>
             <span class="fade"><img src="../../slike/terms.png" width="20px"> <a href="https://fablab.ba/?page=pages/bhs/policy"
-                class="textDecoration" target="_blank"> Privacy policy</a> </span>
-            <p></p>
+                class="textDecoration" target="_blank"> Privacy policy</a> </span> <br>
+            <span class="fade"> <button type="button" id="registracijaDugme" onclick="Registracija()"> Sign up </button></span>
+                
           </div>
         </div>
 

@@ -1,3 +1,54 @@
+<div class="odjavaPrijava">
+  <div class="userInfoWrapper">
+    <div id="UserInfo" style="display:none">Prijavljeni ste!</div>
+    <div id="UserInfoOdjava">Prijavite se za dodatne mogućnosti!</div>
+  </div>
+  <button type="button" id="prijavaDugme" onclick="Prijava()">Prijavi se</button>
+  <button type="button" id="odjavaDugme" onclick="Odjava()" style="display:none">Odjavi se</button>
+</div>
+
+<form id="formaSignIn" style="display:none;position:fixed;top:150;left:0;width:100%;height:50%;
+                background-color:rgba(0,0,0,0.5);">
+            <div class="footer">
+            <h1 id ="naslov"> Prijavite se  <span class="close-button" onclick="Zatvori()">X</span> </h1>
+          </div>
+          <div class="form-group">
+              <label for="username1">Korisničko ime</label>
+              <input type="text" class="form-control" id="username1" placeholder="Vaš email/korisničko ime">
+            </div>
+            <div class="form-group">
+              <label for="password1">Password</label>
+              <input type="password" class="form-control" id="password1" placeholder="Vaša lozinka">
+            </div>
+            <div class="dugmici">
+            <button type="button" id="signInDugme" class="btn btn-outline-success" onclick="SignInn()">Prijavite se </button>
+            </div>
+          </form>
+<!-- <div id="overlay" style="display:none;"></div> -->
+
+<form id="formaSignUp" style="display:none;position:fixed;top:150;left:0;width:100%;height:50%;
+                background-color:rgba(0,0,0,0.5);">
+            <div class="footer">
+            <h1 id ="naslov"> Registrujte se  <span class="close-button" onclick="Zatvori()">X</span> </h1>
+          </div>
+          <div class="form-group">
+              <label for="username1">Korisničko ime</label>
+              <input type="text" class="form-control" id="username1" placeholder="Vaš email/korisničko ime">
+            </div>
+            <div class="form-group">
+              <label for="password1">Password</label>
+              <input type="password" class="form-control" id="password1" placeholder="Vaša lozinka">
+            </div>
+            <div class="form-group">
+              <label for="password1">Password potvrda</label>
+              <input type="password" class="form-control" id="password2" placeholder="Potvrdite Vašu lozinku">
+            </div>
+            <div class="dugmici">
+            <button type="button" id="signUpDugme" class="btn btn-outline-success" onclick="SignUp()">Registrujte se </button>
+            </div>
+          </form>
+<!-- <div id="overlay" style="display:none;"></div> -->
+
 <div class="w3-main" style="margin-left:15%;margin-right:15%;box-sizing: border-box !important;">
     <div class="w3-container" id="people" style="margin-top:5%;">
         <h1 class="w3-xxxlarge w3-text-orange centerTitle">Postanite član tima</h1>
@@ -9,6 +60,52 @@
         <p>Omogućavate nam da pomognemo mnogima i možete napraviti značajnu razliku u životu drugih. Zahvaljujući vama,
             osigurat će se podrška za mnoge, koji inače ne bi dobili pomoć.</p>
     </div>
+
+    <form id="forma" style="display:none;position:fixed;top:0;left:0;width:100%;height:93%;
+                background-color:rgba(0,0,0,0.5);">
+            <div class="footer">
+            <h1 id ="naslov"> Unesite informacije o članu tima  <span class="close-button" onclick="CloseModal()">X</span> </h1>
+          </div>
+          <div class="row">
+              <div class="col">
+                <label>Ime </label>
+                <input type="text" class="form-control" placeholder="Ime" id="firstName">
+              </div>
+              <div class="col">
+              <label>Prezime </label>
+                <input type="text" class="form-control" placeholder="Prezime" id="lastName">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="Title">Naslov</label>
+              <input type="text" class="form-control" placeholder="Izvršni direktor" id="title">
+            </div>
+            <div class="form-group">
+              <label for="imageUpload">Odaberite sliku</label>
+              <input type="file" class="form-control-file" id="fileUpload" accept="image/jpeg,image/png,image/gif" placeholder="JPEG, PNG, GIF">
+            </div>
+            <div class="image"> </div>
+            <div class="form-group">
+              <label for="qoute">Napišite citat</label>
+              <textarea class="form-control" id="qoute" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="Email">Email</label>
+              <input type="email" class="form-control" placeholder="osoba@fablab.ba" id="email">
+            </div>
+            <div class="form-group">
+            <label for="hyperlink">Linkedin</label>
+            <input id="hyperlink-input" type="url" name="hyperlink" class="form-control" placeholder="https://www.linkedin.com/in/vaš-linkedin">
+            </div>
+            <div class="dugmici">
+            <button type="button" class="btn btn-outline-success" onclick="TextInputValidation()">Submit</button> &nbsp; &nbsp; &nbsp;
+            <button type="button" class="btn btn-outline-danger" onclick="CloseModal()">Close</button>
+            </div>
+          </form>
+
+          <div id="overlay" style="display:none;"></div>
+          
+      <button id="dugmic" onclick="OpenModal()" style="display:none">Dodajte člana tima</button>
 
     <div class="vlntContainerTeam">
         <div class="cardTeam bck">

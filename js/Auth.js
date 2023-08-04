@@ -25,6 +25,12 @@ function OpenLoginForm() {
 function CloseLoginForm() {
     form.style.display = "none";
 }
+function ResetCredentials()
+{
+    document.getElementById("username1").innerHTML="";     
+    document.getElementById("password1").innerHTML="";  
+}
+
 loginBtn.onclick = () => {
     
     firebase.auth().signInWithEmailAndPassword(email.value, password.value)
@@ -32,9 +38,11 @@ loginBtn.onclick = () => {
             // User signed in successfully
             addProjectDiv.style.display = 'block';   
             CloseLoginForm();
+            ResetCredentials();
         })
         .catch((error) => {
-            // Handle sign-in errors     
+            // Handle sign-in errors
+            ResetCredentials(); 
             alert(error.message);
         });
 }
