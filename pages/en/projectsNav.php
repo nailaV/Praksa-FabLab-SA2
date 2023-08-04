@@ -127,13 +127,13 @@ src="https://www.facebook.com/tr?id=1158314620935416&ev=PageView&noscript=1"
 </div>
 <!-- end of nav -->
 <span class="lanFlagsDesk">
-        <a href="http://localhost:8000/?page=pages/bhs/projekti" class="noHover">                  <!-- prijašnji kod "changelang.php?lang=bhs" -->
+        <a href="http://naila.ddns.net/?page=pages/bhs/projekti" class="noHover">                  <!-- prijašnji kod "changelang.php?lang=bhs" -->
             <span <?php if ($language!=='bhs' ){?>style="color:#2B2B2B;opacity:0.5;"
                 <?php } ?>>BHS
             </span>
         </a>
         <span style="color:#2B2B2B;">|</span>
-        <a href="http://localhost:8000/?page=pages/en/projects" class="noHover">
+        <a href="http://naila.ddns.net/?page=pages/en/projects" class="noHover">
             <span <?php if ($language==='en' ){?>style="color:#4D4D4D;"
                 <?php } ?>>EN
             </span>
