@@ -44,7 +44,7 @@
 
 
 <div class="CEO">
-      <div class="card" style="display:none">
+      <!-- <div class="card" style="display:none">
     <button class="delete-button"> &#x1F5D1;</button>
     <div class="profile-picture">
         <img src="/./../slike/gender.jpg" alt="Profile Picture">
@@ -60,7 +60,7 @@
             <a href="https://www.linkedin.com/in/johndoe" target="_blank">LinkedIn</a>
         </div>
     </div>
-</div>
+</div> -->
 </div>
 
                 <form id="forma" style="display:none;position:fixed;top:0;left:0;width:100%;height:93%;
@@ -81,9 +81,9 @@
             <div class="form-group">
             <label for="title">Title</label>
                 <select id="title" name="title" class="form-control">
-                    <option value="Local">CEO</option>
-                    <option value="Regional">Manager</option>
-                    <option value="EU">Intern</option>
+                    <option value="CEO">CEO</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Intern">Intern</option>
                 </select>
             </div>
             <div class="form-group">

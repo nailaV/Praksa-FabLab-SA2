@@ -167,6 +167,7 @@ function isValidHyperlink(url) {
     return linkedinRegex.test(url);
 }
 
+//hide i show dugmica i drugih html elemenata
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         document.getElementById("UserInfo").style.display = "block";
@@ -214,6 +215,7 @@ slika.addEventListener('change', (event) => {
     }
 });
 
+//dodavanje team membera
 function AddTeamMember() {
 
     if (!TextInputValidation()) {
@@ -228,34 +230,91 @@ function AddTeamMember() {
         const linkedInLinkInput = document.getElementById("hyperlink-input").value;
         const quoteInput = document.getElementById("qoute").value;
         const imageInput = document.getElementById("fileUpload").files[0];
-        const divElement = document.createElement('divZaMembera');
-        divElement.innerHTML = `
-        <div class="card">
-    <button class="delete-button"> &#x1F5D1;</button>
-    <div class="profile-picture">
-        <img src="${imageInput ? URL.createObjectURL(imageInput) : ''}" alt="Profile Picture">
-    </div>
-    <div class="info">
-        <h2 class="name">${nameInput} ${surnameInput}</h2>
-        <p class="title">${titleInput}</p>
-        <blockquote class="quote">${quoteInput}</blockquote>
-        <div class="mail">
-            <p> ${mailInput}</p> 
-        </div>
-        <div class="contact">
-            <a href="${linkedInLinkInput}" target="_blank">LinkedIn</a>
-        </div>
-    </div>
-</div>
+        //     const divElement = document.createElement('divZaMembera');
+        //     divElement.innerHTML = `
+        //     <div class="card">
+        // <button class="delete-button"> &#x1F5D1;</button>
+        // <div class="profile-picture">
+        //     <img src="${imageInput ? URL.createObjectURL(imageInput) : ''}" alt="Profile Picture">
+        // </div>
+        // <div class="info">
+        //     <h2 class="name">${nameInput} ${surnameInput}</h2>
+        //     <p class="title">${titleInput}</p>
+        //     <blockquote class="quote">${quoteInput}</blockquote>
+        //         <div class="mail">
+        //             <p> ${mailInput}</p> 
+        //         </div>
+        //             <div class="contact">
+        //                 <a href="${linkedInLinkInput}" target="_blank">LinkedIn</a>
+        //             </div>
+        //         </div>
+        // </div>
+        // `;
 
-    `;
+        // const getDivElement = document.querySelector(".CEO");
+        // getDivElement.appendChild(divElement);
+        const reader1 = new FileReader();
+        reader1.onload = function (event){
+            const uRL = event.target.result;
 
-        const getDivElement = document.querySelector(".CEO");
-        getDivElement.appendChild(divElement);
+        
+            const teamMember = {
+                name: nameInput,
+                surname: surnameInput,
+                title: titleInput,
+                mail: mailInput,
+                linkedInLink: linkedInLinkInput,
+                quote: quoteInput,
+                image: uRL,
+            };
 
+            let teamData = JSON.parse(localStorage.getItem('teamData')) || [];
+            teamData.push(teamMember);
+            localStorage.setItem('teamData', JSON.stringify(teamData));
 
+            CloseModal();
+            GetTeamData();
+        }
+        reader1.readAsDataURL(imageInput);
+    }
+}
 
-        CloseModal();
+//getovanje podataka iz local storage-a o team memberima
+function GetTeamData() {
+    let teamData = JSON.parse(localStorage.getItem('teamData'));
+    if (teamData === null) {
+        console.log('no data...');
+        return;
     }
 
+    const divCEO = document.querySelector(".CEO");
+    teamData.forEach((element) => {
+        const kartica = document.createElement("div");
+        kartica.innerHTML=
+        `<div class="card">
+         <button class="delete-button"> &#x1F5D1;</button>
+         <div class="profile-picture">
+          <img src="${element.image}" alt="Profile Picture">
+        </div>
+         <div class="info">
+             <h2 class="name">${element.name} ${element.surname}</h2>
+             <p class="title">${element.title}</p>
+             <blockquote class="quote">${element.quote}</blockquote>
+                 <div class="mail">
+                     <p> ${element.mail}</p> 
+                 </div>
+                     <div class="contact">
+                         <a href="${element.linkedInLink}" target="_blank">LinkedIn</a>
+                     </div>
+                 </div>
+         </div>
+        `;
+        divCEO.appendChild(kartica);
+    });
 }
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    GetTeamData();
+});
+
