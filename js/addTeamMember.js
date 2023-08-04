@@ -215,7 +215,7 @@ slika.addEventListener('change', (event) => {
 });
 
 function AddTeamMember() {
-    
+
     if (!TextInputValidation()) {
         console.log('nije uredu');
         return;
@@ -230,23 +230,27 @@ function AddTeamMember() {
         const imageInput = document.getElementById("fileUpload").files[0];
         const divElement = document.createElement('divZaMembera');
         divElement.innerHTML = `
-    <div class="flexInnerTeam lightBg">
-      <header>
-        <h3 class="NameTitle">${nameInput} ${surnameInput} <br> <small>${titleInput}</small></h3>
-      </header>
-      <div class="flexDivInner">
-      <img src="${imageInput ? URL.createObjectURL(imageInput) : ''}" alt="Load" class="w3-left w3-circle w3-margin-right imgRound">
-        <p>${quoteInput}</p>
+        <div class="card">
+    <button class="delete-button"> &#x1F5D1;</button>
+    <div class="profile-picture">
+        <img src="${imageInput ? URL.createObjectURL(imageInput) : ''}" alt="Profile Picture">
     </div>
-    <p class="mailAlignment"> ${mailInput}</p>
-      <a href="${linkedInLinkInput}" target="_blank">
-        <div class="w3-button w3-block liBg"><img src="../../slike/6.png" alt="">
+    <div class="info">
+        <h2 class="name">${nameInput} ${surnameInput}</h2>
+        <p class="title">${titleInput}</p>
+        <blockquote class="quote">${quoteInput}</blockquote>
+        <div class="mail">
+            <p> ${mailInput}</p> 
         </div>
-      </a>
+        <div class="contact">
+            <a href="${linkedInLinkInput}" target="_blank">LinkedIn</a>
+        </div>
     </div>
+</div>
+
     `;
 
-        const getDivElement = document.querySelector(".flexTeam");
+        const getDivElement = document.querySelector(".CEO");
         getDivElement.appendChild(divElement);
 
 

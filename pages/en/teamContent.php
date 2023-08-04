@@ -41,6 +41,28 @@
           <p style="text-align:center !important">You are our most valuable assets. </p>
   <p>You allow us to help more people and you can make a significant difference in others life. Because of you, many people are helped who would not be otherwise.  </p>
       </div>
+
+
+<div class="CEO">
+      <div class="card" style="display:none">
+    <button class="delete-button"> &#x1F5D1;</button>
+    <div class="profile-picture">
+        <img src="/./../slike/gender.jpg" alt="Profile Picture">
+    </div>
+    <div class="info">
+        <h2 class="name">John Doe</h2>
+        <p class="title">Web Developer</p>
+        <blockquote class="quote">"Success is not final, failure is not fatal: It is the courage to continue that counts."</blockquote>
+        <div class="mail">
+            <p>john.doe@example.com</p> 
+        </div>
+        <div class="contact">
+            <a href="https://www.linkedin.com/in/johndoe" target="_blank">LinkedIn</a>
+        </div>
+    </div>
+</div>
+</div>
+
                 <form id="forma" style="display:none;position:fixed;top:0;left:0;width:100%;height:93%;
                 background-color:rgba(0,0,0,0.5);">
             <div class="footer">
@@ -58,7 +80,7 @@
             </div>
             <div class="form-group">
             <label for="title">Title</label>
-                <select id="category-select" name="category" class="form-control">
+                <select id="title" name="title" class="form-control">
                     <option value="Local">CEO</option>
                     <option value="Regional">Manager</option>
                     <option value="EU">Intern</option>
@@ -83,7 +105,7 @@
             <input id="hyperlink-input" type="url" name="hyperlink" class="form-control" placeholder="https://www.linkedin.com/in/your-profile-credentials">
             </div>
             <div class="dugmici">
-            <button type="button" class="btn btn-outline-success" onclick="TextInputValidation()">Submit</button> &nbsp; &nbsp; &nbsp;
+            <button type="button" class="btn btn-outline-success" onclick="AddTeamMember()">Submit</button> &nbsp; &nbsp; &nbsp;
             <button type="button" class="btn btn-outline-danger" onclick="CloseModal()">Close</button>
             </div>
           </form>
