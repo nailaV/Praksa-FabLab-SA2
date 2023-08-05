@@ -123,9 +123,9 @@ let addProject = () => {
        '" target="_blank">Read more</a></div></div></div></div></div>';
   
 
-  let tilesData = JSON.parse(localStorage.getItem('tilesData')) || [];
-  tilesData.push(tile.innerHTML);
-  localStorage.setItem('tilesData', JSON.stringify(tilesData));
+  let tilesDataEn = JSON.parse(localStorage.getItem('tilesDataEn')) || [];
+  tilesDataEn.push(tile.innerHTML);
+  localStorage.setItem('tilesDataEn', JSON.stringify(tilesDataEn));
   
   ResetValues(fileInput, titleInput, textInput, tagsInput, specialBadgeInput, subTitleInput, imagePreview, hyperLinkInput, popup);
 
@@ -133,7 +133,7 @@ let addProject = () => {
 }
 
 let retrieveData = (user) => {
-  let tileData = JSON.parse(localStorage.getItem('tilesData'));
+  let tileData = JSON.parse(localStorage.getItem('tilesDataEn'));
   if(tileData === null) return;
 
   tileData.forEach((tile,index) => {
@@ -161,11 +161,11 @@ let retrieveData = (user) => {
   }
 
   let removeTile = (index) => {
-    let tileData = JSON.parse(localStorage.getItem('tilesData'));
+    let tileData = JSON.parse(localStorage.getItem('tilesDataEn'));
     if (tileData === null) return;
 
     tileData.splice(index, 1); 
-    localStorage.setItem('tilesData', JSON.stringify(tileData)); 
+    localStorage.setItem('tilesDataEn', JSON.stringify(tileData)); 
     tiles[index].remove(); 
   }
 
