@@ -47,3 +47,6 @@ fileInput.addEventListener('change', (event) => {
         imagePreview.style.backgroundImage = `url(${imageDataUrl})`;
     }; 
 });
+
+
+  
