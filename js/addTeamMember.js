@@ -323,11 +323,11 @@ function GetTeamDataCEO() {
     }
 
     const divCEO = document.querySelector(".CEO");
-    teamData.forEach((element) => {
+    teamData.forEach((element,indexC) => {
         const kartica = document.createElement("div");
         kartica.innerHTML=
         `<div class="card">
-         <button class="delete-button"> &#x1F5D1;</button>
+         <button class="delete-button" onclick="DeleteDataCEO(${indexC})"> &#x1F5D1;</button>
          <div class="profile-picture">
           <img src="${element.image}" alt="Profile Picture">
         </div>
@@ -356,11 +356,11 @@ function GetTeamDataManager() {
     }
 
     const divCEO = document.querySelector(".Manager");
-    teamData.forEach((element) => {
+    teamData.forEach((element,indexM) => {
         const kartica = document.createElement("div");
         kartica.innerHTML=
         `<div class="card">
-         <button class="delete-button"> &#x1F5D1;</button>
+         <button class="delete-button" onclick="DeleteDataManager(${indexM})"> &#x1F5D1;</button>
          <div class="profile-picture">
           <img src="${element.image}" alt="Profile Picture">
         </div>
@@ -389,11 +389,11 @@ function GetTeamDataIntern() {
     }
 
     const divCEO = document.querySelector(".Intern");
-    teamData.forEach((element) => {
+    teamData.forEach((element,indexI) => {
         const kartica = document.createElement("div");
         kartica.innerHTML=
         `<div class="card">
-         <button class="delete-button"> &#x1F5D1;</button>
+         <button class="delete-button" onclick="DeleteDataIntern(${indexI})"> &#x1F5D1;</button>
          <div class="profile-picture">
           <img src="${element.image}" alt="Profile Picture">
         </div>
@@ -421,3 +421,36 @@ function GetTeamDataIntern() {
      GetTeamDataIntern();
  });
 
+ 
+function DeleteDataCEO(id){
+    let teamDataC = JSON.parse(localStorage.getItem('teamDataCEO'));
+    if (teamDataC === null) return;
+    
+    teamDataC.splice(id, 1); 
+    localStorage.setItem('teamDataCEO', JSON.stringify(teamDataC)); 
+    console.log('brisem karticu sa id-em ' + id);
+    window.location.reload();
+}
+
+
+
+function DeleteDataManager(id){
+    let teamDataM = JSON.parse(localStorage.getItem('teamDataManager'));
+    if (teamDataM === null) return;
+    
+    teamDataM.splice(id, 1); 
+    localStorage.setItem('teamDataManager', JSON.stringify(teamDataM)); 
+    console.log('brisem karticu sa id-em ' + id);
+    window.location.reload();
+}
+
+
+function DeleteDataIntern(id){
+    let teamDataI = JSON.parse(localStorage.getItem('teamDataIntern'));
+    if (teamDataI === null) return;
+    
+    teamDataI.splice(id, 1); 
+    localStorage.setItem('teamDataIntern', JSON.stringify(teamDataI)); 
+    console.log('brisem karticu sa id-em ' + id);
+    window.location.reload();
+}
