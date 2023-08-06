@@ -30,7 +30,11 @@ loginBtn.onclick = () => {
     firebase.auth().signInWithEmailAndPassword(email.value, password.value)
         .then((userCredential) => {
             // User signed in successfully
-            addProjectDiv.style.display = 'block';   
+            if(window.location.href.includes('en'))
+                addProjectDiv.style.display = 'block'; 
+            else if(window.location.href.includes('bhs'))
+                addProjektDiv.style.display = 'block'; 
+
             CloseLoginForm();
         })
         .catch((error) => {

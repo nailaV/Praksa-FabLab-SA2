@@ -26,6 +26,7 @@ const imagePreview = document.querySelector('.imagePreview');
 
 
 const addProjectDiv = document.querySelector('#addProject');
+const addProjektDiv = document.querySelector('#addProjekt');
 
 
 const categorySelect = document.getElementById("category-select");

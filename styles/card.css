@@ -179,8 +179,21 @@ label[for="file-upload"] {
   height: 570px;
 }
 
+#addProjekt {
+  width: 31%;
+  border: 1px solid black;
+  position: relative;
+  margin-top: 20px;
+  perspective: 1000px;
+  height: 570px;
+}
+
 @media (max-width: 600px) {
   #addProject {
+    width: 100%;
+    height: 570px;
+  };
+  #addProjekt {
     width: 100%;
     height: 570px;
   }
@@ -189,10 +202,19 @@ label[for="file-upload"] {
   #addProject {
     width: 70%;
     height: 570px;
+  };
+  #addProjekt {
+    width: 70%;
+    height: 570px;
   }
 }
 @media (min-width: 841px) and (max-width: 991px) {
   #addProject {
+    width: 45%;
+    height: 570px;
+    margin-top: 20px;
+  };
+  #addProjekt {
     width: 45%;
     height: 570px;
     margin-top: 20px;
@@ -203,6 +225,11 @@ label[for="file-upload"] {
     width: 45%;
     height: 570px;
     margin-top: 20px;
+  };
+  #addProjekt {
+    width: 45%;
+    height: 570px;
+    margin-top: 20px;
   }
 }
 @media (min-width: 1101px) {
@@ -210,9 +237,18 @@ label[for="file-upload"] {
     width: 31%;
     height: 570px;
     margin-top: 20px;
+  };
+  #addProjekt {
+    width: 31%;
+    height: 570px;
+    margin-top: 20px;
   }
 }
 #addProject:hover {
+  transform: scale(1.05);
+  border: 1px solid gray;
+}
+#addProjekt:hover {
   transform: scale(1.05);
   border: 1px solid gray;
 }
