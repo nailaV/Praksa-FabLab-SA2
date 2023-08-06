@@ -319,8 +319,35 @@
 
 .CEO{
   display: flex;
-  flex-direction: row;
+  flex-wrap:wrap;
+  gap:20px;
 }
+#PCEO, #PMANAGER, #PINTERN{
+  color:#f26a2e;
+  text-align: center;
+  font-size: 50px;
+  margin-bottom: 0;
+}
+
+.Manager{
+  display: flex;
+  flex-wrap:wrap;
+  gap:20px;
+}
+
+.Intern{
+  display: flex;
+  flex-wrap:wrap;
+  gap:20px;
+}
+
+.linija hr {
+  border: none; 
+  border-top: 3px solid #f26a2e; 
+  margin: 0 auto;
+}
+
+
 
 
 

@@ -230,29 +230,8 @@ function AddTeamMember() {
         const linkedInLinkInput = document.getElementById("hyperlink-input").value;
         const quoteInput = document.getElementById("qoute").value;
         const imageInput = document.getElementById("fileUpload").files[0];
-        //     const divElement = document.createElement('divZaMembera');
-        //     divElement.innerHTML = `
-        //     <div class="card">
-        // <button class="delete-button"> &#x1F5D1;</button>
-        // <div class="profile-picture">
-        //     <img src="${imageInput ? URL.createObjectURL(imageInput) : ''}" alt="Profile Picture">
-        // </div>
-        // <div class="info">
-        //     <h2 class="name">${nameInput} ${surnameInput}</h2>
-        //     <p class="title">${titleInput}</p>
-        //     <blockquote class="quote">${quoteInput}</blockquote>
-        //         <div class="mail">
-        //             <p> ${mailInput}</p> 
-        //         </div>
-        //             <div class="contact">
-        //                 <a href="${linkedInLinkInput}" target="_blank">LinkedIn</a>
-        //             </div>
-        //         </div>
-        // </div>
-        // `;
-
-        // const getDivElement = document.querySelector(".CEO");
-        // getDivElement.appendChild(divElement);
+        
+        if(titleInput=="CEO"){
         const reader1 = new FileReader();
         reader1.onload = function (event){
             const uRL = event.target.result;
@@ -268,20 +247,76 @@ function AddTeamMember() {
                 image: uRL,
             };
 
-            let teamData = JSON.parse(localStorage.getItem('teamData')) || [];
+            let teamData = JSON.parse(localStorage.getItem('teamDataCEO')) || [];
             teamData.push(teamMember);
-            localStorage.setItem('teamData', JSON.stringify(teamData));
+            localStorage.setItem('teamDataCEO', JSON.stringify(teamData));
 
             CloseModal();
-            GetTeamData();
+            window.location.reload();
+            GetTeamDataCEO();
+        }
+        reader1.readAsDataURL(imageInput);
+        
+    }
+    else if(titleInput=="Manager"){
+        const reader1 = new FileReader();
+        reader1.onload = function (event){
+            const uRL = event.target.result;
+
+        
+            const teamMember = {
+                name: nameInput,
+                surname: surnameInput,
+                title: titleInput,
+                mail: mailInput,
+                linkedInLink: linkedInLinkInput,
+                quote: quoteInput,
+                image: uRL,
+            };
+
+            let teamData = JSON.parse(localStorage.getItem('teamDataManager')) || [];
+            teamData.push(teamMember);
+            localStorage.setItem('teamDataManager', JSON.stringify(teamData));
+
+            CloseModal();
+            window.location.reload();
+            GetTeamDataManager();
+        }
+        reader1.readAsDataURL(imageInput);
+    }
+    else{
+        const reader1 = new FileReader();
+        reader1.onload = function (event){
+            const uRL = event.target.result;
+
+        
+            const teamMember = {
+                name: nameInput,
+                surname: surnameInput,
+                title: titleInput,
+                mail: mailInput,
+                linkedInLink: linkedInLinkInput,
+                quote: quoteInput,
+                image: uRL,
+            };
+
+            let teamData = JSON.parse(localStorage.getItem('teamDataIntern')) || [];
+            teamData.push(teamMember);
+            localStorage.setItem('teamDataIntern', JSON.stringify(teamData));
+
+            CloseModal();
+            window.location.reload();
+            GetTeamDataIntern();
         }
         reader1.readAsDataURL(imageInput);
     }
 }
+    
+}
 
-//getovanje podataka iz local storage-a o team memberima
-function GetTeamData() {
-    let teamData = JSON.parse(localStorage.getItem('teamData'));
+//getovanje podataka iz local storage-a o team memberima grupe CEO
+function GetTeamDataCEO() {
+    let teamData = JSON.parse(localStorage.getItem('teamDataCEO'));
     if (teamData === null) {
         console.log('no data...');
         return;
@@ -312,9 +347,77 @@ function GetTeamData() {
         divCEO.appendChild(kartica);
     });
 }
+//getovanje podataka iz local storage-a o team memberima grupe Manager
+function GetTeamDataManager() {
+    let teamData = JSON.parse(localStorage.getItem('teamDataManager'));
+    if (teamData === null) {
+        console.log('no data...');
+        return;
+    }
+
+    const divCEO = document.querySelector(".Manager");
+    teamData.forEach((element) => {
+        const kartica = document.createElement("div");
+        kartica.innerHTML=
+        `<div class="card">
+         <button class="delete-button"> &#x1F5D1;</button>
+         <div class="profile-picture">
+          <img src="${element.image}" alt="Profile Picture">
+        </div>
+         <div class="info">
+             <h2 class="name">${element.name} ${element.surname}</h2>
+             <p class="title">${element.title}</p>
+             <blockquote class="quote">${element.quote}</blockquote>
+                 <div class="mail">
+                     <p> ${element.mail}</p> 
+                 </div>
+                     <div class="contact">
+                         <a href="${element.linkedInLink}" target="_blank">LinkedIn</a>
+                     </div>
+                 </div>
+         </div>
+        `;
+        divCEO.appendChild(kartica);
+    });
+}
+//getovanje podataka iz local storage-a o team memberima grupe Intern
+function GetTeamDataIntern() {
+    let teamData = JSON.parse(localStorage.getItem('teamDataIntern'));
+    if (teamData === null) {
+        console.log('no data...');
+        return;
+    }
+
+    const divCEO = document.querySelector(".Intern");
+    teamData.forEach((element) => {
+        const kartica = document.createElement("div");
+        kartica.innerHTML=
+        `<div class="card">
+         <button class="delete-button"> &#x1F5D1;</button>
+         <div class="profile-picture">
+          <img src="${element.image}" alt="Profile Picture">
+        </div>
+         <div class="info">
+             <h2 class="name">${element.name} ${element.surname}</h2>
+             <p class="title">${element.title}</p>
+             <blockquote class="quote">${element.quote}</blockquote>
+                 <div class="mail">
+                     <p> ${element.mail}</p> 
+                 </div>
+                     <div class="contact">
+                         <a href="${element.linkedInLink}" target="_blank">LinkedIn</a>
+                     </div>
+                 </div>
+         </div>
+        `;
+        divCEO.appendChild(kartica);
+    });
+}
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    GetTeamData();
-});
+ document.addEventListener('DOMContentLoaded', function () {
+     GetTeamDataCEO();
+     GetTeamDataManager();
+     GetTeamDataIntern();
+ });
 

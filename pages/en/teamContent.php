@@ -42,25 +42,27 @@
   <p>You allow us to help more people and you can make a significant difference in others life. Because of you, many people are helped who would not be otherwise.  </p>
       </div>
 
-
+<div class=linija>
+<p id="PCEO"> CEO </p>
+<hr>
 <div class="CEO">
-      <!-- <div class="card" style="display:none">
-    <button class="delete-button"> &#x1F5D1;</button>
-    <div class="profile-picture">
-        <img src="/./../slike/gender.jpg" alt="Profile Picture">
-    </div>
-    <div class="info">
-        <h2 class="name">John Doe</h2>
-        <p class="title">Web Developer</p>
-        <blockquote class="quote">"Success is not final, failure is not fatal: It is the courage to continue that counts."</blockquote>
-        <div class="mail">
-            <p>john.doe@example.com</p> 
-        </div>
-        <div class="contact">
-            <a href="https://www.linkedin.com/in/johndoe" target="_blank">LinkedIn</a>
-        </div>
-    </div>
-</div> -->
+</div>
+</div>
+
+<div class="linija">
+<p id="PMANAGER"> MANAGER </p>
+<hr>
+<div class="Manager">
+</div>
+</div>
+
+
+
+<div class="linija">
+<p id="PINTERN"> INTERN </p>
+<hr>
+<div class="Intern">
+</div>
 </div>
 
                 <form id="forma" style="display:none;position:fixed;top:0;left:0;width:100%;height:93%;
