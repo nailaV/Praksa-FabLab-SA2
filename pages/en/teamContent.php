@@ -42,14 +42,14 @@
   <p>You allow us to help more people and you can make a significant difference in others life. Because of you, many people are helped who would not be otherwise.  </p>
       </div>
 
-<div class=linija>
+<div class="linijaC">
 <p id="PCEO"> CEO </p>
 <hr>
 <div class="CEO">
 </div>
 </div>
 
-<div class="linija">
+<div class="linijaM">
 <p id="PMANAGER"> MANAGER </p>
 <hr>
 <div class="Manager">
@@ -58,7 +58,7 @@
 
 
 
-<div class="linija">
+<div class="linijaI">
 <p id="PINTERN"> INTERN </p>
 <hr>
 <div class="Intern">

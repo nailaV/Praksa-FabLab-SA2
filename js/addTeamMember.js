@@ -339,7 +339,7 @@ function GetTeamDataCEO() {
                      <p> ${element.mail}</p> 
                  </div>
                      <div class="contact">
-                         <a href="${element.linkedInLink}" target="_blank">LinkedIn</a>
+                         <a href="${element.linkedInLink}" target="_blank"> 🗨 LinkedIn</a>
                      </div>
                  </div>
          </div>
@@ -372,7 +372,7 @@ function GetTeamDataManager() {
                      <p> ${element.mail}</p> 
                  </div>
                      <div class="contact">
-                         <a href="${element.linkedInLink}" target="_blank">LinkedIn</a>
+                         <a href="${element.linkedInLink}" target="_blank"> 🗨 LinkedIn</a>
                      </div>
                  </div>
          </div>
@@ -380,6 +380,7 @@ function GetTeamDataManager() {
         divCEO.appendChild(kartica);
     });
 }
+
 //getovanje podataka iz local storage-a o team memberima grupe Intern
 function GetTeamDataIntern() {
     let teamData = JSON.parse(localStorage.getItem('teamDataIntern'));
@@ -405,7 +406,7 @@ function GetTeamDataIntern() {
                      <p> ${element.mail}</p> 
                  </div>
                      <div class="contact">
-                         <a href="${element.linkedInLink}" target="_blank">LinkedIn</a>
+                         <a href="${element.linkedInLink}" target="_blank"> 🗨 LinkedIn</a>
                      </div>
                  </div>
          </div>
@@ -415,10 +416,38 @@ function GetTeamDataIntern() {
 }
 
 
+
+function CheckContent(){
+    const linijaC = document.querySelector('.linijaC');
+    const linijaM = document.querySelector('.linijaM');
+    const linijaI = document.querySelector('.linijaI');
+    const CEOContent = document.querySelector('.linijaC .CEO').innerHTML.trim();
+    const ManagerContent = document.querySelector('.linijaM .Manager').innerHTML.trim();
+    const InternContent = document.querySelector('.linijaI .Intern').innerHTML.trim();
+    if (CEOContent === '') {
+        linijaC.style.display = 'none'; 
+      } else {
+        linijaC.style.display = 'block'; 
+      }
+
+      if (ManagerContent === '') {
+        linijaM.style.display = 'none'; 
+      } else {
+        linijaM.style.display = 'block';
+      }
+
+      if (InternContent === '') {
+        linijaI.style.display = 'none'; 
+      } else {
+        linijaI.style.display = 'block'; 
+      }
+    
+}
  document.addEventListener('DOMContentLoaded', function () {
      GetTeamDataCEO();
      GetTeamDataManager();
      GetTeamDataIntern();
+     CheckContent();
  });
 
  
