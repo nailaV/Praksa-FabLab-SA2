@@ -328,8 +328,8 @@ function GetTeamDataCEO() {
         const kartica = document.createElement("div");
         kartica.innerHTML=
         `<div class="card">
-         <button class="delete-button1" onclick="DeleteData(${indexC}, '${element.title}')"> &#x1F5D1;</button>
-         <button id="uredi1" onclick="OpenForm(${indexC}, '${element.title}')">&#x270E; </button>
+         <button class="delete-button" onclick="DeleteData(${indexC}, '${element.title}')"> &#x1F5D1;</button>
+         <button id="uredi" onclick="OpenForm(${indexC}, '${element.title}')">&#x270E; </button>
          <div class="profile-picture">
           <img src="${element.image}" alt="Profile Picture">
         </div>
@@ -362,8 +362,8 @@ function GetTeamDataManager() {
         const kartica = document.createElement("div");
         kartica.innerHTML=
         `<div class="card">
-         <button class="delete-button2" onclick="DeleteData(${indexM}, '${element.title}')"> &#x1F5D1;</button>
-         <button id="uredi2" onclick="OpenForm(${indexM}, '${element.title}')">&#x270E; </button>
+         <button class="delete-button" onclick="DeleteData(${indexM}, '${element.title}')"> &#x1F5D1;</button>
+         <button id="uredi" onclick="OpenForm(${indexM}, '${element.title}')">&#x270E; </button>
          <div class="profile-picture">
           <img src="${element.image}" alt="Profile Picture">
         </div>
@@ -397,8 +397,8 @@ function GetTeamDataIntern() {
         const kartica = document.createElement("div");
         kartica.innerHTML=
         `<div class="card">
-         <button class="delete-button3" onclick="DeleteData(${indexI}, '${element.title}')"> &#x1F5D1;</button>
-         <button id="uredi3" onclick="OpenForm(${indexI}, '${element.title}')">&#x270E; </button>
+         <button class="delete-button" onclick="DeleteData(${indexI}, '${element.title}')"> &#x1F5D1;</button>
+         <button id="uredi" onclick="OpenForm(${indexI}, '${element.title}')">&#x270E; </button>
          <div class="profile-picture">
           <img src="${element.image}" alt="Profile Picture">
         </div>
