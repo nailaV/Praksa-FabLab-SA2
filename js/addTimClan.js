@@ -324,10 +324,12 @@ function GetTeamDataCEO() {
 
     const divCEO = document.querySelector(".CEO");
     teamData.forEach((element,indexC) => {
+        console.log(element.title);
         const kartica = document.createElement("div");
         kartica.innerHTML=
         `<div class="card">
-         <button class="delete-button" onclick="DeleteDataCEO(${indexC})"> &#x1F5D1;</button>
+         <button class="delete-button1" onclick="DeleteData(${indexC}, '${element.title}')"> &#x1F5D1;</button>
+         <button id="uredi1" onclick="OpenForm(${indexC}, '${element.title}')">&#x270E; </button>
          <div class="profile-picture">
           <img src="${element.image}" alt="Profile Picture">
         </div>
@@ -360,7 +362,8 @@ function GetTeamDataManager() {
         const kartica = document.createElement("div");
         kartica.innerHTML=
         `<div class="card">
-         <button class="delete-button" onclick="DeleteDataManager(${indexM})"> &#x1F5D1;</button>
+         <button class="delete-button2" onclick="DeleteData(${indexM}, '${element.title}')"> &#x1F5D1;</button>
+         <button id="uredi2" onclick="OpenForm(${indexM}, '${element.title}')">&#x270E; </button>
          <div class="profile-picture">
           <img src="${element.image}" alt="Profile Picture">
         </div>
@@ -389,12 +392,13 @@ function GetTeamDataIntern() {
         return;
     }
 
-    const divCEO = document.querySelector(".InternBHS");
+    const divCEO = document.querySelector(".Intern");
     teamData.forEach((element,indexI) => {
         const kartica = document.createElement("div");
         kartica.innerHTML=
         `<div class="card">
-         <button class="delete-button" onclick="DeleteDataIntern(${indexI})"> &#x1F5D1;</button>
+         <button class="delete-button3" onclick="DeleteData(${indexI}, '${element.title}')"> &#x1F5D1;</button>
+         <button id="uredi3" onclick="OpenForm(${indexI}, '${element.title}')">&#x270E; </button>
          <div class="profile-picture">
           <img src="${element.image}" alt="Profile Picture">
         </div>
@@ -450,36 +454,207 @@ function CheckContent(){
      CheckContent();
  });
 
- 
-function DeleteDataCEO(id){
-    let teamDataC = JSON.parse(localStorage.getItem('teamDataCEOBHS'));
-    if (teamDataC === null) return;
+ function DeleteData(id, title){
+    let teamData;
+    if(title==="CEO")
+    {
+        teamData = JSON.parse(localStorage.getItem('teamDataCEOBHS')) || [];
+    }
+    else if( title==="Menadžer")
+    {
+        teamData = JSON.parse(localStorage.getItem('teamDataManagerBHS')) || [];
+    }
+    else{
+        teamData = JSON.parse(localStorage.getItem('teamDataInternBHS')) || [];
+    }
+
+    if (teamData=== null) return;
     
-    teamDataC.splice(id, 1); 
-    localStorage.setItem('teamDataCEOBHS', JSON.stringify(teamDataC)); 
-    console.log('brisem karticu sa id-em ' + id);
+    teamData.splice(id, 1); 
+    if(title==="CEO")
+    {
+        localStorage.setItem('teamDataCEOBHS', JSON.stringify(teamData)); 
+    }
+    else if( title==="Menadžer")
+    {
+        localStorage.setItem('teamDataManagerBHS', JSON.stringify(teamData)); 
+    }
+    else{
+        localStorage.setItem('teamDataInternBHS', JSON.stringify(teamData)); 
+    }
     window.location.reload();
 }
 
+function OpenForm(idMembera, title){
+    console.log(idMembera);
+    var storedData ;
+    if(title==="CEO")
+    {
+        storedData = JSON.parse(localStorage.getItem('teamDataCEOBHS'));
+    }
+    else if( title==="Menadžer")
+    {
+        storedData = JSON.parse(localStorage.getItem('teamDataManagerBHS'));
+    }
+    else{
+        storedData = JSON.parse(localStorage.getItem('teamDataInternBHS'));
+    }
+     const name=storedData[idMembera].name;
+     const surname=storedData[idMembera].surname;
+     const titleUposlenika=storedData[idMembera].title;
+     const image=storedData[idMembera].image;
+     const linkedInLink=storedData[idMembera].linkedInLink;
+     const mail=storedData[idMembera].mail;
+     const quote=storedData[idMembera].quote;
 
+     const div= document.createElement('div');
+     div.innerHTML=`
+            <div class="footer">
+            <h1 id ="naslov"> Uredi informacije o članu tima  <span class="close-button" onclick="CloseEditModal()">X</span> </h1>
+          </div>
+          <div class="row">
+              <div class="col">
+                <label>Ime </label>
+                <input type="text" class="form-control" placeholder="Ime" id="firstNameEdit" value="${name}"> 
+              </div>
+              <div class="col">
+              <label>Prezime</label>
+                <input type="text" class="form-control" placeholder="Last name" id="lastNameEdit" value="${surname}">
+              </div>
+            </div>
+            <div class="form-group">
+            <label for="title">Pozicija</label>
+            <input class="form-control" value="${titleUposlenika}" id="titleEdit" disabled>
+            </div>
+            <div class="form-group">
+            <label for="imageUpload">Vaša slika</label>
+            <img src="${image}" class="imageEdit" id="slikaEdit">
+            </div>
 
-function DeleteDataManager(id){
-    let teamDataM = JSON.parse(localStorage.getItem('teamDataManagerBHS'));
-    if (teamDataM === null) return;
-    
-    teamDataM.splice(id, 1); 
-    localStorage.setItem('teamDataManagerBHS', JSON.stringify(teamDataM)); 
-    console.log('brisem karticu sa id-em ' + id);
+            <div class="form-group">
+              <label for="qoute">Citat</label>
+              <textarea class="form-control" id="qouteEdit" rows="3" > ${quote} </textarea>
+            </div>
+            <div class="form-group">
+              <label for="Email">Email</label>
+              <input type="email" class="form-control" placeholder="person@fablab.ba" id="emailEdit" value="${mail}">
+            </div>
+            <div class="form-group">
+            <label for="hyperlink">Linkedin</label>
+            <input id="linkEdit" type="url" name="hyperlink" class="form-control" value="${linkedInLink}" placeholder="https://www.linkedin.com/in/your-profile-credentials">
+            </div>
+            <div class="dugmici">
+            <button type="button" class="btn btn-outline-success" onclick="EditTeamMember(${idMembera}, '${titleUposlenika}')">Postavi</button> &nbsp; &nbsp; &nbsp;
+            <button type="button" class="btn btn-outline-danger" onclick="CloseEditModal()">Zatvori</button>
+            </div>
+     `;
+
+     const editForma=document.getElementById("editForma");
+     const overlej=document.getElementById("overlay2");
+     overlej.style.display="block";
+     editForma.style.display="block";
+     editForma.appendChild(div);
+}
+
+function CloseEditModal() {
+    document.getElementById("editForma").style.display = "none";
+    const overlej=document.getElementById("overlay2");
+    overlej.style.display="none";
     window.location.reload();
 }
 
+function TextInputValidationEdit() {
+    const nameEdit = document.getElementById("firstNameEdit").value;
+    const surnameEdit = document.getElementById("lastNameEdit").value;
+    const mailEdit = document.getElementById("emailEdit").value;
+    const linkedInLinkEdit = document.getElementById("linkEdit").value;
+    const quoteEdit = document.getElementById("qouteEdit").value;
 
-function DeleteDataIntern(id){
-    let teamDataI = JSON.parse(localStorage.getItem('teamDataInternBHS'));
-    if (teamDataI === null) return;
-    
-    teamDataI.splice(id, 1); 
-    localStorage.setItem('teamDataInternBHS', JSON.stringify(teamDataI)); 
-    console.log('brisem karticu sa id-em ' + id);
+
+
+    if (isNullOrEmpty(nameEdit) || isNullOrEmpty(surnameEdit) || isNullOrEmpty(mailEdit) || isNullOrEmpty(linkedInLinkEdit) || isNullOrEmpty(quoteEdit)) {
+        alert("Morate popuniti sva polja.");
+        return false;
+    }
+
+    if (nameEdit.length > 25 || containsNumber(nameEdit)) {
+        alert("Ime moze sadrzavati maksimalno 25 znakova, samo slova.");
+        return false;
+    }
+    if (surnameEdit.length > 30 || containsNumber(surnameEdit)) {
+        alert("Ime moze sadrzavati maksimalno 30 znakova, samo slova.");
+        return false;
+    }
+
+    if (!isValidEmail(mailEdit)) {
+        alert("Format e-mail-a mora biti validan, npr. ime.prezime@mailprovider.com.");
+        return false;
+    }
+
+    if (quoteEdit.length > 50) {
+        alert("Citat moze sadrzavati maksimalno 50 znakova.");
+        return false;
+    }
+
+    if (!isValidHyperlink(linkedInLinkEdit)) {
+        alert("LinkedIn link mora biti validan, npr. https://www.linkedin.com/in/ime-prezime-brojevi");
+        return false;
+    }
+    return true;
+}
+
+function EditTeamMember(idMembera, titleMembera){
+    if(!TextInputValidationEdit()) return;
+    const nameEdit = document.getElementById("firstNameEdit").value;
+    const surnameEdit = document.getElementById("lastNameEdit").value;
+    const titleEdit=document.getElementById("titleEdit").value;
+    const mailEdit = document.getElementById("emailEdit").value;
+    const linkedInLinkEdit = document.getElementById("linkEdit").value;
+    const quoteEdit = document.getElementById("qouteEdit").value;
+    const slikaEdit = document.querySelector(".imageEdit").src;
+
+    const teamMember = {
+        name: nameEdit,
+        surname: surnameEdit,
+        title: titleEdit,
+        mail: mailEdit,
+        linkedInLink: linkedInLinkEdit,
+        quote: quoteEdit,
+        image: slikaEdit,
+    };
+
+
+     let teamData ;
+
+    if(titleMembera==="CEO")
+    {
+        teamData = JSON.parse(localStorage.getItem('teamDataCEOBHS')) || [];
+    }
+    else if( titleMembera==="Menadžer")
+    {
+        teamData = JSON.parse(localStorage.getItem('teamDataManagerBHS')) || [];
+    }
+    else{
+        teamData = JSON.parse(localStorage.getItem('teamDataInternBHS')) || [];
+    }
+
+    if (idMembera >= 0 && idMembera < teamData.length) {
+        teamData[idMembera] = teamMember;
+        if(titleMembera==="CEO")
+        {
+            localStorage.setItem('teamDataCEOBHS', JSON.stringify(teamData));
+        }
+        else if( titleMembera==="Menadžer")
+        {
+            localStorage.setItem('teamDataManagerBHS', JSON.stringify(teamData));
+        }
+        else{
+            localStorage.setItem('teamDataInternBHS', JSON.stringify(teamData));
+        }
+    } else {
+        console.log("Invalid member index.");
+    }
+
+    CloseModal();
     window.location.reload();
 }

@@ -325,7 +325,7 @@
   color: #fff;
 }
 
-.delete-button {
+.delete-button1,.delete-button2,.delete-button3 {
   position: absolute;
   top: 0;
   right: 0px;
@@ -336,7 +336,7 @@
   color: #060101;
 }
 
-.delete-button:hover {
+.delete-button1:hover,.delete-button2:hover,.delete-button3:hover {
   color: #e80909;
 }
 
@@ -384,7 +384,7 @@
   margin: 0 auto;
 }
 
-#uredi{
+.uredi1,.uredi2,.uredi3{
   position: absolute;
  top: 5px;
  left: 0px; 
@@ -393,9 +393,10 @@
  border: none;
  cursor: pointer;
  color: #060101;
+ display:none;
 }
 
-#uredi:hover{
+.uredi1:hover,.uredi2:hover,.uredi3:hover{
  color:orange;
 }
 
