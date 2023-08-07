@@ -7,7 +7,11 @@
   <button type="button" id="odjavaDugme" onclick="Odjava()" style="display:none">Sign out</button>
 </div>
 
-
+<form id ="editForma" style="display:none;position:fixed;top:0;left:0;width:100%;height:93%;
+                background-color:rgba(0,0,0,0.5);">
+  
+</form>
+<div id="overlay2" style="display:none;"></div>
 
 
 <form id="formaSignIn" style="display:none;position:fixed;top:150;left:0;width:100%;height:50%;
@@ -96,7 +100,7 @@
 
             <div class="form-group">
               <label for="qoute">Leave a qoute</label>
-              <textarea class="form-control" id="qoute" rows="3"></textarea>
+              <textarea class="form-control" id="qoute" rows="3"> </textarea>
             </div>
             <div class="form-group">
               <label for="Email">Email</label>
