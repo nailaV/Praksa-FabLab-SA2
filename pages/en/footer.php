@@ -1,5 +1,5 @@
  <!-- W3.CSS Container -->
-      <div class="w3-light-grey w3-container w3-padding-25">
+ <div class="w3-light-grey w3-container w3-padding-25">
         <div class="footer">
           <div class="social">
             <a href="https://www.facebook.com/FabLabSarajevo/" target="_blank" title="FaceBook"><i
@@ -25,6 +25,27 @@
             &copy; FabLab 2021 &nbsp;Sarajevo
           </div>
           <!-- <br> -->
+
+          <div class="popup-container" id="formNewsletter" style="display:none;position:fixed;top:0;left:0;width:100%;height:93%;
+                background-color:rgba(0,0,0,0.5);">
+              <div class="popup-content">
+                  <h3>Newsletter sign up</h3>
+                  <form id="newsletterForma">
+                    <label for="fullname">Full name</label>
+                    <input id="to_fullname" type="text" name="fullname" placeholder="Your full name">
+                      <label for="email">Email</label>
+                      <input id="to_name" type="text" name="email" placeholder="Your email address">
+                      <!-- <label for="birthday">Birthday</label>
+                      <input id="birthday" type="date" name="birthday" placeholder="Your birthday"> -->
+                      <input type="submit" id="slanjeButton" value="Send Email" >
+                  </form>
+                  <div class="popup-buttons">
+
+                      <button type="button" class="closeLogin" onclick="CloseNewsletterForm()">Close</button>
+                  </div>
+              </div>
+          </div>
+
           <div class="terms">
             <span class="fade"><img src="../../slike/privacy.png" width="20px"><a href="https://fablab.ba/?page=pages/en/terms"
                 class="textDecoration" target="_blank"> Terms of service</a></span><br>
@@ -32,13 +53,20 @@
                 class="textDecoration" target="_blank"> Impressum</a></span> <br>
             <span class="fade"><img src="../../slike/terms.png" width="20px"> <a href="https://fablab.ba/?page=pages/en/policy"
                 class="textDecoration" target="_blank"> Privacy policy</a> </span>
-            <span class="fade"> <button type="button" id="registracijaDugme" onclick="Registracija()"> Sign up </button></span>
-          
           </div>
         </div>
-
+      <br>
+      <div>
+          <!-- <form id="formaNewsletter" style="border: 2px solid black;" action="subscribe.php" method="post">     // Ovo je pristup sa direktnim slanjem maila bez popup forme
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Enter your email address" name="email" required>
+            <button type="submit">Subscribe</button>
+          </form> -->
+          <button id="newsletterButton" onclick="OpenNewsletterForm()" style="border: 2px solid black; background-color: blue; color:white; height:30px; width: 100%;">Open subscription form</button>
+          </div>
       </div>
     </div>
+    
   </div>
   <!-- Cookie Notice plugin v1.3.2 by FabLab Factory https://fablab.ba/ -->
   <div align="center" id="cookie-notice" role="banner"
@@ -51,3 +79,65 @@
 
   </div>
   <!-- / Cookie Notice plugin -->
+
+  <script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/emailjs-com@2.3.2/dist/email.min.js"></script>
+
+  <script> 
+  emailjs.init("lHaUrvKDqOO16pVqT");
+  </script>
+
+<script>
+function sendEmail() {
+        var form = document.getElementById("newsletterForma");
+        var fullname = document.getElementById("to_fullname").value;
+        var name = document.getElementById("to_name").value;
+
+        var template_params = {
+          "to_fullname": fullname,
+          "to_name": name
+        };
+
+        emailjs.send("service_smd9uuu", "template_j4w4kxj", template_params)
+            .then(function(response) {
+                console.log("Custom email sent:", response);
+                alert("Email sent successfully!");
+                window.location.reload();
+            }, function(error) {
+                console.error("Error sending custom email:", error);
+                alert("Error sending email. Please try again later.");
+                ResetValues();
+            });
+        
+        
+
+
+    }
+
+    // Attach the form submission to the function
+    document.getElementById("newsletterForma").addEventListener("submit", function(event) {
+        event.preventDefault();
+        sendEmail();
+    });
+
+</script>
+
+<script>
+
+ function OpenNewsletterForm()
+ {
+  document.getElementById("formNewsletter").style.display = "block";
+ }
+
+ function CloseNewsletterForm() {
+    document.getElementById("formNewsletter").style.display = "none";
+    ResetValues();
+}
+
+function ResetValues() {
+  document.getElementById("to_name").innerHTML="";
+  document.getElementById("to_fullname").innerHTML="";
+
+}
+
+</script>
