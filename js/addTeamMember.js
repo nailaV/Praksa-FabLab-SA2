@@ -230,29 +230,8 @@ function AddTeamMember() {
         const linkedInLinkInput = document.getElementById("hyperlink-input").value;
         const quoteInput = document.getElementById("qoute").value;
         const imageInput = document.getElementById("fileUpload").files[0];
-        //     const divElement = document.createElement('divZaMembera');
-        //     divElement.innerHTML = `
-        //     <div class="card">
-        // <button class="delete-button"> &#x1F5D1;</button>
-        // <div class="profile-picture">
-        //     <img src="${imageInput ? URL.createObjectURL(imageInput) : ''}" alt="Profile Picture">
-        // </div>
-        // <div class="info">
-        //     <h2 class="name">${nameInput} ${surnameInput}</h2>
-        //     <p class="title">${titleInput}</p>
-        //     <blockquote class="quote">${quoteInput}</blockquote>
-        //         <div class="mail">
-        //             <p> ${mailInput}</p> 
-        //         </div>
-        //             <div class="contact">
-        //                 <a href="${linkedInLinkInput}" target="_blank">LinkedIn</a>
-        //             </div>
-        //         </div>
-        // </div>
-        // `;
-
-        // const getDivElement = document.querySelector(".CEO");
-        // getDivElement.appendChild(divElement);
+        
+        if(titleInput=="CEO"){
         const reader1 = new FileReader();
         reader1.onload = function (event){
             const uRL = event.target.result;
@@ -268,31 +247,87 @@ function AddTeamMember() {
                 image: uRL,
             };
 
-            let teamData = JSON.parse(localStorage.getItem('teamData')) || [];
+            let teamData = JSON.parse(localStorage.getItem('teamDataCEO')) || [];
             teamData.push(teamMember);
-            localStorage.setItem('teamData', JSON.stringify(teamData));
+            localStorage.setItem('teamDataCEO', JSON.stringify(teamData));
 
             CloseModal();
-            GetTeamData();
+            window.location.reload();
+            GetTeamDataCEO();
+        }
+        reader1.readAsDataURL(imageInput);
+        
+    }
+    else if(titleInput=="Manager"){
+        const reader1 = new FileReader();
+        reader1.onload = function (event){
+            const uRL = event.target.result;
+
+        
+            const teamMember = {
+                name: nameInput,
+                surname: surnameInput,
+                title: titleInput,
+                mail: mailInput,
+                linkedInLink: linkedInLinkInput,
+                quote: quoteInput,
+                image: uRL,
+            };
+
+            let teamData = JSON.parse(localStorage.getItem('teamDataManager')) || [];
+            teamData.push(teamMember);
+            localStorage.setItem('teamDataManager', JSON.stringify(teamData));
+
+            CloseModal();
+            window.location.reload();
+            GetTeamDataManager();
+        }
+        reader1.readAsDataURL(imageInput);
+    }
+    else{
+        const reader1 = new FileReader();
+        reader1.onload = function (event){
+            const uRL = event.target.result;
+
+        
+            const teamMember = {
+                name: nameInput,
+                surname: surnameInput,
+                title: titleInput,
+                mail: mailInput,
+                linkedInLink: linkedInLinkInput,
+                quote: quoteInput,
+                image: uRL,
+            };
+
+            let teamData = JSON.parse(localStorage.getItem('teamDataIntern')) || [];
+            teamData.push(teamMember);
+            localStorage.setItem('teamDataIntern', JSON.stringify(teamData));
+
+            CloseModal();
+            window.location.reload();
+            GetTeamDataIntern();
         }
         reader1.readAsDataURL(imageInput);
     }
 }
+    
+}
 
-//getovanje podataka iz local storage-a o team memberima
-function GetTeamData() {
-    let teamData = JSON.parse(localStorage.getItem('teamData'));
+//getovanje podataka iz local storage-a o team memberima grupe CEO
+function GetTeamDataCEO() {
+    let teamData = JSON.parse(localStorage.getItem('teamDataCEO'));
     if (teamData === null) {
         console.log('no data...');
         return;
     }
 
     const divCEO = document.querySelector(".CEO");
-    teamData.forEach((element) => {
+    teamData.forEach((element,indexC) => {
         const kartica = document.createElement("div");
         kartica.innerHTML=
         `<div class="card">
-         <button class="delete-button"> &#x1F5D1;</button>
+         <button class="delete-button" onclick="DeleteDataCEO(${indexC})"> &#x1F5D1;</button>
          <div class="profile-picture">
           <img src="${element.image}" alt="Profile Picture">
         </div>
@@ -304,7 +339,74 @@ function GetTeamData() {
                      <p> ${element.mail}</p> 
                  </div>
                      <div class="contact">
-                         <a href="${element.linkedInLink}" target="_blank">LinkedIn</a>
+                         <a href="${element.linkedInLink}" target="_blank"> 🗨 LinkedIn</a>
+                     </div>
+                 </div>
+         </div>
+        `;
+        divCEO.appendChild(kartica);
+    });
+}
+//getovanje podataka iz local storage-a o team memberima grupe Manager
+function GetTeamDataManager() {
+    let teamData = JSON.parse(localStorage.getItem('teamDataManager'));
+    if (teamData === null) {
+        console.log('no data...');
+        return;
+    }
+
+    const divCEO = document.querySelector(".Manager");
+    teamData.forEach((element,indexM) => {
+        const kartica = document.createElement("div");
+        kartica.innerHTML=
+        `<div class="card">
+         <button class="delete-button" onclick="DeleteDataManager(${indexM})"> &#x1F5D1;</button>
+         <div class="profile-picture">
+          <img src="${element.image}" alt="Profile Picture">
+        </div>
+         <div class="info">
+             <h2 class="name">${element.name} ${element.surname}</h2>
+             <p class="title">${element.title}</p>
+             <blockquote class="quote">${element.quote}</blockquote>
+                 <div class="mail">
+                     <p> ${element.mail}</p> 
+                 </div>
+                     <div class="contact">
+                         <a href="${element.linkedInLink}" target="_blank"> 🗨 LinkedIn</a>
+                     </div>
+                 </div>
+         </div>
+        `;
+        divCEO.appendChild(kartica);
+    });
+}
+
+//getovanje podataka iz local storage-a o team memberima grupe Intern
+function GetTeamDataIntern() {
+    let teamData = JSON.parse(localStorage.getItem('teamDataIntern'));
+    if (teamData === null) {
+        console.log('no data...');
+        return;
+    }
+
+    const divCEO = document.querySelector(".Intern");
+    teamData.forEach((element,indexI) => {
+        const kartica = document.createElement("div");
+        kartica.innerHTML=
+        `<div class="card">
+         <button class="delete-button" onclick="DeleteDataIntern(${indexI})"> &#x1F5D1;</button>
+         <div class="profile-picture">
+          <img src="${element.image}" alt="Profile Picture">
+        </div>
+         <div class="info">
+             <h2 class="name">${element.name} ${element.surname}</h2>
+             <p class="title">${element.title}</p>
+             <blockquote class="quote">${element.quote}</blockquote>
+                 <div class="mail">
+                     <p> ${element.mail}</p> 
+                 </div>
+                     <div class="contact">
+                         <a href="${element.linkedInLink}" target="_blank"> 🗨 LinkedIn</a>
                      </div>
                  </div>
          </div>
@@ -314,7 +416,70 @@ function GetTeamData() {
 }
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    GetTeamData();
-});
 
+function CheckContent(){
+    const linijaC = document.querySelector('.linijaC');
+    const linijaM = document.querySelector('.linijaM');
+    const linijaI = document.querySelector('.linijaI');
+    const CEOContent = document.querySelector('.linijaC .CEO').innerHTML.trim();
+    const ManagerContent = document.querySelector('.linijaM .Manager').innerHTML.trim();
+    const InternContent = document.querySelector('.linijaI .Intern').innerHTML.trim();
+    if (CEOContent === '') {
+        linijaC.style.display = 'none'; 
+      } else {
+        linijaC.style.display = 'block'; 
+      }
+
+      if (ManagerContent === '') {
+        linijaM.style.display = 'none'; 
+      } else {
+        linijaM.style.display = 'block';
+      }
+
+      if (InternContent === '') {
+        linijaI.style.display = 'none'; 
+      } else {
+        linijaI.style.display = 'block'; 
+      }
+    
+}
+ document.addEventListener('DOMContentLoaded', function () {
+     GetTeamDataCEO();
+     GetTeamDataManager();
+     GetTeamDataIntern();
+     CheckContent();
+ });
+
+ 
+function DeleteDataCEO(id){
+    let teamDataC = JSON.parse(localStorage.getItem('teamDataCEO'));
+    if (teamDataC === null) return;
+    
+    teamDataC.splice(id, 1); 
+    localStorage.setItem('teamDataCEO', JSON.stringify(teamDataC)); 
+    console.log('brisem karticu sa id-em ' + id);
+    window.location.reload();
+}
+
+
+
+function DeleteDataManager(id){
+    let teamDataM = JSON.parse(localStorage.getItem('teamDataManager'));
+    if (teamDataM === null) return;
+    
+    teamDataM.splice(id, 1); 
+    localStorage.setItem('teamDataManager', JSON.stringify(teamDataM)); 
+    console.log('brisem karticu sa id-em ' + id);
+    window.location.reload();
+}
+
+
+function DeleteDataIntern(id){
+    let teamDataI = JSON.parse(localStorage.getItem('teamDataIntern'));
+    if (teamDataI === null) return;
+    
+    teamDataI.splice(id, 1); 
+    localStorage.setItem('teamDataIntern', JSON.stringify(teamDataI)); 
+    console.log('brisem karticu sa id-em ' + id);
+    window.location.reload();
+}

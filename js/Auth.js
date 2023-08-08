@@ -37,9 +37,10 @@ loginBtn.onclick = () => {
         .then((userCredential) => {
             // User signed in successfully
             if(window.location.href.includes('en'))
-                addProjectDiv.style.display = 'block';   
-            else if (window.location.href.includes('bhs'))
-                addProjektDiv.style.display='block';
+                addProjectDiv.style.display = 'block'; 
+            else if(window.location.href.includes('bhs'))
+                addProjektDiv.style.display = 'block'; 
+
             CloseLoginForm();
             ResetCredentials();
         })

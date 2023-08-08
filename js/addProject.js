@@ -232,7 +232,6 @@ firebase.auth().onAuthStateChanged((user) => {
   } else if (!user) {
     userInfo.style.display = "none";
     addProjectDiv.style.display = 'none';
-
     const obrisi=document.querySelectorAll('.remove-button');
     obrisi.forEach((button)=>{
       button.style.display='none';

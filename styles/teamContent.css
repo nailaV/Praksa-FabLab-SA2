@@ -289,12 +289,14 @@
   border: 1px solid #f26a2e;
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
+  display: block;
+
 }
 
 .contact{
   width:50%;
-  margin-left: 25%;
-  margin-right: 25%;
+   margin-left: 25%;
+  margin-right: 25%; 
 }
 
 .contact a:hover {
@@ -319,8 +321,50 @@
 
 .CEO{
   display: flex;
-  flex-direction: row;
+  flex-wrap:wrap;
+  gap:20px;
 }
+#PCEO, #PMANAGER, #PINTERN{
+  color:#ff9800;
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+.Manager{
+  display: flex;
+  flex-wrap:wrap;
+  gap:20px;
+}
+
+.Intern{
+  display: flex;
+  flex-wrap:wrap;
+  gap:20px;
+}
+
+.linijaC hr {
+  border: none; 
+  border-top: 3px solid #f26a2e; 
+  margin: 0 auto;
+}
+
+.linijaM hr {
+  border: none; 
+  border-top: 3px solid #f26a2e; 
+  margin: 0 auto;
+}
+
+
+.linijaI hr {
+  border: none; 
+  border-top: 3px solid #f26a2e; 
+  margin: 0 auto;
+}
+
+
+
 
 
 
