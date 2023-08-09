@@ -41,8 +41,7 @@ function SignInn() {
     const pass = document.querySelector("#password1");
     firebase.auth().signInWithEmailAndPassword(user.value, pass.value)
         .then((userCredential) => {
-            console.log('prijavljen');
-            //document.getElementById("UserInfo").style.display="block";
+            
             Zatvori();
         })
         .catch((error) => {
@@ -61,8 +60,6 @@ function Zatvori() {
 
 function Odjava() {
     firebase.auth().signOut().then(() => {
-        console.log('odjavljen');
-        //document.getElementById("UserInfo").style.display="none";
 
     }).catch((error) => {
         alert(error.message);
@@ -78,7 +75,6 @@ function OpenModal() {
 function CloseModal() {
     const name = document.getElementById("firstName");
     const surname = document.getElementById("lastName");
-    // const title = document.getElementById("title");
     const mail = document.getElementById("email");
     const linkedInLink = document.getElementById("hyperlink-input");
     const quote = document.getElementById("qoute");
@@ -97,8 +93,8 @@ function ImageUploadValidation() {
     }
     else {
         const fileExtension = imageUpload.split(".").pop();
-        if (fileExtension !== "jpg" && fileExtension !== "png") {
-            alert("You can only upload JPG or PNG images.");
+        if (fileExtension !== "jpg" ) {
+            alert("You can only upload JPG images.");
             return false;
         }
     }
@@ -129,18 +125,14 @@ function TextInputValidation() {
         alert("Surname must be valid, maximum of 30 characters, only letters.");
         return false;
     }
-    // if(title.length > 50 || containsNumber(title)){
-    //     alert("Title must be valid, maximum of 50 characters, only letters.");
-    //     return false;
-    // }
 
     if (!isValidEmail(mail)) {
         alert("Email must be valid - for example name.surname@mailprovider.com.");
         return false;
     }
 
-    if (quote.length > 50) {
-        alert("Quote must be valid, maximum of 50 characters.");
+    if (quote.length > 200) {
+        alert("Quote must be valid, maximum of 200 characters.");
         return false;
     }
 
@@ -163,7 +155,7 @@ function containsNumber(tekst) {
     return regex.test(tekst);
 }
 function isValidHyperlink(url) {
-    const linkedinRegex = /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+\/?$/;
+    const linkedinRegex = /^(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+\/?$/;
     return linkedinRegex.test(url);
 }
 
@@ -185,6 +177,8 @@ firebase.auth().onAuthStateChanged((user) => {
     }
 });
 
+
+//funkcija koja provjerava da li je string prazan
 function isNullOrEmpty(inputText) {
     return inputText === null || inputText === undefined || inputText.trim().length === 0;
 }
@@ -215,9 +209,35 @@ slika.addEventListener('change', (event) => {
     }
 });
 
+
+//funkcija koja smjesta sliku u folder i koristi moveImage.php naknadno kreiranu skriptu
+function moveImageToFolder(base64Image, imagePath) {
+    const xhr = new XMLHttpRequest();
+    const apiUrl = '../pages/en/moveImage.php';
+
+    xhr.open('POST', apiUrl, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                console.log(xhr.responseText);
+            } else {
+                console.error('Error moving image');
+            }
+        }
+    };
+
+    const requestData = `base64Image=${encodeURIComponent(base64Image)}&imagePath=${encodeURIComponent(imagePath)}`;
+    xhr.send(requestData);
+}
+
+
+
+
+
 //dodavanje team membera
 function AddTeamMember() {
-
     if (!TextInputValidation()) {
         console.log('nije uredu');
         return;
@@ -230,13 +250,15 @@ function AddTeamMember() {
         const linkedInLinkInput = document.getElementById("hyperlink-input").value;
         const quoteInput = document.getElementById("qoute").value;
         const imageInput = document.getElementById("fileUpload").files[0];
+        const imageFileName = `${Date.now()}_${imageInput.name}`;
+        const imagePath = `C:/wamp64/www/Praksa-FabLab-SA2/slike/team/${imageFileName}`;
         
         if(titleInput=="CEO"){
         const reader1 = new FileReader();
         reader1.onload = function (event){
-            const uRL = event.target.result;
-
-        
+            const base64Image = event.target.result;
+            if(moveImageToFolder(base64Image, imagePath))
+                console.log('proslo');
             const teamMember = {
                 name: nameInput,
                 surname: surnameInput,
@@ -244,7 +266,7 @@ function AddTeamMember() {
                 mail: mailInput,
                 linkedInLink: linkedInLinkInput,
                 quote: quoteInput,
-                image: uRL,
+                image: imageFileName,
             };
 
             let teamData = JSON.parse(localStorage.getItem('teamDataCEO')) || [];
@@ -261,8 +283,9 @@ function AddTeamMember() {
     else if(titleInput=="Manager"){
         const reader1 = new FileReader();
         reader1.onload = function (event){
-            const uRL = event.target.result;
-
+            const base64Image = event.target.result;
+            if(moveImageToFolder(base64Image, imagePath))
+                console.log('proslo');
         
             const teamMember = {
                 name: nameInput,
@@ -271,7 +294,7 @@ function AddTeamMember() {
                 mail: mailInput,
                 linkedInLink: linkedInLinkInput,
                 quote: quoteInput,
-                image: uRL,
+                image: imageFileName,
             };
 
             let teamData = JSON.parse(localStorage.getItem('teamDataManager')) || [];
@@ -287,8 +310,9 @@ function AddTeamMember() {
     else{
         const reader1 = new FileReader();
         reader1.onload = function (event){
-            const uRL = event.target.result;
-
+            const base64Image = event.target.result;
+            if(moveImageToFolder(base64Image, imagePath))
+                console.log('proslo');
         
             const teamMember = {
                 name: nameInput,
@@ -297,7 +321,7 @@ function AddTeamMember() {
                 mail: mailInput,
                 linkedInLink: linkedInLinkInput,
                 quote: quoteInput,
-                image: uRL,
+                image: imageFileName,
             };
 
             let teamData = JSON.parse(localStorage.getItem('teamDataIntern')) || [];
@@ -327,11 +351,12 @@ function GetTeamDataCEO() {
         console.log(element.title);
         const kartica = document.createElement("div");
         kartica.innerHTML=
-        `<div class="card">
+        `
+        <div class="card">
          <button class="delete-button"  onclick="DeleteData(${indexC}, '${element.title}')"> &#x1F5D1;</button>
          <button class="uredi"  onclick="OpenForm(${indexC}, '${element.title}')"> &#x270E; </button>
          <div class="profile-picture">
-          <img src="${element.image}" alt="Profile Picture">
+          <img src="../slike/team/${element.image}" alt="Profile Picture">
         </div>
          <div class="info">
              <h2 class="name">${element.name} ${element.surname}</h2>
@@ -341,7 +366,7 @@ function GetTeamDataCEO() {
                      <p> ${element.mail}</p> 
                  </div>
                      <div class="contact">
-                         <a href="${element.linkedInLink}" target="_blank"> 🗨 LinkedIn</a>
+                         <a href="https://www.${element.linkedInLink}" target="_blank"> 🗨 LinkedIn</a>
                      </div>
                  </div>
          </div>
@@ -365,7 +390,7 @@ function GetTeamDataManager() {
          <button class="delete-button"  onclick="DeleteData(${indexM}, '${element.title}')"> &#x1F5D1;</button>
          <button class="uredi"  onclick="OpenForm(${indexM}, '${element.title}')">&#x270E; </button>
          <div class="profile-picture">
-          <img src="${element.image}" alt="Profile Picture">
+          <img src="../slike/team/${element.image}" alt="Profile Picture">
         </div>
          <div class="info">
              <h2 class="name">${element.name} ${element.surname}</h2>
@@ -400,7 +425,7 @@ function GetTeamDataIntern() {
          <button class="delete-button"  onclick="DeleteData(${indexI}, '${element.title}')"> &#x1F5D1;</button>
          <button class="uredi"  onclick="OpenForm(${indexI}, '${element.title}')">&#x270E; </button>
          <div class="profile-picture">
-          <img src="${element.image}" alt="Profile Picture">
+          <img src="../slike/team/${element.image}" alt="Profile Picture">
         </div>
          <div class="info">
              <h2 class="name">${element.name} ${element.surname}</h2>

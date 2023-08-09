@@ -94,7 +94,7 @@
             </div>
             <div class="form-group">
             <label for="imageUpload">Upload your image</label>
-            <input type="file" class="form-control-file" id="fileUpload" accept="image/jpeg,image/png,image/gif" placeholder="JPEG, PNG, GIF">
+            <input type="file" class="form-control-file" id="fileUpload" accept="image/jpeg" placeholder="JPEG, PNG, GIF">
             </div>
             <div class="image"></div>
 
