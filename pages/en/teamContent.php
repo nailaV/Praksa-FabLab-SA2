@@ -1,3 +1,4 @@
+
 <div class="odjavaPrijava">
   <div class="userInfoWrapper">
     <div id="UserInfo" style="display:none">You are signed in!</div>
@@ -12,6 +13,7 @@
   
 </form>
 <div id="overlay2" style="display:none;"></div>
+
 
 
 <form id="formaSignIn" style="display:none;position:fixed;top:150;left:0;width:100%;height:50%;
@@ -46,42 +48,143 @@
   <p>You allow us to help more people and you can make a significant difference in others life. Because of you, many people are helped who would not be otherwise.  </p>
       </div>
 
-<div class="linijaC">
-<p id="PCEO"> CEO </p>
-<hr>
-<div class="CEO">
-</div>
+    
+
+<?php
+include 'konekcija.php';
+$sqlQuery = "SELECT * FROM `teammember` WHERE title = 'CEO'";
+$result = mysqli_query($conn, $sqlQuery);
+?>
+<div class="linijaC" <?php if (mysqli_num_rows($result) == 0) echo 'style="display: none;"'; ?>>
+  <p id="PCEO"> CEO </p>
+  <hr>
+  <div class="CEO">
+    <?php
+    if ($result) {
+      while ($row = mysqli_fetch_assoc($result)) {
+        ?>
+            <div class="card">
+            <a class="delete-button" href="brisanjeTeamMembera.php?id=<?php echo $row['id'] ?>"> &#x1F5D1;</a>
+            <a class="uredi" href="editMembera.php?id=<?php echo $row['id'] ?>">&#x270E;</a>
+              <div class="profile-picture">
+                <img src="../<?php echo $row['image_path'] ?>" alt="Profile Picture">
+              </div>
+              <div class="info">
+                <h2 class="name"><?php echo $row['first_name'] ?> <?php echo $row['last_name'] ?></h2>
+                <p class="title"><?php echo $row['title'] ?></p>
+                <blockquote class="quote"><?php echo $row['description'] ?></blockquote>
+                <div class="mail">
+                  <p> <?php echo $row['email'] ?></p>
+                </div>
+                <div class="contact">
+                  <a href="https://www.<?php echo $row['linkedin_url'] ?>" target="_blank"> 🗨 LinkedIn</a>
+                </div>
+              </div>
+        </div>
+    <?php
+      }
+    }
+    mysqli_close($conn);
+    ?>
+  </div>
 </div>
 
-<div class="linijaM">
-<p id="PMANAGER"> MANAGER </p>
-<hr>
-<div class="Manager">
-</div>
+<?php
+include 'konekcija.php';
+$sqlQuery = "SELECT * FROM `teammember` WHERE title = 'Manager'";
+$result = mysqli_query($conn, $sqlQuery);
+?>
+<div class="linijaM" <?php if (mysqli_num_rows($result) == 0) echo 'style="display: none;"'; ?>>
+  <p id="PMANAGER"> MANAGER </p>
+  <hr>
+  <div class="Manager">
+    <?php
+    if ($result) {
+      while ($row = mysqli_fetch_assoc($result)) {
+        ?>
+            <div class="card">
+            <a class="delete-button" href="brisanjeTeamMembera.php?id=<?php echo $row['id'] ?>"> &#x1F5D1;</a>
+            <a class="uredi" href="editMembera.php?id=<?php echo $row['id'] ?>">&#x270E;</a>
+              <div class="profile-picture">
+                <img src="../<?php echo $row['image_path'] ?>" alt="Profile Picture">
+              </div>
+              <div class="info">
+                <h2 class="name"><?php echo $row['first_name'] ?> <?php echo $row['last_name'] ?></h2>
+                <p class="title"><?php echo $row['title'] ?></p>
+                <blockquote class="quote"><?php echo $row['description'] ?></blockquote>
+                <div class="mail">
+                  <p> <?php echo $row['email'] ?></p>
+                </div>
+                <div class="contact">
+                  <a href="https://www.<?php echo $row['linkedin_url'] ?>" target="_blank"> 🗨 LinkedIn</a>
+                </div>
+              </div>
+        </div>
+    <?php
+      }
+    }
+    mysqli_close($conn);
+    ?>
+  </div>
 </div>
 
 
 
-<div class="linijaI">
-<p id="PINTERN"> INTERN </p>
-<hr>
-<div class="Intern">
-</div>
+<?php
+include 'konekcija.php';
+$sqlQuery = "SELECT * FROM `teammember` WHERE title = 'Intern'";
+$result = mysqli_query($conn, $sqlQuery);
+?>
+<div class="linijaI" <?php if (mysqli_num_rows($result) == 0) echo 'style="display: none;"'; ?>>
+  <p id="PINTERN"> INTERN </p>
+  <hr>
+  <div class="Intern">
+    <?php
+    if ($result) {
+      while ($row = mysqli_fetch_assoc($result)) {
+        ?>
+            <div class="card">
+            <a class="delete-button" href="brisanjeTeamMembera.php?id=<?php echo $row['id'] ?>"> &#x1F5D1;</a>
+            <a class="uredi" href="editMembera.php?id=<?php echo $row['id']?>">&#x270E;</a>
+              <div class="profile-picture">
+                <img src="../<?php echo $row['image_path'] ?>" alt="Profile Picture">
+              </div>
+              <div class="info">
+                <h2 class="name"><?php echo $row['first_name'] ?> <?php echo $row['last_name'] ?></h2>
+                <p class="title"><?php echo $row['title'] ?></p>
+                <blockquote class="quote"><?php echo $row['description'] ?></blockquote>
+                <div class="mail">
+                  <p> <?php echo $row['email'] ?></p>
+                </div>
+                <div class="contact">
+                  <a href="https://www.<?php echo $row['linkedin_url'] ?>" target="_blank"> 🗨 LinkedIn</a>
+                </div>
+              </div>
+        </div>
+    <?php
+      }
+    }
+    mysqli_close($conn);
+    ?>
+  </div>
 </div>
 
-                <form id="forma" style="display:none;position:fixed;top:0;left:0;width:100%;height:93%;
-                background-color:rgba(0,0,0,0.5);">
+                <form id="forma" 
+                onsubmit="return TextInputValidation()" 
+                style="display:none;position:fixed;top:0;left:0;width:100%;height:93%;
+                background-color:rgba(0,0,0,0.5);"
+                action="dodavanjeTeamMembera.php" method="POST" enctype="multipart/form-data">
             <div class="footer">
             <h1 id ="naslov"> Enter team member informations  <span class="close-button" onclick="CloseModal()">X</span> </h1>
           </div>
           <div class="row">
               <div class="col">
                 <label>First name </label>
-                <input type="text" class="form-control" placeholder="First name" id="firstName">
+                <input type="text" class="form-control" placeholder="First name" name="firstName" id="firstName">
               </div>
               <div class="col">
               <label>Last name </label>
-                <input type="text" class="form-control" placeholder="Last name" id="lastName">
+                <input type="text" class="form-control" placeholder="Last name" name="lastName" id="lastName">
               </div>
             </div>
             <div class="form-group">
@@ -94,24 +197,24 @@
             </div>
             <div class="form-group">
             <label for="imageUpload">Upload your image</label>
-            <input type="file" class="form-control-file" id="fileUpload" accept="image/jpeg" placeholder="JPEG, PNG, GIF">
+            <input type="file" class="form-control-file" name="image" id="image" accept="image/jpeg" placeholder="JPEG, PNG, GIF">
             </div>
             <div class="image"></div>
 
             <div class="form-group">
               <label for="qoute">Leave a qoute</label>
-              <textarea class="form-control" id="qoute" rows="3"> </textarea>
+              <textarea class="form-control" name="qoute" id="qoute"  rows="3"> </textarea>
             </div>
             <div class="form-group">
               <label for="Email">Email</label>
-              <input type="email" class="form-control" placeholder="person@fablab.ba" id="email">
+              <input type="text" class="form-control" placeholder="person@fablab.ba" name="email" id="email">
             </div>
             <div class="form-group">
             <label for="hyperlink">Linkedin</label>
-            <input id="hyperlink-input" type="url" name="hyperlink" class="form-control" placeholder="https://www.linkedin.com/in/your-profile-credentials">
+            <input id="hyperlink-input"  name="hyperlink" class="form-control" placeholder="https://www.linkedin.com/in/your-profile-credentials">
             </div>
             <div class="dugmici">
-            <button type="button" class="btn btn-outline-success" onclick="AddTeamMember()">Submit</button> &nbsp; &nbsp; &nbsp;
+            <button type="submit" name="submit" value="submit" class="btn btn-outline-success" >Submit</button> &nbsp; &nbsp; &nbsp;
             <button type="button" class="btn btn-outline-danger" onclick="CloseModal()">Close</button>
             </div>
           </form>
