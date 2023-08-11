@@ -55,7 +55,7 @@ include 'konekcija.php';
 $sqlQuery = "SELECT * FROM `teammember` WHERE title = 'CEO'";
 $result = mysqli_query($conn, $sqlQuery);
 ?>
-<div class="linijaC" <?php if (mysqli_num_rows($result) == 0) echo 'style="display: none;"'; ?>>
+<div class="linijaC" <?php if (mysqli_num_rows($result) == 0) echo 'style="display: none;"'; ?> >
   <p id="PCEO"> CEO </p>
   <hr>
   <div class="CEO">
@@ -65,7 +65,7 @@ $result = mysqli_query($conn, $sqlQuery);
         ?>
             <div class="card">
             <a class="delete-button" href="brisanjeTeamMembera.php?id=<?php echo $row['id'] ?>"> &#x1F5D1;</a>
-            <a class="uredi" href="editMembera.php?id=<?php echo $row['id'] ?>">&#x270E;</a>
+            <button class="uredi" type="button" onclick="openEditForm(<?php echo $row['id'] ?>)">&#x270E;</button>
               <div class="profile-picture">
                 <img src="../<?php echo $row['image_path'] ?>" alt="Profile Picture">
               </div>
@@ -77,7 +77,7 @@ $result = mysqli_query($conn, $sqlQuery);
                   <p> <?php echo $row['email'] ?></p>
                 </div>
                 <div class="contact">
-                  <a href="https://www.<?php echo $row['linkedin_url'] ?>" target="_blank"> 🗨 LinkedIn</a>
+                  <a href="https://<?php echo $row['linkedin_url'] ?>" target="_blank"> 🗨 LinkedIn</a>
                 </div>
               </div>
         </div>
@@ -104,7 +104,7 @@ $result = mysqli_query($conn, $sqlQuery);
         ?>
             <div class="card">
             <a class="delete-button" href="brisanjeTeamMembera.php?id=<?php echo $row['id'] ?>"> &#x1F5D1;</a>
-            <a class="uredi" href="editMembera.php?id=<?php echo $row['id'] ?>">&#x270E;</a>
+            <button class="uredi" onclick="openEditForm(<?php echo $row['id'] ?>)">&#x270E;</button>
               <div class="profile-picture">
                 <img src="../<?php echo $row['image_path'] ?>" alt="Profile Picture">
               </div>
@@ -116,7 +116,7 @@ $result = mysqli_query($conn, $sqlQuery);
                   <p> <?php echo $row['email'] ?></p>
                 </div>
                 <div class="contact">
-                  <a href="https://www.<?php echo $row['linkedin_url'] ?>" target="_blank"> 🗨 LinkedIn</a>
+                  <a href="https://<?php echo $row['linkedin_url'] ?>" target="_blank"> 🗨 LinkedIn</a>
                 </div>
               </div>
         </div>
@@ -145,7 +145,7 @@ $result = mysqli_query($conn, $sqlQuery);
         ?>
             <div class="card">
             <a class="delete-button" href="brisanjeTeamMembera.php?id=<?php echo $row['id'] ?>"> &#x1F5D1;</a>
-            <a class="uredi" href="editMembera.php?id=<?php echo $row['id']?>">&#x270E;</a>
+            <button class="uredi" onclick="openEditForm(<?php echo $row['id'] ?>)">&#x270E;</button>
               <div class="profile-picture">
                 <img src="../<?php echo $row['image_path'] ?>" alt="Profile Picture">
               </div>
@@ -157,7 +157,7 @@ $result = mysqli_query($conn, $sqlQuery);
                   <p> <?php echo $row['email'] ?></p>
                 </div>
                 <div class="contact">
-                  <a href="https://www.<?php echo $row['linkedin_url'] ?>" target="_blank"> 🗨 LinkedIn</a>
+                  <a href="https://<?php echo $row['linkedin_url'] ?>" target="_blank"> 🗨 LinkedIn</a>
                 </div>
               </div>
         </div>
@@ -219,6 +219,52 @@ $result = mysqli_query($conn, $sqlQuery);
             </div>
           </form>
 
+
+          <div id="overlay" style="display:none;"></div>
+
+
+          <form id="formForEditing"  onsubmit="return TextInputValidationEdit()" style="display:none;position:fixed;top:0;left:0;width:100%;height:93%;
+                background-color:rgba(0,0,0,0.5);" action="updateTeamMembera.php" method="POST">
+            <div class="footer">
+            <h1 id ="naslov"> Enter team member informations  <span class="close-button" onclick="closeEditModal()">X</span> </h1>
+          </div>
+          <div class="row">
+            <input type="hidden" id="idMembera" name="idMembera">
+              <div class="col">
+                <label>First name </label>
+                <input type="text" class="form-control" placeholder="First name" name="firstName" id="first" value="">
+              </div>
+              <div class="col">
+              <label>Last name </label>
+                <input type="text" class="form-control" placeholder="Last name" name="lastName" id="last">
+              </div>
+            </div>
+            <div class="form-group">
+            <label for="title">Title</label>
+                <input id="titleE" name="title" class="form-control" disabled>
+            </div>
+            <div class="form-group">
+            <label for="imageUpload">Your image</label>
+             <img id="imageElement" class="imageSRC" src="" alt="Member Image" style="height:200px; width:40%; margin-left:30%; margin-right:30%">
+            </div>
+
+            <div class="form-group">
+              <label for="qoute">Leave a qoute</label>
+              <input class="form-control" name="qoute" id="qouteE" >
+            </div>
+            <div class="form-group">
+              <label for="Email">Email</label>
+              <input type="text" class="form-control" placeholder="person@fablab.ba" name="email" id="emailE">
+            </div>
+            <div class="form-group">
+            <label for="hyperlink">Linkedin</label>
+            <input id="hyperlink-inputE"  name="hyperlink" class="form-control" placeholder="https://www.linkedin.com/in/your-profile-credentials">
+            </div>
+            <div class="dugmici">
+            <button type="submit" name="submit" value="submit" class="btn btn-outline-success" >Submit</button> &nbsp; &nbsp; &nbsp;
+            <button type="button" class="btn btn-outline-danger" onclick="closeEditModal()">Close</button>
+            </div>
+          </form>
 
           <div id="overlay" style="display:none;"></div>
           

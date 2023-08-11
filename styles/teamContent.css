@@ -7,8 +7,6 @@
   background-repeat: no-repeat;
 }
 
-
-
 .imageEdit {
   width: 100%;
   height: 300px;
@@ -41,7 +39,7 @@
 }
 
 
-#forma, #editForma {
+#forma, #formForEditing{
   max-width: 30%;
   margin-left:35%;
   margin-right:35%;
@@ -55,6 +53,10 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   overflow-y:auto;
   z-index: 2;
+}
+
+#naslovEdita{
+  color:red;
 }
 
 
@@ -387,7 +389,7 @@
 }
 
 .uredi{
-  position: absolute;
+position: absolute;
  top: 5px;
  left: 0px; 
  font-size: 35px;

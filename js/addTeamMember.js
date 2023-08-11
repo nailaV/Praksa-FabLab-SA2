@@ -97,7 +97,7 @@ function TextInputValidation() {
 
 
 
-    if (isNullOrEmpty(name) || isNullOrEmpty(surname) || isNullOrEmpty(title) || isNullOrEmpty(title) || imageUpload == undefined || isNullOrEmpty(mail) || isNullOrEmpty(linkedInLink) || isNullOrEmpty(quote)) {
+    if (isNullOrEmpty(name) || isNullOrEmpty(surname) || isNullOrEmpty(title)  || imageUpload == undefined || isNullOrEmpty(mail) || isNullOrEmpty(linkedInLink) || isNullOrEmpty(quote)) {
         alert("All fields are required.");
         return false;
     }
@@ -203,7 +203,87 @@ slika.addEventListener('change', (event) => {
     }
 });
 
- 
+
+
+
+
+function openEditForm(memberId) {
+
+      document.getElementById("formForEditing").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+  const xhr = new XMLHttpRequest();
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      const memberData = JSON.parse(xhr.responseText);
+      console.log(memberData.imagePath);
+      console.log(memberData.ID);
+      document.getElementById('first').value = memberData.firstName;
+      document.getElementById('last').value = memberData.lastName;
+      document.getElementById('titleE').value = memberData.title;
+      document.getElementById('qouteE').value = memberData.quote;
+      document.getElementById('emailE').value = memberData.email;
+      document.getElementById('hyperlink-inputE').value = memberData.linkedin;
+      document.getElementById('imageElement').src = memberData.imagePath;
+      document.getElementById('idMembera').value=memberData.ID;
+    }
+  };
+  
+  xhr.open('GET', `getTeamMembera.php?id=${memberId}`, true);
+  xhr.send();
+}
+
+function closeEditModal(){
+    document.getElementById("formForEditing").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+}
+
+function TextInputValidationEdit() {
+    const name = document.getElementById("first").value;
+    const surname = document.getElementById("last").value;
+    const mail = document.getElementById("emailE").value;
+    const linkedInLink = document.getElementById("hyperlink-inputE").value;
+    const quote = document.getElementById("qouteE").value;
+
+
+    if (isNullOrEmpty(name) || isNullOrEmpty(surname) || isNullOrEmpty(mail) || isNullOrEmpty(linkedInLink) || isNullOrEmpty(quote)) {
+        alert("All fields are required.");
+        return false;
+    }
+
+    if (name.length > 25 || containsNumber(name)) {
+        alert("Name must be valid, maximum of 25 characters, only letters.");
+        return false;
+    }
+    if (surname.length > 30 || containsNumber(surname)) {
+        alert("Surname must be valid, maximum of 30 characters, only letters.");
+        return false;
+    }
+
+    if (!isValidEmail(mail)) {
+        alert("Email must be valid - for example name.surname@mailprovider.com.");
+        return false;
+    }
+
+    if (quote.length > 200) {
+        alert("Quote must be valid, maximum of 200 characters.");
+        return false;
+    }
+
+    if (!isValidHyperlink(linkedInLink)) {
+        alert("You must enter valid hyperlink - for example https://www.linkedin.com/in/your-profile-credentials");
+        return false;
+    }
+
+    if (!ImageUploadValidation()) {
+        return false;
+    }
+    window.location.reload();
+    return true;
+}
+
+
+
 
 
 
