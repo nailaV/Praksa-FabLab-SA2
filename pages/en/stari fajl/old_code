@@ -1,0 +1,64 @@
+<div class="popup-container" id="formNewsletter" style="display:none;position:fixed;top:0;left:0;width:100%;height:93%;
+                background-color:rgba(0,0,0,0.5);">
+              <div class="popup-content">
+                <!-- MailChimp API 489be6247f773c03fd63c631ef801d85-us8 -->
+                  <h3>Newsletter sign up</h3>
+                  <form id="newsletterForma">
+                    <label for="fullname">Full name</label>
+                    <input id="to_fullname" type="text" name="fullname" placeholder="Your full name">
+                      <label for="email">Email</label>
+                      <input id="to_name" type="text" name="email" placeholder="Your email address">
+                      <!-- <label for="birthday">Birthday</label>
+                      <input id="birthday" type="date" name="birthday" placeholder="Your birthday"> -->
+                      <input type="submit" id="slanjeButton" value="Send Email" >
+                  </form>
+                  <div class="popup-buttons">
+
+                      <button type="button" class="closeLogin" onclick="CloseNewsletterForm()">Close</button>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Dodati na dno stranice -->
+
+          <script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/emailjs-com@2.3.2/dist/email.min.js"></script>
+
+  <script> 
+  emailjs.init("lHaUrvKDqOO16pVqT");
+  </script>
+
+<script>
+function sendEmail() {
+        var form = document.getElementById("newsletterForma");
+        var fullname = document.getElementById("to_fullname").value;
+        var name = document.getElementById("to_name").value;
+
+        var template_params = {
+          "to_fullname": fullname,
+          "to_name": name
+        };
+
+        emailjs.send("service_smd9uuu", "template_j4w4kxj", template_params)
+            .then(function(response) {
+                console.log("Custom email sent:", response);
+                alert("Email sent successfully!");
+                window.location.reload();
+            }, function(error) {
+                console.error("Error sending custom email:", error);
+                alert("Error sending email. Please try again later.");
+                ResetValues();
+            });
+        
+        
+
+
+    }
+
+    // Attach the form submission to the function
+    document.getElementById("newsletterForma").addEventListener("submit", function(event) {
+        event.preventDefault();
+        sendEmail();
+    });
+
+</script>

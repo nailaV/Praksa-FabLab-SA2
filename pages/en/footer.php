@@ -26,26 +26,45 @@
           </div>
           <!-- <br> -->
 
-          <div class="popup-container" id="formNewsletter" style="display:none;position:fixed;top:0;left:0;width:100%;height:93%;
-                background-color:rgba(0,0,0,0.5);">
-              <div class="popup-content">
-                  <h3>Newsletter sign up</h3>
-                  <form id="newsletterForma">
-                    <label for="fullname">Full name</label>
-                    <input id="to_fullname" type="text" name="fullname" placeholder="Your full name">
-                      <label for="email">Email</label>
-                      <input id="to_name" type="text" name="email" placeholder="Your email address">
-                      <!-- <label for="birthday">Birthday</label>
-                      <input id="birthday" type="date" name="birthday" placeholder="Your birthday"> -->
-                      <input type="submit" id="slanjeButton" value="Send Email" >
-                  </form>
-                  <div class="popup-buttons">
-
-                      <button type="button" class="closeLogin" onclick="CloseNewsletterForm()">Close</button>
+          <div class="popup-container" id="formNewsletter" style="display:none;position:fixed;top:25%;left:25%;width:50%;height:50%;
+                background-color:white;border:10px solid black;">
+             <div>
+                  <div style="margin:5px">
+                    <form action="https://fit.us8.list-manage.com/subscribe/post?u=85fe0bd0ad8c72aae661e142a&amp;id=d55371d9d8&amp;f_id=00d27fe0f0"
+                       method="post" name="mc-embedded-subscribe-form">
+                        <div>
+                          <h2>Newsletter form subscription</h2>
+                            <div>
+                              <label for="mce-EMAIL">Email Address</label>
+                            <input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required="true" placeholder="Enter your email">
+                          </div>
+                          <div>
+                            <label for="mce-FNAME">First Name </label>
+                          <input type="text" name="FNAME" id="mce-FNAME" placeholder="Enter your first name">
+                          
+                        </div>
+                          <div>
+                            <label for="mce-LNAME">Last Name </label>
+                          <input type="text" name="LNAME" id="mce-LNAME" placeholder="Enter your last name">
+                        </div>
+                      <div class="optionalParent">
+                          <div>
+                              <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" onclick="izbaciObavijest()" value="Subscribe">
+                              <p style="margin: 0px auto;">
+                            </p>
+                          </div>
+                          <div>
+                              <input type="button" name="close" id="mc-embedded-subscribe" class="button" onclick="CloseNewsletterForm()" value="Close">
+                              <p style="margin: 0px auto;">
+                            </p>
+                          </div>
                   </div>
               </div>
+            </form>
+            </div>
           </div>
-
+        </div>
+                <!-- MailChimp API 489be6247f773c03fd63c631ef801d85-us8 -->
           <div class="terms">
             <span class="fade"><img src="../../slike/privacy.png" width="20px"><a href="https://fablab.ba/?page=pages/en/terms"
                 class="textDecoration" target="_blank"> Terms of service</a></span><br>
@@ -63,7 +82,9 @@
             <button type="submit">Subscribe</button>
           </form> -->
           <button id="newsletterButton" onclick="OpenNewsletterForm()" style="border: 2px solid black; background-color: blue; color:white; height:30px; width: 100%;">Open subscription form</button>
+          <!-- <button id="newsletterButton" onclick="idiNaStranicu()" style="border: 2px solid black; background-color: blue; color:white; height:30px; width: 100%;">Open subscription form</button> -->
           </div>
+
       </div>
     </div>
     
@@ -80,49 +101,38 @@
   </div>
   <!-- / Cookie Notice plugin -->
 
-  <script type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/emailjs-com@2.3.2/dist/email.min.js"></script>
-
-  <script> 
-  emailjs.init("lHaUrvKDqOO16pVqT");
-  </script>
-
-<script>
-function sendEmail() {
-        var form = document.getElementById("newsletterForma");
-        var fullname = document.getElementById("to_fullname").value;
-        var name = document.getElementById("to_name").value;
-
-        var template_params = {
-          "to_fullname": fullname,
-          "to_name": name
-        };
-
-        emailjs.send("service_smd9uuu", "template_j4w4kxj", template_params)
-            .then(function(response) {
-                console.log("Custom email sent:", response);
-                alert("Email sent successfully!");
-                window.location.reload();
-            }, function(error) {
-                console.error("Error sending custom email:", error);
-                alert("Error sending email. Please try again later.");
-                ResetValues();
-            });
-        
-        
-
-
-    }
-
-    // Attach the form submission to the function
-    document.getElementById("newsletterForma").addEventListener("submit", function(event) {
-        event.preventDefault();
-        sendEmail();
-    });
-
+  <script type="text/javascript" 
+  src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js">
+</script>
+<script type="text/javascript">
+(
+  function($) 
+{
+  window.fnames = new Array(); 
+window.ftypes = new Array();
+fnames[0]='EMAIL';
+ftypes[0]='email';
+fnames[1]='FNAME';
+ftypes[1]='text';
+fnames[2]='LNAME';
+ftypes[2]='text';
+}(jQuery));
+var $mcj = jQuery.noConflict(true);
 </script>
 
 <script>
+
+  function izbaciObavijest()
+  {
+    var email=document.getElementById("mce-EMAIL").value;
+    var fname=document.getElementById("mce-FNAME").value;
+    var lname=document.getElementById("mce-LNAME").value;
+    if(email!=""&&fname!=""&&lname!="")
+      alert('You have successfully subscribed');
+    else
+      alert('Something went wrong');
+      window.location.replace("http://localhost:8000");
+  }
 
  function OpenNewsletterForm()
  {
@@ -130,14 +140,14 @@ function sendEmail() {
  }
 
  function CloseNewsletterForm() {
-    document.getElementById("formNewsletter").style.display = "none";
-    ResetValues();
+   document.getElementById("formNewsletter").style.display = "none";
+   ResetValues();
 }
 
 function ResetValues() {
-  document.getElementById("to_name").innerHTML="";
-  document.getElementById("to_fullname").innerHTML="";
-
+document.getElementById("mce-EMAIL").value="";
+document.getElementById("mce-FNAME").value="";
+document.getElementById("mce-LNAME").value="";
 }
 
 </script>
