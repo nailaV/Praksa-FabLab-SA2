@@ -68,6 +68,7 @@ function OpenModal() {
 function CloseModal() {
     document.getElementById("forma").style.display = "none";
     document.getElementById("overlay").style.display = "none";
+    window.location.reload();
 }
 
 function ImageUploadValidation() {
