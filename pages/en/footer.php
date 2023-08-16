@@ -26,45 +26,34 @@
           </div>
           <!-- <br> -->
 
-          <div class="popup-container" id="formNewsletter" style="display:none;position:fixed;top:25%;left:25%;width:50%;height:50%;
-                background-color:white;border:10px solid black;">
-             <div>
-                  <div style="margin:5px">
-                    <form action="https://fit.us8.list-manage.com/subscribe/post?u=85fe0bd0ad8c72aae661e142a&amp;id=d55371d9d8&amp;f_id=00d27fe0f0"
-                       method="post" name="mc-embedded-subscribe-form">
-                        <div>
-                          <h2>Newsletter form subscription</h2>
-                            <div>
-                              <label for="mce-EMAIL">Email Address</label>
-                            <input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required="true" placeholder="Enter your email">
-                          </div>
-                          <div>
-                            <label for="mce-FNAME">First Name </label>
-                          <input type="text" name="FNAME" id="mce-FNAME" placeholder="Enter your first name">
-                          
-                        </div>
-                          <div>
-                            <label for="mce-LNAME">Last Name </label>
-                          <input type="text" name="LNAME" id="mce-LNAME" placeholder="Enter your last name">
-                        </div>
-                      <div class="optionalParent">
-                          <div>
-                              <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" onclick="izbaciObavijest()" value="Subscribe">
-                              <p style="margin: 0px auto;">
-                            </p>
-                          </div>
-                          <div>
-                              <input type="button" name="close" id="mc-embedded-subscribe" class="button" onclick="CloseNewsletterForm()" value="Close">
-                              <p style="margin: 0px auto;">
-                            </p>
-                          </div>
+          <div class="popup-container" id="formNewsletter" style="display:none;position:fixed;top:25%;left:25%;width:50%;height:60%;
+                background-color:white;padding: 5px; border:10px solid black;">
+              <div id="mc_embed_signup">
+        <form action="https://fit.us8.list-manage.com/subscribe/post?u=85fe0bd0ad8c72aae661e142a&amp;id=d55371d9d8&amp;f_id=00d27fe0f0" 
+                  method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+                    <div id="mc_embed_signup_scroll">
+                      <h2 style="margin: 10px 0 10px 40%;">Subscribe</h2>
+                        <label for="mce-EMAIL">Email Address </label>
+                        <input type="email" style="border: 2px solid black;margin:10px 0 10px 0;" name="EMAIL" class="required email" id="mce-EMAIL" required="true" value="">
+                        <br>
+                        <label for="mce-FNAME">First name</label>
+                        <input type="text" style="border: 2px solid black;margin:10px 0 10px 0;" name="FNAME" id="mce-FNAME" value="">
+                        
+                        <label for="mce-LNAME">Last name</label>
+                        <input type="text" style="border: 2px solid black;margin:10px 0 10px 0;" name="LNAME" id="mce-LNAME" value="">
+                        
+                        <div class="response" id="mce-error-response" style="display: none;"></div>
+                        <div class="response" id="mce-success-response" style="display: none;"></div>
+                        
+                        <div style="margin: 10px; padding: 0 0 0 30%">
+                        <input type="submit" name="subscribe" onclick="validateForm()" id="mc-embedded-subscribe" class="button" value="Subscribe">
+                        <input type="button" onclick="CloseNewsletterForm()" name="close" id="mc-embedded-close" class="button" value="Close">
+                      </div>
+
                   </div>
+          </form>
               </div>
-            </form>
-            </div>
-          </div>
         </div>
-                <!-- MailChimp API 489be6247f773c03fd63c631ef801d85-us8 -->
           <div class="terms">
             <span class="fade"><img src="../../slike/privacy.png" width="20px"><a href="https://fablab.ba/?page=pages/en/terms"
                 class="textDecoration" target="_blank"> Terms of service</a></span><br>
@@ -73,22 +62,18 @@
             <span class="fade"><img src="../../slike/terms.png" width="20px"> <a href="https://fablab.ba/?page=pages/en/policy"
                 class="textDecoration" target="_blank"> Privacy policy</a> </span>
           </div>
-        </div>
+</div>
       <br>
-      <div>
-          <!-- <form id="formaNewsletter" style="border: 2px solid black;" action="subscribe.php" method="post">     // Ovo je pristup sa direktnim slanjem maila bez popup forme
-            <label for="email">Email:</label>
-            <input type="email" id="email" placeholder="Enter your email address" name="email" required>
-            <button type="submit">Subscribe</button>
-          </form> -->
-          <button id="newsletterButton" onclick="OpenNewsletterForm()" style="border: 2px solid black; background-color: blue; color:white; height:30px; width: 100%;">Open subscription form</button>
-          <!-- <button id="newsletterButton" onclick="idiNaStranicu()" style="border: 2px solid black; background-color: blue; color:white; height:30px; width: 100%;">Open subscription form</button> -->
-          </div>
 
+      <div>
+        <button id="newsletterButton" onclick="OpenNewsletterForm()" style="border: 2px solid black; background-color: blue; color:white; height:30px; width: 100%;">
+        Open subscription form
+        </button>
       </div>
-    </div>
-    
-  </div>
+        </div>
+        </div>
+
+        </div>
   <!-- Cookie Notice plugin v1.3.2 by FabLab Factory https://fablab.ba/ -->
   <div align="center" id="cookie-notice" role="banner"
     class="cookie-notice-hidden cookie-revoke-hidden cn-position-bottom" aria-label="Cookie Notice" style="background-color: rgba(0,0,0,1);">
@@ -97,57 +82,88 @@
         We do not use cookies. Your Internet Protocol Address <?php echo $_SERVER['REMOTE_ADDR']; ?> is logged in our database.
       </span><span id="cn-notice-buttons" class="cn-buttons-container"></span>
     </div>
-
   </div>
-  <!-- / Cookie Notice plugin -->
 
-  <script type="text/javascript" 
-  src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js">
-</script>
+  <script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/emailjs-com@2.3.2/dist/email.min.js"></script>
+
+  <script> 
+  emailjs.init("lHaUrvKDqOO16pVqT");
+  </script>
+
+<script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+  
 <script type="text/javascript">
-(
-  function($) 
-{
+  (function($) 
+  {
   window.fnames = new Array(); 
-window.ftypes = new Array();
-fnames[0]='EMAIL';
-ftypes[0]='email';
-fnames[1]='FNAME';
-ftypes[1]='text';
-fnames[2]='LNAME';
-ftypes[2]='text';
-}(jQuery));
-var $mcj = jQuery.noConflict(true);
+  window.ftypes = new Array();
+  fnames[0]='EMAIL';
+  ftypes[0]='email';
+  fnames[1]='FNAME';
+  ftypes[1]='text';
+  fnames[2]='LNAME';
+  ftypes[2]='text';
+  }(jQuery));
+  var $mcj = jQuery.noConflict(true);
 </script>
 
 <script>
-
-  function izbaciObavijest()
-  {
-    var email=document.getElementById("mce-EMAIL").value;
-    var fname=document.getElementById("mce-FNAME").value;
-    var lname=document.getElementById("mce-LNAME").value;
-    if(email!=""&&fname!=""&&lname!="")
-      alert('You have successfully subscribed');
-    else
-      alert('Something went wrong');
-      window.location.replace("http://localhost:8000");
-  }
-
  function OpenNewsletterForm()
  {
   document.getElementById("formNewsletter").style.display = "block";
  }
 
+function validateForm()
+{
+  var email = document.getElementById("mce-EMAIL");
+  var fname = document.getElementById("mce-FNAME");
+  var lname = document.getElementById("mce-LNAME");
+  if(email.value==""||fname.value==""||lname.value=="")
+  {
+    document.getElementById("mce-error-response").value="Enter valid credentials";
+  }
+}
+
  function CloseNewsletterForm() {
    document.getElementById("formNewsletter").style.display = "none";
-   ResetValues();
+   document.getElementById("mce-EMAIL").value="";
+   document.getElementById("mce-FNAME").value="";
+   document.getElementById("mce-LNAME").value="";
+   document.getElementById("mce-error-response").innerHTML="";
+   document.getElementById("mce-success-response").innerHTML="";
+   
 }
 
-function ResetValues() {
-document.getElementById("mce-EMAIL").value="";
-document.getElementById("mce-FNAME").value="";
-document.getElementById("mce-LNAME").value="";
-}
+</script>
 
+<script>
+function sendEmail() {
+  var form = document.getElementById("mc-embedded-subscribe-form");
+  var email=document.getElementById("mce-EMAIL").value;
+  var fname = document.getElementById("mce-FNAME").value;
+  var lname = document.getElementById("mce-LNAME").value;
+
+  var fullname=fname+' '+lname;
+
+  var template_params = {
+    "to_fullname": fullname,
+    "to_name": email
+  };
+
+  emailjs.send("service_smd9uuu", "template_j4w4kxj", template_params)
+      .then(function(response) {
+          console.log("Custom email sent:", response);
+          // alert("Email sent successfully!");
+          // window.location.reload();
+      }, function(error) {
+          console.error("Error sending custom email:", error);
+          // alert("Error sending email. Please try again later.");
+          // ResetValues();
+      });
+    }
+    document.getElementById("mc-embedded-subscribe-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        sendEmail();
+    });
 </script>

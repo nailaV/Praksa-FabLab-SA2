@@ -7,10 +7,12 @@
 		}
 	},
     "require": {
+		"monolog/monolog": "2.0.*",
 		"ircmaxell/password-compat": "1.*",
 		"michelf/php-markdown": "1.*",
 		"suin/php-rss-writer": "1.*",
 		"kanti/hub-updater": "0.*",
+		"mailchimp/marketing": "*",
 		"jbroadway/urlify": "^1.0"
     },
 	"autoload": {
