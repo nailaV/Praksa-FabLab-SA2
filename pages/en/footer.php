@@ -154,12 +154,8 @@ function sendEmail() {
   emailjs.send("service_smd9uuu", "template_j4w4kxj", template_params)
       .then(function(response) {
           console.log("Custom email sent:", response);
-          // alert("Email sent successfully!");
-          // window.location.reload();
       }, function(error) {
           console.error("Error sending custom email:", error);
-          // alert("Error sending email. Please try again later.");
-          // ResetValues();
       });
     }
     document.getElementById("mc-embedded-subscribe-form").addEventListener("submit", function(event) {
